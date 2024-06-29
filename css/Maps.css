@@ -1,0 +1,28 @@
+body {
+font-family: Arial, sans-serif;
+}
+
+.contenedor {
+max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+}
+
+.Espacio {
+margin-bottom: 15px;
+}
+
+.Espacio label {
+display: block;
+margin-bottom: 5px;
+}
+
+.Espacio input {
+width: 100%;
+padding: 8px;
+box-sizing: border-box;
+}
+
+.maps {
+margin: 20px 0;
+}

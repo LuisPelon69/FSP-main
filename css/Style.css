@@ -1,0 +1,389 @@
+body{
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #97e1be, #96bcf6);
+}
+
+.navbar-logo {
+    width: 70px;  /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+    margin-right: 10px;  /* Espacio entre el logo y el primer ítem del menú */
+}
+
+.imagenizq img{
+    width: 100%;
+    height: 500px;
+    margin-top: 15px;
+}
+
+.imagender img{
+    width: 100%;
+    height: 500px;
+    margin-top: 15px;
+}
+
+.cabecera li a:hover{
+    color: #000;
+    background-color: rgb(186, 140, 233);
+    height: 150spx;
+}
+
+.btn-primary{
+    width: 200px;
+    height: 50px;
+    font-size: x-large;
+}
+
+
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+.form-group img {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.modal .btn-primary {
+    background-color: #28a745;
+    border: none;
+    width: 120px;
+    height: 37px;
+    font-size: large;
+    margin-top: 15px;
+}
+
+.modal .btn-secondary {
+    background-color: #6c757d;
+    margin-top: 15px;
+}
+
+.form-control{
+    margin-top: 10px;
+}
+
+.Nombres{
+    padding: 0;
+}
+
+.form-group img{
+    margin-top: 15px;
+}
+
+.Logo{
+    margin-top: 60px;
+    opacity: 0;
+    transform: translateY(400px); /*Es desde donde va a salir, entre mas alto el numero mas abajo sera su posicion inicial*/
+    transition: opacity 3s ease, transform 3s ease; /* Aumentamos la duración de la transición */
+    height: 300px;
+}
+
+.Logo.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estilo común para todos los contenedores */
+.container-custom {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    margin: 10px;
+    padding: 20px;
+}
+
+/* Contenedor de imagen */
+.image-container {
+    background: #f0f0f0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-container img {
+    transition: transform 0.3s ease; /* Transición para la imagen */
+}
+
+/* Efecto zoom en hover */
+.container-custom:hover .image-container img {
+    transform: scale(1.1); /* Escala de zoom */
+}
+
+/* Imagen del producto */
+.aside {
+    width: 500px;
+    height: 450px;
+}
+
+/* Texto */
+.text {
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+.text p {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Contenedor principal para centrar y alinear los elementos */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 100px;
+}
+
+.align-right {
+    justify-content: flex-end; /* Alinea el contenido a la derecha */
+}
+
+/* Contenedores de mision y vision */
+
+.custom-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /*Contenedor semi transparente*/
+    margin: 20px 0;
+}
+
+.custom-container-reverse {
+    flex-direction: row-reverse;
+}
+
+.custom-image-container {
+    flex: 1;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.custom-image-container.visible {
+    opacity: 1;
+}
+
+.custom-text-container {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-text-container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.custom-text-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.custom-button {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .custom-container, .custom-container-reverse {
+        flex-direction: column;
+    }
+}
+
+.title-container {
+    text-align: center;
+    margin-top: 100px; /* Ajusta según sea necesario */
+}
+
+.title {
+    opacity: 0;
+    transform: translateY(80px);
+    transition: opacity 3s ease, transform 3s ease;
+}
+
+.title.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/*Footer*/
+
+.footer {
+    background-color: #000;
+    color: #fff;
+    padding: 40px 0;
+    font-size: 14px;
+    margin-top: 100px;
+}
+
+.footer .footer-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.footer h5 {
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.footer ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer .social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.footer .social-icons img {
+    width: 30px;
+    height: 30px;
+}
+
+.footer .location-btn {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.footer .location-btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.footer p {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+/*Cartas*/
+
+.card-custom {
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    margin: 10px;
+    padding: 20px;
+    margin-top: 200px;
+}
+
+.card-custom img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    height: auto;
+}
+
+.card-custom .card-body {
+    padding: 20px;
+}
+
+.card-custom .card-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-custom .card-text {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.card-custom .btn {
+    background-color: #8517bc;
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.card-custom .btn:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Style_login.css y Style.css */
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
