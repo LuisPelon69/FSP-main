@@ -1,34 +1,22 @@
 <?php
-class Database
-{
-  private static $dbName = 'fspdatabase';
-  private static $dbHost = 'localhost';
-  private static $dbUsername = 'root';
-  private static $dbUserPassword = '';
-  
-    private static $cont = null;
+class Database {
+    private $host = 'localhost';
+    private $db_name = 'fspdatabase';
+    private $username = 'root';
+    private $password = '';
+    public $conn;
 
-    public function __construct()
-    {
-        die('Init function is not allowed');
-    }
+    public function getConnection() {
+        $this->conn = null;
 
-    public static function connect()
-    {
-        if (null == self::$cont) {
-            try {
-                self::$cont = new PDO("mysql:host=" . self::$dbHost . ";" . "dbname=" . self::$dbName, self::$dbUsername, self::$dbUserPassword);
-                self::$cont->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                die($e->getMessage());
-            }
+        try {
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn->exec("set names utf8");
+        } catch(PDOException $exception) {
+            echo "Connection error: " . $exception->getMessage();
         }
-        return self::$cont;
-    }
 
-    public static function disconnect()
-    {
-        self::$cont = null;
+        return $this->conn;
     }
 }
 ?>

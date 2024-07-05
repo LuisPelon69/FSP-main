@@ -400,39 +400,52 @@
                         </div>
                     </div>
                     
-                    <!-- Modal -->
-                    <div id="modal" class="modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <div class="card">
-                                <strong><h1>Crear Nueva Tarjeta</h1></strong>
-                                <div class="input-field">
-                                    <label for="nombres">Nombres:</label>
-                                    <input type="text" id="nombres" placeholder="">
-                                </div>
-                                <div class="input-field">
-                                    <label for="apellido-paterno">Apellido paterno:</label>
-                                    <input type="text" id="apellido-paterno" placeholder="">
-                                </div>
-                                <div class="input-field">
-                                    <label for="apellido-materno">Apellido materno:</label>
-                                    <input type="text" id="apellido-materno" placeholder="">
-                                </div>
-                                <div class="input-field">
-                                    <label for="telefono">Numero de telefono:</label>
-                                    <input type="tel" id="telefono" placeholder="">
-                                </div>
-                                <div class="input-field">
-                                    <label for="correo">Correo:</label>
-                                    <input type="email" id="correo" placeholder="">
-                                </div>
-                                <div class="buttons">
-                                    <button id="save">Guardar</button>
-                                    <button id="cancel">Cancelar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   <!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="card">
+            <strong><h1>Crear Nuevo Cliente</h1></strong>
+            <form id="clienteForm">
+                <label for="NombreClien">Nombres:</label>
+                <input type="text" id="NombreClien" name="NombreClien">
+                <span id="error-NombreClien"></span><br>
+
+                <label for="ApellidoP">Apellido Paterno:</label>
+                <input type="text" id="ApellidoP" name="ApellidoP">
+                <span id="error-ApellidoP"></span><br>
+
+                <label for="ApellidoM">Apellido Materno:</label>
+                <input type="text" id="ApellidoM" name="ApellidoM">
+                <span id="error-ApellidoM"></span><br>
+
+                <label for="Telefono">Teléfono:</label>
+                <input type="text" id="Telefono" name="Telefono">
+                <span id="error-Telefono"></span><br>
+
+                <label for="Correo">Correo:</label>
+                <input type="email" id="Correo" name="Correo">
+                <span id="error-Correo"></span><br>
+
+                <label for="passwClien">Contraseña:</label>
+                <input type="password" id="passwClien" name="passwClien">
+                <span id="error-passwClien"></span><br>
+
+                <label for="confirm-passwClien">Confirmar Contraseña:</label>
+                <input type="password" id="confirm-passwClien" name="confirm-passwClien">
+                <span id="error-confirm-passwClien"></span><br>
+
+                <button id="save">Guardar</button>
+                <button id="cancel">Cancelar</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+
+            
+
                     
  
                 <!-- /.container-fluid -->
