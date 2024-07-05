@@ -15,10 +15,36 @@ class DashboardController {
         $receivedEmails = $this->model->getReceivedEmails();
         
         include 'MVC_VISTAS/Header.php';
-        include 'MVC_VISTAS/Sidebar.php';
-        include 'MVC_VISTAS/Topbar.php';
-        include 'MVC_VISTAS/Content.php';
-        include 'MVC_VISTAS/Footer.php';
+?>
+
+        <!-- Wrapper para contenido y sidebar -->
+        <div id="wrapper" class="d-flex">
+
+            <!-- Sidebar -->
+            <?php include 'MVC_VISTAS/Sidebar.php'; ?>
+
+            <!-- Contenido principal -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <?php include 'MVC_VISTAS/Topbar.php'; ?>
+
+                    <!-- Contenido -->
+                    <?php include 'MVC_VISTAS/Content.php'; ?>
+                    
+                </div>
+                <!-- End of Content -->
+
+                <!-- Footer -->
+                <?php include 'MVC_VISTAS/Footer.php'; ?>
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Wrapper -->
+
+<?php
         include 'MVC_VISTAS/Scripts.php';
     }
 }
