@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
     <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
     </div>
@@ -14,7 +14,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="index.php">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Panel de Gestión</span></a>
 </li>
@@ -56,7 +56,7 @@
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="utilities-color.html">Empleados</a>
             <a class="collapse-item" href="utilities-border.html">Agregar Producto</a>
-            <a class="collapse-item" href="utilities-animation.html">Gestionar elementos</a>
+            <a class="collapse-item" href="?controller=MenuGestionar&action=index">Gestionar elementos</a>         
             <a class="collapse-item" href="utilities-other.html">Proovedores</a>
         </div>
     </div>

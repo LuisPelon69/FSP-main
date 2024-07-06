@@ -1,19 +1,17 @@
 <?php
-require_once 'MVC_MODELO/DashboardModel.php';
+require_once 'MVC_MODELO/MenuGestionarModel.php';
 
-class DashboardController {
+class MenuGestionarController {
     private $model;
 
     public function __construct() {
-        $this->model = new DashboardModel();
+        $this->model = new MenuGestionarModel();
     }
 
     public function index() {
-        $monthlyEarnings = $this->model->getMonthlyEarnings();
-        $annualEarnings = $this->model->getAnnualEarnings();
-        $goalsCompletion = $this->model->getGoalsCompletion();
-        $receivedEmails = $this->model->getReceivedEmails();
-        
+        // Aquí puedes obtener datos del modelo si es necesario
+        // $someData = $this->model->getSomeData();
+
         include 'MVC_VISTAS/Header.php';
 ?>
 
@@ -30,8 +28,8 @@ class DashboardController {
                     <!-- Topbar -->
                     <?php include 'MVC_VISTAS/Topbar.php'; ?>
 
-                    <!-- Contenido -->
-                    <?php include 'MVC_VISTAS/Content.php'; ?>
+                    <!-- Contenido de Menu-Gestionar -->
+                    <?php include 'MVC_VISTAS/Menu-Gestionar.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
@@ -49,8 +47,7 @@ class DashboardController {
     }
 }
 
-$controller = new DashboardController();
+// Crear instancia del controlador y llamar al método index
+$controller = new MenuGestionarController();
 $controller->index();
 ?>
-
-
