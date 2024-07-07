@@ -1,3 +1,4 @@
+<!--Aqui empezaron los problemas pero fue uno que otro link, despues de este checa el Sidebar.php para que veas la otra falla-->
 <!-- Menu-Gestionar.php -->
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

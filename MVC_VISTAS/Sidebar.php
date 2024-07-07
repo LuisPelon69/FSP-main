@@ -1,3 +1,6 @@
+<!--Aqui estaba el problema fuerte, las opciones del sidebar funcionan con links o referencias, entonces como se copio del index.html
+pues se quedo con las referencias de html. Además tenía una referencia bien locota (ve a la linea 61 de este archivo), la nueva referencia 
+es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index porque no habia otro archivo-->
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -56,7 +59,7 @@
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="utilities-color.html">Empleados</a>
             <a class="collapse-item" href="utilities-border.html">Agregar Producto</a>
-            <a class="collapse-item" href="?controller=MenuGestionar&action=index">Gestionar elementos</a>         
+            <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
             <a class="collapse-item" href="utilities-other.html">Proovedores</a>
         </div>
     </div>

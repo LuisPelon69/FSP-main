@@ -1,3 +1,5 @@
+<!--Aqui creo que solo cambie el link del php porque estabas llamando al dashboard, alch no me acuerdo si aqui lo cambie 
+porque me estaba durmiendo pero en uno te confundite-->
 <?php
 require_once 'MVC_MODELO/MenuGestionarModel.php';
 
