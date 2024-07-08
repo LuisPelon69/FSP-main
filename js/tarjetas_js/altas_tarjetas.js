@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             passwClien: form.elements['passwClien'].value
         };
 
-        fetch('../FSP-main/controller/crear_cliente.php', {
+        fetch('../FSP-main-1/controller/cliente_controller.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
