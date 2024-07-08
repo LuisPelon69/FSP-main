@@ -1,11 +1,11 @@
 <?php
-require_once 'MVC_MODELO/DashboardModel.php';
+require_once 'MVC_MODELO/EmpleadosModel.php';
 
-class DashboardController {
+class EmpleadosController {
     private $model;
 
     public function __construct() {
-        $this->model = new DashboardModel();
+        $this->model = new EmpleadosModel();
     }
 
     public function index() {
@@ -31,7 +31,7 @@ class DashboardController {
                     <?php include 'MVC_VISTAS/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'MVC_VISTAS/Content.php'; ?>
+                    <?php include 'MVC_VISTAS/EmpleadosVista.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
@@ -49,7 +49,7 @@ class DashboardController {
     }
 }
 
-$controller = new DashboardController();
+$controller = new EmpleadosController();
 $controller->index();
 ?>
 
