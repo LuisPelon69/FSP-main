@@ -59,7 +59,20 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="utilities-color.html">Empleados</a>
             <a class="collapse-item" href="utilities-border.html">Agregar Producto</a>
-            <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
+            <a class="collapse-item collapsed" href="#" data-toggle="collapse" data-target="#collapseGestionar"
+                aria-expanded="true" aria-controls="collapseGestionar">
+                <span>Gestionar elementos</span>
+            </a>
+            <div id="collapseGestionar" class="collapse" aria-labelledby="headingGestionar"
+                data-parent="#collapseUtilities">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Submenú:</h6>
+                    <a class="collapse-item" href="U-Ges_Productos.html">Gestionar productos</a>
+                    <a class="collapse-item" href="U-Ges_Tarjetas.html">Gestionar tarjetas</a>
+                    <a class="collapse-item" href="U-Ges_empleados.html">Gestionar empleados</a>
+                    <a class="collapse-item" href="U-Ges_Proveedores.html">Gestionar proveedores</a>
+                </div>
+            </div> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
             <a class="collapse-item" href="utilities-other.html">Proovedores</a>
         </div>
     </div>
