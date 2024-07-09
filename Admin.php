@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/DashboardController.php';
+require_once 'controller\DashboardController.php';
 ?>
 <?php
 // index.php

@@ -1,11 +1,11 @@
 <?php
-require_once 'MVC_MODELO/NuevaTarjetaModel.php';
+require_once 'model/AgregarProductoModel.php';
 
-class NuevaTarjetaController {
+class AgregarProductoController {
     private $model;
 
     public function __construct() {
-        $this->model = new NuevaTarjetaModel();
+        $this->model = new AgregarProductoModel();
     }
 
     public function index() {
@@ -14,30 +14,30 @@ class NuevaTarjetaController {
         $goalsCompletion = $this->model->getGoalsCompletion();
         $receivedEmails = $this->model->getReceivedEmails();
         
-        include 'MVC_VISTAS/Header.php';
+        include 'View/Header.php';
 ?>
 
         <!-- Wrapper para contenido y sidebar -->
         <div id="wrapper" class="d-flex">
 
             <!-- Sidebar -->
-            <?php include 'MVC_VISTAS/Sidebar.php'; ?>
+            <?php include 'View/Sidebar.php'; ?>
 
             <!-- Contenido principal -->
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
 
                     <!-- Topbar -->
-                    <?php include 'MVC_VISTAS/Topbar.php'; ?>
+                    <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'MVC_VISTAS/NuevaTarjeta.php'; ?>
+                    <?php include 'View/AgregarProducto.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
 
                 <!-- Footer -->
-                <?php include 'MVC_VISTAS/Footer.php'; ?>
+                <?php include 'View/Footer.php'; ?>
             </div>
             <!-- End of Content Wrapper -->
 
@@ -45,11 +45,11 @@ class NuevaTarjetaController {
         <!-- End of Wrapper -->
 
 <?php
-        include 'MVC_VISTAS/Scripts.php';
+        include 'View/Scripts.php';
     }
 }
 
-$controller = new NuevaTarjetaController();
+$controller = new AgregarProductoController();
 $controller->index();
 ?>
 

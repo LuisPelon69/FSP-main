@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/ProveedoresController.php';
+require_once 'controller/ProveedoresController.php';
 ?>
 <?php
 // index.php

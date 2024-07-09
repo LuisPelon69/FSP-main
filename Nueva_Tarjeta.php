@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/NuevaTarjetaController.php';
+require_once 'controller/NuevaTarjetaController.php';
 ?>
 <?php
 // index.php

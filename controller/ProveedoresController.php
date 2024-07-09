@@ -1,11 +1,11 @@
 <?php
-require_once 'MVC_MODELO/AgregarProductoModel.php';
+require_once 'model/ProveedoresModel.php';
 
-class AgregarProductoController {
+class ProveedoresController {
     private $model;
 
     public function __construct() {
-        $this->model = new AgregarProductoModel();
+        $this->model = new ProveedoresModel();
     }
 
     public function index() {
@@ -14,30 +14,30 @@ class AgregarProductoController {
         $goalsCompletion = $this->model->getGoalsCompletion();
         $receivedEmails = $this->model->getReceivedEmails();
         
-        include 'MVC_VISTAS/Header.php';
+        include 'View/Header.php';
 ?>
 
         <!-- Wrapper para contenido y sidebar -->
         <div id="wrapper" class="d-flex">
 
             <!-- Sidebar -->
-            <?php include 'MVC_VISTAS/Sidebar.php'; ?>
+            <?php include 'View/Sidebar.php'; ?>
 
             <!-- Contenido principal -->
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
 
                     <!-- Topbar -->
-                    <?php include 'MVC_VISTAS/Topbar.php'; ?>
+                    <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'MVC_VISTAS/AgregarProducto.php'; ?>
+                    <?php include 'View/ProveedoresVista.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
 
                 <!-- Footer -->
-                <?php include 'MVC_VISTAS/Footer.php'; ?>
+                <?php include 'View/Footer.php'; ?>
             </div>
             <!-- End of Content Wrapper -->
 
@@ -45,11 +45,11 @@ class AgregarProductoController {
         <!-- End of Wrapper -->
 
 <?php
-        include 'MVC_VISTAS/Scripts.php';
+        include 'View/Scripts.php';
     }
 }
 
-$controller = new AgregarProductoController();
+$controller = new ProveedoresController();
 $controller->index();
 ?>
 

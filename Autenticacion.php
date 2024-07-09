@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/AuteenticacionController.php';
+require_once 'controller/AuteenticacionController.php';
 ?>
 <?php
 // index.php

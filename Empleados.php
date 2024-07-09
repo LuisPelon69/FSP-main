@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/EmpleadosController.php';
+require_once 'Controller/EmpleadosController.php';
 ?>
 <?php
 // index.php
