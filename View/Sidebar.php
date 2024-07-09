@@ -5,7 +5,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="Admin.php">
     <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
     </div>
@@ -17,7 +17,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link" href="index.php">
+    <a class="nav-link" href="Admin.php">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Panel de Gestión</span></a>
 </li>
@@ -29,6 +29,20 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 <div class="sidebar-heading">
     Interfaz de Administración
 </div>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+        aria-expanded="true" aria-controls="collapseThree">
+        <i class="fas fa-fw fa-money-bill"></i>
+        <span>Cobros</span>
+    </a>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Operaciones de Cobros:</h6>
+            <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
+            <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
+        </div>
+    </div>
+</li>
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">

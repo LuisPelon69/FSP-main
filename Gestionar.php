@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/MenuGestionarController.php';
+require_once 'controller/MenuGestionarController.php';
 ?>
 <?php
 // index.php

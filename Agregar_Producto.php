@@ -1,5 +1,5 @@
 <?php
-require_once 'MVC_CONTROLADOR/AgregarProductoController.php';
+require_once 'controller/AgregarProductoController.php';
 ?>
 <?php
 // index.php

@@ -1,7 +1,7 @@
 <!--Aqui creo que solo cambie el link del php porque estabas llamando al dashboard, alch no me acuerdo si aqui lo cambie 
 porque me estaba durmiendo pero en uno te confundite-->
 <?php
-require_once 'MVC_MODELO/MenuGestionarModel.php';
+require_once 'model/MenuGestionarModel.php';
 
 class MenuGestionarController {
     private $model;
@@ -14,30 +14,30 @@ class MenuGestionarController {
         // Aquí puedes obtener datos del modelo si es necesario
         // $someData = $this->model->getSomeData();
 
-        include 'MVC_VISTAS/Header.php';
+        include 'View/Header.php';
 ?>
 
         <!-- Wrapper para contenido y sidebar -->
         <div id="wrapper" class="d-flex">
 
             <!-- Sidebar -->
-            <?php include 'MVC_VISTAS/Sidebar.php'; ?>
+            <?php include 'View/Sidebar.php'; ?>
 
             <!-- Contenido principal -->
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
 
                     <!-- Topbar -->
-                    <?php include 'MVC_VISTAS/Topbar.php'; ?>
+                    <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido de Menu-Gestionar -->
-                    <?php include 'MVC_VISTAS/Menu-Gestionar.php'; ?>
+                    <?php include 'View/Menu-Gestionar.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
 
                 <!-- Footer -->
-                <?php include 'MVC_VISTAS/Footer.php'; ?>
+                <?php include 'View/Footer.php'; ?>
             </div>
             <!-- End of Content Wrapper -->
 
@@ -45,7 +45,7 @@ class MenuGestionarController {
         <!-- End of Wrapper -->
 
 <?php
-        include 'MVC_VISTAS/Scripts.php';
+        include 'View/Scripts.php';
     }
 }
 
