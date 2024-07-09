@@ -29,6 +29,20 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 <div class="sidebar-heading">
     Interfaz de Administración
 </div>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+        aria-expanded="true" aria-controls="collapseThree">
+        <i class="fas fa-fw fa-money-bill"></i>
+        <span>Cobros</span>
+    </a>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Operaciones de Cobros:</h6>
+            <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
+            <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
+        </div>
+    </div>
+</li>
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
