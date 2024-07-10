@@ -63,43 +63,44 @@ try {
         $cliente->setTelefono($data['Telefono']);
         $cliente->setCorreo($data['Correo']);
 
+        $response = [];
+
         if ($cliente->update()) {
-            echo json_encode(['message' => 'Cliente actualizado exitosamente']);
+            $response['success'] = true;
+            $response['message'] = 'Cliente actualizado exitosamente';
         } else {
-            echo json_encode(['error' => 'Error al actualizar el cliente']);
+            $response['success'] = false;
+            $response['message'] = 'Error al actualizar el cliente';
         }
 
-    } elseif ($method === 'DELETE') {
-        $data = json_decode(file_get_contents('php://input'), true);
+        echo json_encode($response);
 
-        if (!isset($data['ids'])) {
-            echo json_encode(['error' => 'IDs de clientes no proporcionados']);
+    } elseif ($method === 'DELETE') {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            echo json_encode(['error' => 'ID del cliente no proporcionado']);
             exit;
         }
 
-        $ids = $data['ids'];
         $cliente = new ClienteModel();
+        $response = [];
 
-        $errors = [];
-        foreach ($ids as $id) {
-            if (!$cliente->delete($id)) {
-                $errors[] = "Error al eliminar el cliente con ID $id";
-            }
-        }
-
-        if (empty($errors)) {
-            echo json_encode(['message' => 'Clientes eliminados exitosamente']);
+        if ($cliente->delete($id)) {
+            $response['success'] = true;
+            $response['message'] = 'Cliente eliminado exitosamente';
         } else {
-            echo json_encode(['error' => $errors]);
+            $response['success'] = false;
+            $response['message'] = 'Error al eliminar el cliente';
         }
+
+        echo json_encode($response);
 
     } else {
-        http_response_code(405);
-        echo json_encode(['message' => 'Método no permitido']);
+        echo json_encode(['error' => 'Método no permitido']);
     }
 
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Error interno del servidor', 'details' => $e->getMessage()]);
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once 'controller/AuteenticacionController.php';
+require_once 'controller/AutenticacionController.php';
 ?>
 <?php
 // index.php

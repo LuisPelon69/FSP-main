@@ -47,7 +47,7 @@ class ClienteModel {
     }
 
     public function save() {
-        $query = "INSERT INTO " . $this->table_name . " (NombreClien, ApellidoP, ApellidoM, Telefono, Correo, passwClien, Saldo) VALUES (:NombreClien, :ApellidoP, :ApellidoM, :Telefono, :Correo, :passwClien, :Saldo)";
+        $query = "INSERT INTO " . $this->table_name . " (NombreClien, ApellidoP, ApellidoM, Telefono, Correo, passwClien, Saldo, idStatus) VALUES (:NombreClien, :ApellidoP, :ApellidoM, :Telefono, :Correo, :passwClien, :Saldo, :idStatus)";
         
         $stmt = $this->conn->prepare($query);
 
@@ -59,6 +59,7 @@ class ClienteModel {
         $this->Correo = htmlspecialchars(strip_tags($this->Correo));
         $this->passwClien = htmlspecialchars(strip_tags($this->passwClien));
         $this->Saldo = 0; // Valor por defecto
+        $idStatus = 1; // Valor por defecto
 
         // Vinculación de parámetros
         $stmt->bindParam(':NombreClien', $this->NombreClien);
@@ -68,6 +69,7 @@ class ClienteModel {
         $stmt->bindParam(':Correo', $this->Correo);
         $stmt->bindParam(':passwClien', $this->passwClien);
         $stmt->bindParam(':Saldo', $this->Saldo);
+        $stmt->bindParam(':idStatus', $idStatus);
 
         if ($stmt->execute()) {
             return true;
@@ -77,7 +79,7 @@ class ClienteModel {
     }
 
     public function obtenerClientes() {
-        $query = "SELECT idClien, NombreClien, ApellidoP, ApellidoM, Saldo, Telefono, Correo FROM " . $this->table_name;
+        $query = "SELECT idClien, NombreClien, ApellidoP, ApellidoM, Saldo, Telefono, Correo, idStatus FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -91,7 +93,7 @@ class ClienteModel {
     }
 
     public function obtenerClientePorId($id) {
-        $query = "SELECT idClien, NombreClien, ApellidoP, ApellidoM, Saldo, Telefono, Correo FROM " . $this->table_name . " WHERE idClien = ?";
+        $query = "SELECT idClien, NombreClien, ApellidoP, ApellidoM, Saldo, Telefono, Correo, idStatus FROM " . $this->table_name . " WHERE idClien = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
 
@@ -99,7 +101,7 @@ class ClienteModel {
     }
 
     public function update() {
-        $query = "UPDATE " . $this->table_name . " SET NombreClien = :NombreClien, ApellidoP = :ApellidoP, ApellidoM = :ApellidoM, Telefono = :Telefono, Correo = :Correo WHERE idClien = :idClien";
+        $query = "UPDATE " . $this->table_name . " SET NombreClien = :NombreClien, ApellidoP = :ApellidoP, ApellidoM = :ApellidoM, Telefono = :Telefono, Correo = :Correo, idStatus = :idStatus WHERE idClien = :idClien";
         
         $stmt = $this->conn->prepare($query);
 
@@ -110,6 +112,7 @@ class ClienteModel {
         $this->Telefono = htmlspecialchars(strip_tags($this->Telefono));
         $this->Correo = htmlspecialchars(strip_tags($this->Correo));
         $this->idClien = htmlspecialchars(strip_tags($this->idClien));
+        $idStatus = 1; // Mantener idStatus en 1
 
         // Vinculación de parámetros
         $stmt->bindParam(':NombreClien', $this->NombreClien);
@@ -118,6 +121,7 @@ class ClienteModel {
         $stmt->bindParam(':Telefono', $this->Telefono);
         $stmt->bindParam(':Correo', $this->Correo);
         $stmt->bindParam(':idClien', $this->idClien);
+        $stmt->bindParam(':idStatus', $idStatus);
 
         if ($stmt->execute()) {
             return true;
