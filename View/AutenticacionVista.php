@@ -24,7 +24,7 @@
             </form>
         </div>
         <div class="form-container sign-in">
-            <form action="../controller/login.php" method="post">
+            <form action="controller/AutenticacionController.php" method="post">
                 <h1>Iniciar sesión</h1>
                 <br>
                 <br>

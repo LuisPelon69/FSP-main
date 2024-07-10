@@ -1,11 +1,43 @@
 <?php
 require_once 'model/AutenticacionModel.php';
+require_once('bd/conex.php');
 
 class AutenticacionController {
     private $model;
 
     public function __construct() {
         $this->model = new AutenticacionModel();
+        $this->handleLogin();
+    }
+
+    private function handleLogin() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isset($_POST['nombre']) && isset($_POST['password'])) {
+                $nombre = $_POST['nombre'];
+                $password = $_POST['password'];
+
+                // Conexión a la base de datos y consulta
+                $db = Database::getConnection();
+                $query = "SELECT * FROM empleado WHERE NombreEmp = :nombre AND PasswordE = :password";
+                $stmt = $db->prepare($query);
+                $stmt->bindParam(':nombre', $nombre);
+                $stmt->bindParam(':password', $password);
+                $stmt->execute();
+                
+                $count = $stmt->rowCount();
+                if ($count > 0) {
+                    // Iniciar sesión exitoso
+                    session_start();
+                    $_SESSION['nombre'] = $nombre;  
+                    header("Location: index.html");
+                    exit();
+                } else {
+                    echo "Nombre de usuario o contraseña incorrectos";
+                }
+            } else {
+                echo "Faltan datos de inicio de sesión";
+            }
+        }
     }
 
     public function index() {
@@ -13,22 +45,14 @@ class AutenticacionController {
         $annualEarnings = $this->model->getAnnualEarnings();
         $goalsCompletion = $this->model->getGoalsCompletion();
         $receivedEmails = $this->model->getReceivedEmails();
-        
-        include 'View/Header.php';
 ?>
 
         <!-- Wrapper para contenido y sidebar -->
         <div id="wrapper" class="d-flex">
 
-            <!-- Sidebar -->
-            <?php include 'View/Sidebar.php'; ?>
-
             <!-- Contenido principal -->
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
-
-                    <!-- Topbar -->
-                    <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
                     <?php include 'View/AutenticacionVista.php'; ?>
@@ -36,8 +60,6 @@ class AutenticacionController {
                 </div>
                 <!-- End of Content -->
 
-                <!-- Footer -->
-                <?php include 'View/Footer.php'; ?>
             </div>
             <!-- End of Content Wrapper -->
 
@@ -52,5 +74,3 @@ class AutenticacionController {
 $controller = new AutenticacionController();
 $controller->index();
 ?>
-
-
