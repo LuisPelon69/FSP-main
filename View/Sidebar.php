@@ -54,7 +54,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
-            <a class="collapse-item" href="Nueva_Tarjeta.php">Nueva Tarjeta</a>
+            <a class="collapse-item" href="Tarjetas.php">Tarjetas</a>
             <a class="collapse-item" href="Recargar_Tarjeta.php">Recargar Tarjeta</a>
         </div>
     </div>

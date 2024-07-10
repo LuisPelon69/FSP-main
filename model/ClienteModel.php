@@ -1,7 +1,25 @@
 <?php
-require_once '../bd/conex.php';
+require_once 'bd/conex.php';
 
 class ClienteModel {
+    //Pasa lo mismo aquí, solo añadí código no modifique nada del código original. El código que añadí comienza despues de este comentario
+    //y termina en la linea 21
+    public function getMonthlyEarnings() {
+        return 40000;
+    }
+
+    public function getAnnualEarnings() {
+        return 215000;
+    }
+
+    public function getGoalsCompletion() {
+        return 50;
+    }
+
+    public function getReceivedEmails() {
+        return 18;
+    }
+
     private $conn;
     private $table_name = "cliente";
     public $idClien;
