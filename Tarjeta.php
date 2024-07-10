@@ -60,11 +60,11 @@
     
                         // Nombre completo
                         let cellNombre = row.insertCell(1);
-                        cellNombre.textContent = ${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM};
+                        cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
     
                         // Saldo
                         let cellSaldo = row.insertCell(2);
-                        cellSaldo.textContent = $ ${cliente.Saldo};
+                        cellSaldo.textContent = `$ ${cliente.Saldo}`;
     
                         // Correo
                         let cellCorreo = row.insertCell(3);
@@ -153,7 +153,7 @@
                 const form = document.getElementById('editForm');
     
                 // Obtener los datos del cliente seleccionado
-                fetch(../FSP-main-2/controller/cliente_controller.php?id=${id}, {
+                fetch(`../FSP-main-2/controller/cliente_controller.php?id=${id}`, {
                     method: 'GET'
                 })
                 .then(response => response.json())
