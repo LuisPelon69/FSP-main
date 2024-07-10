@@ -12,14 +12,14 @@
     <title>FSP Administrador</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../FSP-main-1/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css\tarjeta.css">
+        <link rel="stylesheet" type="text/css" href="../FSP-main-1/css/tarjeta.css">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../FSP-main-1/css/sb-admin-2.min.css" rel="stylesheet">
 
 
     <!--TABLA DE CLIENTES-->
@@ -38,93 +38,98 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('../FSP-main-1/controller/cliente_controller.php', {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                let table = document.querySelector("table tbody");
-                data.forEach(cliente => {
-                    let row = table.insertRow();
-                    row.setAttribute('data-id', cliente.idClien);
-        
-                    // Checkbox con la ID del cliente como valor
-                    let cellCheckbox = row.insertCell(0);
-                    let checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.classList.add('select-checkbox');
-                    checkbox.value = cliente.idClien;
-                    cellCheckbox.appendChild(checkbox);
-        
-                    // Nombre completo
-                    let cellNombre = row.insertCell(1);
-                    cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
-        
-                    // Saldo
-                    let cellSaldo = row.insertCell(2);
-                    cellSaldo.textContent = `$ ${cliente.Saldo}`;
-        
-                    // Correo
-                    let cellCorreo = row.insertCell(3);
-                    cellCorreo.textContent = cliente.Correo;
-        
-                    // Teléfono
-                    let cellTelefono = row.insertCell(4);
-                    cellTelefono.textContent = cliente.Telefono;
-                });
-                updateButtonState();
-            })
-            .catch(error => console.error('Error:', error));
-        
+            function fetchClientes() {
+                fetch('../FSP-main-1/controller/cliente_controller.php', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.querySelector("table tbody");
+                    table.innerHTML = ''; // Limpiar la tabla antes de llenarla
+                    data.forEach(cliente => {
+                        let row = table.insertRow();
+                        row.setAttribute('data-id', cliente.idClien);
+    
+                        // Checkbox con la ID del cliente como valor
+                        let cellCheckbox = row.insertCell(0);
+                        let checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.classList.add('select-checkbox');
+                        checkbox.value = cliente.idClien;
+                        cellCheckbox.appendChild(checkbox);
+    
+                        // Nombre completo
+                        let cellNombre = row.insertCell(1);
+                        cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
+    
+                        // Saldo
+                        let cellSaldo = row.insertCell(2);
+                        cellSaldo.textContent = `$ ${cliente.Saldo}`;
+    
+                        // Correo
+                        let cellCorreo = row.insertCell(3);
+                        cellCorreo.textContent = cliente.Correo;
+    
+                        // Teléfono
+                        let cellTelefono = row.insertCell(4);
+                        cellTelefono.textContent = cliente.Telefono;
+                    });
+                    updateButtonState();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+    
+            fetchClientes();
+    
             function updateButtonState() {
                 const checkboxes = document.querySelectorAll('.select-checkbox:checked');
                 const addButton = document.getElementById('add-card');
                 const editButton = document.querySelector('.edit-button');
                 const deleteButton = document.querySelector('.delete-button');
-        
+    
                 if (checkboxes.length === 0) {
                     addButton.classList.remove('disabled');
                     addButton.disabled = false;
-        
+    
                     editButton.classList.add('disabled');
                     editButton.disabled = true;
-        
+    
                     deleteButton.classList.add('disabled');
                     deleteButton.disabled = true;
                 } else if (checkboxes.length === 1) {
                     addButton.classList.add('disabled');
                     addButton.disabled = true;
-        
+    
                     editButton.classList.remove('disabled');
                     editButton.disabled = false;
-        
+    
                     deleteButton.classList.remove('disabled');
                     deleteButton.disabled = false;
                 } else {
                     addButton.classList.add('disabled');
                     addButton.disabled = true;
-        
+    
                     editButton.classList.add('disabled');
                     editButton.disabled = true;
-        
+    
                     deleteButton.classList.remove('disabled');
                     deleteButton.disabled = false;
                 }
             }
-        
+    
             document.addEventListener('change', function(e) {
                 if (e.target.classList.contains('select-checkbox')) {
                     updateButtonState();
                 }
             });
-        
+    
             document.getElementById('add-card').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     // Aquí puedes abrir el modal para agregar una nueva tarjeta
                     console.log('Abrir modal para agregar una nueva tarjeta');
                 }
             });
-        
+    
             document.querySelector('.edit-button').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
@@ -133,7 +138,7 @@
                     abrirModalEdicion(selectedId);
                 }
             });
-        
+    
             document.querySelector('.delete-button').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
@@ -142,11 +147,11 @@
                     abrirModalEliminar(selectedIds);
                 }
             });
-        
+    
             function abrirModalEdicion(id) {
                 const modal = document.getElementById('edit-modal');
                 const form = document.getElementById('editForm');
-        
+    
                 // Obtener los datos del cliente seleccionado
                 fetch(`../FSP-main-1/controller/cliente_controller.php?id=${id}`, {
                     method: 'GET'
@@ -159,15 +164,15 @@
                     form.elements['ApellidoM'].value = cliente.ApellidoM;
                     form.elements['Telefono'].value = cliente.Telefono;
                     form.elements['Correo'].value = cliente.Correo;
-        
+    
                     modal.style.display = 'block';
                 })
                 .catch(error => console.error('Error:', error));
             }
-        
+    
             document.getElementById('editSave').addEventListener('click', function(event) {
                 event.preventDefault();
-        
+    
                 const form = document.getElementById('editForm');
                 const data = {
                     idClien: form.elements['id'].value,
@@ -177,7 +182,7 @@
                     Telefono: form.elements['Telefono'].value,
                     Correo: form.elements['Correo'].value
                 };
-        
+    
                 fetch('../FSP-main-1/controller/cliente_controller.php', {
                     method: 'PUT',
                     headers: {
@@ -198,6 +203,7 @@
                         alert('Cliente actualizado exitosamente');
                         form.reset();
                         cerrarModalEdicion();
+                        fetchClientes(); // Actualizar la tabla
                     }
                 })
                 .catch(error => {
@@ -205,100 +211,25 @@
                     alert('Ocurrió un error: ' + error.message);
                 });
             });
-        
+    
             function cerrarModalEdicion() {
                 const modal = document.getElementById('edit-modal');
                 modal.style.display = 'none';
             }
-        
+    
             document.querySelector('#edit-modal .close').addEventListener('click', cerrarModalEdicion);
             window.addEventListener('click', function(event) {
                 if (event.target === document.getElementById('edit-modal')) {
                     cerrarModalEdicion();
                 }
             });
-        
-            // Validaciones
-            function validarNombres(value) {
-                const regex = /^[a-zA-Z\s]+$/;
-                return regex.test(value);
-            }
-        
-            function validarTelefono(value) {
-                const regex = /^\d{10}$/;
-                return regex.test(value);
-            }
-        
-            function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(value);
-            }
-        
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-        
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-        
-            document.getElementById('editNombre').addEventListener('input', function() {
-                if (!validarNombres(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un nombre válido (solo letras y espacios)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editApellidoP').addEventListener('input', function() {
-                if (!validarNombres(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editApellidoM').addEventListener('input', function() {
-                if (!validarNombres(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editTelefono').addEventListener('input', function() {
-                if (!validarTelefono(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editCorreo').addEventListener('input', function() {
-                if (!validarCorreo(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un correo válido');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            function abrirModalEliminar(ids) {
-                const modal = document.getElementById('delete-modal');
-                const form = document.getElementById('deleteForm');
-                form.elements['ids'].value = ids.join(',');
-                document.getElementById('delete-count').textContent = ids.length;
-                modal.style.display = 'block';
-            }
-        
+    
             document.getElementById('deleteConfirm').addEventListener('click', function(event) {
                 event.preventDefault();
-        
+    
                 const form = document.getElementById('deleteForm');
                 const ids = form.elements['ids'].value.split(',');
-        
+    
                 fetch('../FSP-main-1/controller/cliente_controller.php', {
                     method: 'DELETE',
                     headers: {
@@ -319,6 +250,7 @@
                         alert('Clientes eliminados exitosamente');
                         form.reset();
                         cerrarModalEliminar();
+                        fetchClientes(); // Actualizar la tabla
                     }
                 })
                 .catch(error => {
@@ -326,12 +258,12 @@
                     alert('Ocurrió un error: ' + error.message);
                 });
             });
-        
+    
             function cerrarModalEliminar() {
                 const modal = document.getElementById('delete-modal');
                 modal.style.display = 'none';
             }
-        
+    
             document.querySelector('#delete-modal .close').addEventListener('click', cerrarModalEliminar);
             window.addEventListener('click', function(event) {
                 if (event.target === document.getElementById('delete-modal')) {
@@ -339,8 +271,8 @@
                 }
             });
         });
-        
     </script>
+    
 
 </head>
 
@@ -353,7 +285,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../FSP-main-1/Index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -845,15 +777,15 @@
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../FSP-main-1/vendor/jquery/jquery.min.js"></script>
+    <script src="../FSP-main-1/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../FSP-main-1/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-    <script src="../FSP-main-1/js/tarjetas_js/altas_tarjetas.js"></script>
+    <script src="../FSP-main-1/js/sb-admin-2.min.js"></script>
+    <script src="../FSP-main-1/js/tarjetas_js/altas_tarjetas.js"></script> <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-1" para que tome las rutas correctamente.-->
     
     </div>
 </body>
