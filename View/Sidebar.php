@@ -38,8 +38,8 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones de Cobros:</h6>
-            <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
-            <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
+            <a class="collapse-item" href="Cobros_sub.php">Nuevo Cobro</a>
+            
         </div>
     </div>
 </li>
