@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         // Realizar solicitud fetch para obtener los datos del cliente con el ID dado
-        fetch(`../FSP-main-1/controller/cliente_controller.php?idClien=${selectedId}`)
+        fetch(`../FSP-main-2/controller/cliente_controller.php?idClien=${selectedId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         // Enviar la solicitud para actualizar los datos del cliente
-        fetch(`../FSP-main-1/controller/cliente_controller.php?idClien=${formData.idClien}`, {
+        fetch(`../FSP-main-2/controller/cliente_controller.php?idClien=${formData.idClien}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

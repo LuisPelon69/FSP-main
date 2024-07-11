@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['password'];
 
         // Conexión a la base de datos y consulta
-        $db = Database::connect();
+        $db = Database::getConnection();
         $query = "SELECT * FROM empleado WHERE NombreEmp = :nombre AND PasswordE = :password";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':nombre', $nombre);
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['nombre'] = $nombre;  
 
 
-            header("Location: ../index.html");
+            header("Location: 'index.html'");
             exit();
         } else {
             echo "Nombre de usuario o contraseña incorrectos";

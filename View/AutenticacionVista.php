@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+< lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="../css/Style_login.css">
-    <title>Login</title>
+    <link rel="stylesheet" href="../FSP-main-2/css/Style_login.css">
+    <title>Login</title> 
 </head>
 
 <div class="container" id="container">
@@ -24,7 +24,7 @@
             </form>
         </div>
         <div class="form-container sign-in">
-            <form action="../controller/login.php" method="post">
+            <form action="controller/AutenticacionController.php" method="post">
                 <h1>Iniciar sesión</h1>
                 <br>
                 <br>
@@ -39,20 +39,20 @@
                 <div class="toggle-panel toggle-left">
                     <h1>Bienvenido!</h1>
                     <p>Ingresa tus datos para crear tu nueva cuenta con FSP</p>
-                    <img src="../img/Logo3.png" alt="Logo" class="logo" height="110" width="300">
+                    <img src="img/Logo3.png" alt="Logo" class="logo" height="110" width="300">
                     <button class="hidden" id="login">¿Ya tienes cuenta?</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Bienvenido a FSP</h1>
                     <p>Ingresa tus datos para acceder de nuevo</p>
-                    <img src="../img/Logo3.png" alt="Logo" class="logo" height="110" width="300">
+                    <img src="img/Logo3.png" alt="Logo" class="logo" height="110" width="300">
                     <button class="hidden" id="register">Únete</button>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-    <script src="../js/Script_login.js"></script>
+    <script src="js\Script_login.js"></script>
+</div>

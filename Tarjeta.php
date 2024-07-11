@@ -12,14 +12,14 @@
     <title>FSP Administrador</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../FSP-main-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css\tarjeta.css">
+        <link rel="stylesheet" type="text/css" href="../FSP-main-2/css/tarjeta.css">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../FSP-main-2/css/sb-admin-2.min.css" rel="stylesheet">
 
 
     <!--TABLA DE CLIENTES-->
@@ -38,93 +38,98 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            fetch('../FSP-main-1/controller/cliente_controller.php', {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                let table = document.querySelector("table tbody");
-                data.forEach(cliente => {
-                    let row = table.insertRow();
-                    row.setAttribute('data-id', cliente.idClien);
-        
-                    // Checkbox con la ID del cliente como valor
-                    let cellCheckbox = row.insertCell(0);
-                    let checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.classList.add('select-checkbox');
-                    checkbox.value = cliente.idClien;
-                    cellCheckbox.appendChild(checkbox);
-        
-                    // Nombre completo
-                    let cellNombre = row.insertCell(1);
-                    cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
-        
-                    // Saldo
-                    let cellSaldo = row.insertCell(2);
-                    cellSaldo.textContent = `$ ${cliente.Saldo}`;
-        
-                    // Correo
-                    let cellCorreo = row.insertCell(3);
-                    cellCorreo.textContent = cliente.Correo;
-        
-                    // Teléfono
-                    let cellTelefono = row.insertCell(4);
-                    cellTelefono.textContent = cliente.Telefono;
-                });
-                updateButtonState();
-            })
-            .catch(error => console.error('Error:', error));
-        
+            function fetchClientes() {
+                fetch('../FSP-main-2/controller/cliente_controller.php', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.querySelector("table tbody");
+                    table.innerHTML = ''; // Limpiar la tabla antes de llenarla
+                    data.forEach(cliente => {
+                        let row = table.insertRow();
+                        row.setAttribute('data-id', cliente.idClien);
+    
+                        // Checkbox con la ID del cliente como valor
+                        let cellCheckbox = row.insertCell(0);
+                        let checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.classList.add('select-checkbox');
+                        checkbox.value = cliente.idClien;
+                        cellCheckbox.appendChild(checkbox);
+    
+                        // Nombre completo
+                        let cellNombre = row.insertCell(1);
+                        cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
+    
+                        // Saldo
+                        let cellSaldo = row.insertCell(2);
+                        cellSaldo.textContent = `$ ${cliente.Saldo}`;
+    
+                        // Correo
+                        let cellCorreo = row.insertCell(3);
+                        cellCorreo.textContent = cliente.Correo;
+    
+                        // Teléfono
+                        let cellTelefono = row.insertCell(4);
+                        cellTelefono.textContent = cliente.Telefono;
+                    });
+                    updateButtonState();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+    
+            fetchClientes();
+    
             function updateButtonState() {
                 const checkboxes = document.querySelectorAll('.select-checkbox:checked');
                 const addButton = document.getElementById('add-card');
                 const editButton = document.querySelector('.edit-button');
                 const deleteButton = document.querySelector('.delete-button');
-        
+    
                 if (checkboxes.length === 0) {
                     addButton.classList.remove('disabled');
                     addButton.disabled = false;
-        
+    
                     editButton.classList.add('disabled');
                     editButton.disabled = true;
-        
+    
                     deleteButton.classList.add('disabled');
                     deleteButton.disabled = true;
                 } else if (checkboxes.length === 1) {
                     addButton.classList.add('disabled');
                     addButton.disabled = true;
-        
+    
                     editButton.classList.remove('disabled');
                     editButton.disabled = false;
-        
+    
                     deleteButton.classList.remove('disabled');
                     deleteButton.disabled = false;
                 } else {
                     addButton.classList.add('disabled');
                     addButton.disabled = true;
-        
+    
                     editButton.classList.add('disabled');
                     editButton.disabled = true;
-        
+    
                     deleteButton.classList.remove('disabled');
                     deleteButton.disabled = false;
                 }
             }
-        
+    
             document.addEventListener('change', function(e) {
                 if (e.target.classList.contains('select-checkbox')) {
                     updateButtonState();
                 }
             });
-        
+    
             document.getElementById('add-card').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     // Aquí puedes abrir el modal para agregar una nueva tarjeta
                     console.log('Abrir modal para agregar una nueva tarjeta');
                 }
             });
-        
+    
             document.querySelector('.edit-button').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
@@ -133,7 +138,7 @@
                     abrirModalEdicion(selectedId);
                 }
             });
-        
+    
             document.querySelector('.delete-button').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
@@ -142,13 +147,13 @@
                     abrirModalEliminar(selectedIds);
                 }
             });
-        
+    
             function abrirModalEdicion(id) {
                 const modal = document.getElementById('edit-modal');
                 const form = document.getElementById('editForm');
-        
+    
                 // Obtener los datos del cliente seleccionado
-                fetch(`../FSP-main-1/controller/cliente_controller.php?id=${id}`, {
+                fetch(`../FSP-main-2/controller/cliente_controller.php?id=${id}`, {
                     method: 'GET'
                 })
                 .then(response => response.json())
@@ -159,15 +164,15 @@
                     form.elements['ApellidoM'].value = cliente.ApellidoM;
                     form.elements['Telefono'].value = cliente.Telefono;
                     form.elements['Correo'].value = cliente.Correo;
-        
+    
                     modal.style.display = 'block';
                 })
                 .catch(error => console.error('Error:', error));
             }
-        
+    
             document.getElementById('editSave').addEventListener('click', function(event) {
                 event.preventDefault();
-        
+    
                 const form = document.getElementById('editForm');
                 const data = {
                     idClien: form.elements['id'].value,
@@ -177,8 +182,8 @@
                     Telefono: form.elements['Telefono'].value,
                     Correo: form.elements['Correo'].value
                 };
-        
-                fetch('../FSP-main-1/controller/cliente_controller.php', {
+    
+                fetch('../FSP-main-2/controller/cliente_controller.php', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -198,6 +203,7 @@
                         alert('Cliente actualizado exitosamente');
                         form.reset();
                         cerrarModalEdicion();
+                        fetchClientes(); // Actualizar la tabla
                     }
                 })
                 .catch(error => {
@@ -205,101 +211,26 @@
                     alert('Ocurrió un error: ' + error.message);
                 });
             });
-        
+    
             function cerrarModalEdicion() {
                 const modal = document.getElementById('edit-modal');
                 modal.style.display = 'none';
             }
-        
+    
             document.querySelector('#edit-modal .close').addEventListener('click', cerrarModalEdicion);
             window.addEventListener('click', function(event) {
                 if (event.target === document.getElementById('edit-modal')) {
                     cerrarModalEdicion();
                 }
             });
-        
-            // Validaciones
-            function validarNombres(value) {
-                const regex = /^[a-zA-Z\s]+$/;
-                return regex.test(value);
-            }
-        
-            function validarTelefono(value) {
-                const regex = /^\d{10}$/;
-                return regex.test(value);
-            }
-        
-            function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(value);
-            }
-        
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-        
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-        
-            document.getElementById('editNombre').addEventListener('input', function() {
-                if (!validarNombres(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un nombre válido (solo letras y espacios)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editApellidoP').addEventListener('input', function() {
-                if (!validarNombres(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editApellidoM').addEventListener('input', function() {
-                if (!validarNombres(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editTelefono').addEventListener('input', function() {
-                if (!validarTelefono(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            document.getElementById('editCorreo').addEventListener('input', function() {
-                if (!validarCorreo(this.value.trim())) {
-                    mostrarError(this, 'Ingrese un correo válido');
-                } else {
-                    limpiarError(this);
-                }
-            });
-        
-            function abrirModalEliminar(ids) {
-                const modal = document.getElementById('delete-modal');
-                const form = document.getElementById('deleteForm');
-                form.elements['ids'].value = ids.join(',');
-                document.getElementById('delete-count').textContent = ids.length;
-                modal.style.display = 'block';
-            }
-        
+    
             document.getElementById('deleteConfirm').addEventListener('click', function(event) {
                 event.preventDefault();
-        
+    
                 const form = document.getElementById('deleteForm');
                 const ids = form.elements['ids'].value.split(',');
-        
-                fetch('../FSP-main-1/controller/cliente_controller.php', {
+    
+                fetch('../FSP-main-2/controller/cliente_controller.php', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -319,6 +250,7 @@
                         alert('Clientes eliminados exitosamente');
                         form.reset();
                         cerrarModalEliminar();
+                        fetchClientes(); // Actualizar la tabla
                     }
                 })
                 .catch(error => {
@@ -326,12 +258,12 @@
                     alert('Ocurrió un error: ' + error.message);
                 });
             });
-        
+    
             function cerrarModalEliminar() {
                 const modal = document.getElementById('delete-modal');
                 modal.style.display = 'none';
             }
-        
+    
             document.querySelector('#delete-modal .close').addEventListener('click', cerrarModalEliminar);
             window.addEventListener('click', function(event) {
                 if (event.target === document.getElementById('delete-modal')) {
@@ -339,8 +271,8 @@
                 }
             });
         });
-        
     </script>
+    
 
 </head>
 
@@ -352,100 +284,109 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">FSP Admin<sup>2</sup></div>
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="Admin.php">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">FSP Admin<sup>©</sup></div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="Admin.php">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Panel de Gestión</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Interfaz de Administración
+        </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                aria-expanded="true" aria-controls="collapseThree">
+                <i class="fas fa-fw fa-money-bill"></i>
+                <span>Cobros</span>
             </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Panel de Gestión</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interfaz de Administración
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Tarjetas</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
-                        <a class="collapse-item" href="buttons.html">Nueva Tarjeta</a>
-                        <a class="collapse-item" href="cards.html">Recargar Tarjeta</a>
-                    </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Operaciones de Cobros:</h6>
+                    <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
+                    <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
                 </div>
-            </li>
-
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Administración</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Menú de Administración:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Nuevo Empleado</a>
-                        <a class="collapse-item" href="utilities-border.html">Agregar Producto</a>
-                        <a class="collapse-item" href="utilities-animation.html">Gestionar elementos</a>
-                        <a class="collapse-item" href="utilities-other.html">Proovedores</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Reportes y Gráficas
             </div>
+        </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Cobros</span>
-                </a>
-            </li>    
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Tarjetas</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
+                    <a class="collapse-item" href="Tarjeta.php">Tarjetas</a>
+                    <a class="collapse-item" href="Recargar_Tarjeta.php">Recargar Tarjeta</a>
+                </div>
+            </div>
+        </li>
 
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Administración</span>
+            </a>
+            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Menú de Administración:</h6>
+                    <a class="collapse-item" href="Empleados.php">Empleados</a>
+                    <a class="collapse-item" href="Agregar_Productos.php">Agregar Producto</a>
+                    <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
+                    <a class="collapse-item" href="Proveedores.php">Proovedores</a>
+                </div>
+            </div>
+        </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Gráficas</span></a>
-            </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Reportes y Gráficas
+        </div>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tablas de Datos</span></a>
-            </li>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Cobros</span>
+            </a>
+        <!-- Nav Item - Charts -->
+        <li class="nav-item">
+            <a class="nav-link" href="charts.html">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Gráficas</span></a>
+        </li>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="tables.html">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Tablas de Datos</span></a>
+        </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -659,9 +600,9 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                <a class="dropdown-item" href="Index.html">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
                                 </a>
                             </div>
                         </li>
@@ -706,7 +647,7 @@
                         </div>
                     </div>
                     
-                    <script href="../FSP-main-1/js/tarjetas_js/tabla_tarjetas.js"></script>
+                    <script href="../FSP-main-2/js/tarjetas_js/tabla_tarjetas.js"></script>
                    <!-- Modal de Altas-->
 <div id="modal" class="modal">
     <div class="modal-content">
@@ -813,185 +754,6 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        function loadTable() {
-            $.ajax({
-                url: '../FSP-main-1/controller/cliente_controller.php',
-                method: 'GET',
-                success: function(data) {
-                    const clientes = JSON.parse(data);
-                    let rows = '';
-                    clientes.forEach(cliente => {
-                        rows += `
-                            <tr>
-                                <td>${cliente.idClien}</td>
-                                <td>${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}</td>
-                                <td>$ ${cliente.Saldo}</td>
-                                <td>${cliente.Correo}</td>
-                                <td>${cliente.Telefono}</td>
-                                <td>
-                                    <button class="edit-btn" data-id="${cliente.idClien}">Editar</button>
-                                    <button class="delete-btn" data-id="${cliente.idClien}">Eliminar</button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                    $('#cliente-table tbody').html(rows);
-                }
-            });
-        }
-
-        // Cargar la tabla al cargar la página
-        loadTable();
-
-        // Manejar la eliminación
-        $('#cliente-table').on('click', '.delete-btn', function() {
-            const id = $(this).data('id');
-            $('#delete-ids').val(id);
-            $('#delete-count').text(1);
-            $('#delete-modal').show();
-        });
-
-        $('#deleteForm').submit(function(e) {
-            e.preventDefault();
-            const ids = [$('#delete-ids').val()];
-            $.ajax({
-                url: '../FSP-main-1/controller/cliente_controller.php',
-                method: 'DELETE',
-                contentType: 'application/json',
-                data: JSON.stringify({ ids: ids }),
-                success: function(response) {
-                    $('#delete-modal').hide();
-                    loadTable();
-                }
-            });
-        });
-
-        // Manejar el cierre del modal
-        $('.close').click(function() {
-            $('#delete-modal').hide();
-            $('#edit-modal').hide();
-        });
-
-        // Manejar la edición
-        $('#cliente-table').on('click', '.edit-btn', function() {
-            const id = $(this).data('id');
-            abrirModalEdicion(id);
-        });
-
-        $('#editForm').submit(function(e) {
-            e.preventDefault();
-            const form = $(this);
-            const data = {
-                idClien: form.find('input[name="id"]').val(),
-                NombreClien: form.find('input[name="NombreClien"]').val(),
-                ApellidoP: form.find('input[name="ApellidoP"]').val(),
-                ApellidoM: form.find('input[name="ApellidoM"]').val(),
-                Telefono: form.find('input[name="Telefono"]').val(),
-                Correo: form.find('input[name="Correo"]').val()
-            };
-            $.ajax({
-                url: '../FSP-main-1/controller/cliente_controller.php',
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function(response) {
-                    alert('Cliente actualizado exitosamente');
-                    $('#edit-modal').hide();
-                    loadTable();
-                },
-                error: function(xhr, status, error) {
-                    alert('Ocurrió un error: ' + xhr.responseText);
-                }
-            });
-        });
-
-        function abrirModalEdicion(id) {
-            $.ajax({
-                url: `../FSP-main-1/controller/cliente_controller.php?id=${id}`,
-                method: 'GET',
-                success: function(cliente) {
-                    const form = $('#editForm');
-                    form.find('input[name="id"]').val(cliente.idClien);
-                    form.find('input[name="NombreClien"]').val(cliente.NombreClien);
-                    form.find('input[name="ApellidoP"]').val(cliente.ApellidoP);
-                    form.find('input[name="ApellidoM"]').val(cliente.ApellidoM);
-                    form.find('input[name="Telefono"]').val(cliente.Telefono);
-                    form.find('input[name="Correo"]').val(cliente.Correo);
-                    $('#edit-modal').show();
-                }
-            });
-        }
-
-        // Validaciones
-        function validarNombres(value) {
-            const regex = /^[a-zA-Z\s]+$/;
-            return regex.test(value);
-        }
-
-        function validarTelefono(value) {
-            const regex = /^\d{10}$/;
-            return regex.test(value);
-        }
-
-        function validarCorreo(value) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(value);
-        }
-
-        function mostrarError(elemento, mensaje) {
-            const errorElemento = $('#error-' + elemento.id);
-            errorElemento.text(mensaje);
-            errorElemento.css('color', 'red');
-        }
-
-        function limpiarError(elemento) {
-            const errorElemento = $('#error-' + elemento.id);
-            errorElemento.text('');
-        }
-
-        $('#editNombre').on('input', function() {
-            if (!validarNombres($(this).val().trim())) {
-                mostrarError(this, 'Ingrese un nombre válido (solo letras y espacios)');
-            } else {
-                limpiarError(this);
-            }
-        });
-
-        $('#editApellidoP').on('input', function() {
-            if (!validarNombres($(this).val().trim())) {
-                mostrarError(this, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-            } else {
-                limpiarError(this);
-            }
-        });
-
-        $('#editApellidoM').on('input', function() {
-            if (!validarNombres($(this).val().trim())) {
-                mostrarError(this, 'Ingrese un apellido materno válido (solo letras y espacios)');
-            } else {
-                limpiarError(this);
-            }
-        });
-
-        $('#editTelefono').on('input', function() {
-            if (!validarTelefono($(this).val().trim())) {
-                mostrarError(this, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-            } else {
-                limpiarError(this);
-            }
-        });
-
-        $('#editCorreo').on('input', function() {
-            if (!validarCorreo($(this).val().trim())) {
-                mostrarError(this, 'Ingrese un correo válido');
-            } else {
-                limpiarError(this);
-            }
-        });
-    });
-</script>
                     
  
                 <!-- /.container-fluid -->
@@ -1024,15 +786,15 @@
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../FSP-main-2/vendor/jquery/jquery.min.js"></script>
+    <script src="../FSP-main-2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../FSP-main-2/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-    <script src="../FSP-main-1/js/tarjetas_js/altas_tarjetas.js"></script>
+    <script src="../FSP-main-2/js/sb-admin-2.min.js"></script>
+    <script src="../FSP-main-2/js/tarjetas_js/altas_tarjetas.js"></script> <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-1" para que tome las rutas correctamente.-->
     
     </div>
 </body>
