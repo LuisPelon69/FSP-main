@@ -5,22 +5,12 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="Admin.php">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="NuevoCobro_Empleado.php">
     <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
     </div>
     <div class="sidebar-brand-text mx-3">FSP Admin<sup>©</sup></div>
 </a>
-
-<!-- Divider -->
-<hr class="sidebar-divider my-0">
-
-<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-    <a class="nav-link" href="Admin.php">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Panel de Gestión</span></a>
-</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider">
@@ -38,7 +28,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones de Cobros:</h6>
-            <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
+            <a class="collapse-item" href="NuevoCobro_Empleado.php">Nuevo Cobro</a>
             <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
         </div>
     </div>
@@ -54,27 +44,8 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
-            <a class="collapse-item" href="Tarjeta.php">Tarjetas</a>
+            <a class="collapse-item" href="View/TarjetaEmpleado.php">Tarjetas</a>
             <a class="collapse-item" href="Recargar_Tarjeta.php">Recargar Tarjeta</a>
-        </div>
-    </div>
-</li>
-
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-        aria-expanded="true" aria-controls="collapseUtilities">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Administración</span>
-    </a>
-    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-        data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Menú de Administración:</h6>
-            <a class="collapse-item" href="Empleados.php">Empleados</a>
-            <a class="collapse-item" href="Agregar_Producto.php">Agregar Producto</a>
-            <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
-            <a class="collapse-item" href="Proveedores.php">Proovedores</a>
         </div>
     </div>
 </li>
