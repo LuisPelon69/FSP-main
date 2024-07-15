@@ -38,8 +38,8 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones de Cobros:</h6>
-            <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
-            <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
+            <a class="collapse-item" href="Cobros_sub.php">Nuevo Cobro</a>
+            
         </div>
     </div>
 </li>
@@ -72,7 +72,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="Empleados.php">Empleados</a>
-            <a class="collapse-item" href="Agregar_Productos.php">Agregar Producto</a>
+            <a class="collapse-item" href="Agregar_Producto.php">Agregar Producto</a>
             <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
             <a class="collapse-item" href="Proveedores.php">Proovedores</a>
         </div>
@@ -87,26 +87,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     Reportes y Gráficas
 </div>
 
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-        aria-expanded="true" aria-controls="collapsePages">
-        <i class="fas fa-fw fa-folder"></i>
-        <span>Cobros</span>
-    </a>
-    <!--<div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-        </div>
-    </div>
-</li>-->
+
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">

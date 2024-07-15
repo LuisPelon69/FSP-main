@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-< lang="en">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="../FSP-main-2/css/Style_login.css">
+    <link rel="stylesheet" href="css/Style_login.css">
     <title>Login</title> 
 </head>
 
-<div class="container" id="container">
+<body>
+    <div class="container" id="container">
         <div class="form-container sign-up">
             <form>
                 <h1>Crear cuenta</h1>
@@ -24,7 +25,7 @@
             </form>
         </div>
         <div class="form-container sign-in">
-            <form action="../controller/login.php" method="post">
+            <form action="controller\AutenticacionController.php" method="post">
                 <h1>Iniciar sesión</h1>
                 <br>
                 <br>
@@ -51,8 +52,10 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-    <script src="js\Script_login.js"></script>
-</div>
+    <script src="js/Script_login.js"></script>
+    <script src="controller\AutenticacionController.php"></script>
+

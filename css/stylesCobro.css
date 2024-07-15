@@ -1,0 +1,353 @@
+
+        /* CSS MODAL */
+        .modal-backdrop {
+            z-index: 1040 !important;
+        }
+        .modal {
+            z-index: 1050 !important;
+        }
+
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1.5rem); /* Ajusta el espacio desde arriba y abajo */
+        }
+
+        .modal-content {
+            border-radius: 0.5rem; /* Asegúrate de que el borde del modal sea consistente */
+        }
+
+        /* Custom Styles for this page */
+        .header {
+            display: flex;
+            flex-direction: column; /* Alineación vertical de contenedores */
+            align-items: flex-start; /* Alinea los elementos a la izquierda */
+            margin-bottom: 20px;
+            position: relative; /* Necesario para la posición absoluta del logo */
+        }
+
+        .header .input-container {
+            display: flex; /* Hacer que el contenedor sea un flex container */
+            flex-direction: row; /* Alinear elementos en una fila */
+            align-items: center; /* Centrar verticalmente */
+            margin-bottom: 10px; /* Espacio entre los contenedores */
+        }
+
+        .header .input-container label {
+            margin-right: 10px; /* Espacio entre el label y el input */
+            width: 100px; /* Ancho fijo para las etiquetas */
+        }
+
+        .header .input-container input {
+            flex: 0 0 200px; /* Ancho fijo para los inputs */
+        }
+
+        .header .logo {
+            position: absolute; /* Posiciona el logo de manera absoluta */
+            top: 0;
+            right: 0;
+            margin: 10px; /* Espacio alrededor del logo */
+        }
+
+        .header .logo img {
+            height: 100px;
+            width: 100px;
+        }
+
+        .header .input-row {
+            display: flex;
+            justify-content: flex-start; /* Alinea Cliente y Saldo hacia la izquierda */
+            gap: 20px; /* Espacio entre Cliente y Saldo */
+            margin-bottom: 10px; /* Espacio entre la fila de Cliente/Saldo y otros elementos */
+            width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .left-pane{
+            padding: 10px; /* Aumenta el padding para un margen interior más grande */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave alrededor del contenedor */
+            background-color: #ffffff; /* Fondo blanco para que el contenido resalte */
+            
+        }
+        .right-pane {
+            
+            flex: 0 0 300px; /* No se expandirá ni se contraerá, siempre será 300px */
+        }
+        
+
+        .left-pane {
+            flex: 5; /* Asegura que el contenedor de la izquierda ocupe más espacio */
+        }
+
+        .right-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Alinea los elementos a la derecha */
+            gap: 10px; /* Espacio entre los elementos */
+            padding-right: 10px; /* Agrega padding a la derecha */
+        }
+
+        .right-pane .mt-3 {
+            width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+            display: flex;
+            flex-direction: column; /* Alinea los elementos en una columna */
+            gap: 10px; /* Espacio entre los elementos */
+        }
+
+        .right-pane .mt-3 .input-container {
+            display: flex;
+            flex-direction: row; /* Alinear elementos en una fila */
+            align-items: center; /* Centrar verticalmente */
+            justify-content: flex-start; /* Alinea el contenido a la derecha */
+        }
+
+        .right-pane .mt-3 label {
+            margin-bottom: 5px;
+            margin-right: 10px; /* Espacio entre el label y el input */
+            width: auto; /* Ancho automático para las etiquetas */
+        }
+
+        .right-pane .mt-3 select,
+        .right-pane .mt-3 input {
+            width: 50px; /* Ancho fijo para los elementos */
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Alinea los elementos entre el espacio disponible */
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid black; /* Cambia a una línea continua de 2px */
+        }
+
+        .reset-container {
+            margin-right: auto; /* Empuja el contenedor hacia el lado izquierdo */
+            
+        }
+
+        #reset-payment {
+            background-color: #6c757d; /* Color de fondo del botón */
+            border: none; /* Sin borde */
+            color: #fff; /* Color del ícono */
+            padding: 10px; /* Espaciado interno */
+            font-size: 2rem; /* Tamaño del ícono */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .amount-container {
+            display: flex;
+            align-items: center;
+            margin-right: 10px; /* Espacio entre el monto y el botón de Cobrar */
+        }
+
+        #charge {
+            margin-right: 10px; /* Espacio entre el botón de Cobrar y el botón de Nuevo Lote */
+        }
+
+        #new-batch {
+            margin-left: 10px; /* Espacio entre el botón de Nuevo Lote y el borde derecho */
+        }
+
+        .footer button,
+        .footer input {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4e73df;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .footer button:disabled {
+            background-color: #d1d3e2;
+            cursor: not-allowed;
+        }
+
+        .footer input {
+            width: 100px;
+            margin: 0 10px;
+        }
+
+        .footer .cart-icon {
+            width: 50px;
+            height: 50px;
+            background: url('path/to/cart-icon.png') no-repeat center center;
+            background-size: contain;
+        }
+
+        /* Align the dollar sign and input field */
+        .footer .amount-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer .amount-container label {
+            margin-right: 5px;
+        }
+
+        .footer .amount-container input {
+            margin: 0;
+        }
+
+        /* Button styles for "Nuevo Lote" */
+        #new-batch {
+            background-color: green; /* Cambiar color de fondo */
+            border: none; /* Sin borde */
+            color: #fff; /* Color del ícono */
+            padding: 10px; /* Espaciado interno */
+            font-size: 1.1rem; /* Tamaño del ícono */
+            width: 100px;
+            margin-left: 50px; /* Espacio entre el botón de Nuevo Lote y el borde derecho */
+        }
+
+        /* Modal styles */
+        .modal-content {
+            background-color: #f8f9fc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #e3e6f0;
+        }
+
+        .modal-header h5 {
+            margin: 0;
+            font-weight: 700;
+            color: #4e73df;
+        }
+
+        .modal-body {
+            padding: 10px 0;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #e3e6f0;
+            padding: 10px 0;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #4e73df;
+            border: none;
+        }
+
+        .modal-footer .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        /* Add focus style for inputs */
+        .modal-body select:focus,
+        .modal-body input:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+
+        /* Align select and input */
+        .modal-body select,
+        .modal-body input {
+            margin-bottom: 15px;
+        }
+
+        .modal-body label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Button in footer */
+        .footer .btn {
+            font-size: 16px;
+        }
+
+        /* Styles for the Propiedades de papel section */
+        .propiedades-papel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .propiedades-papel h2 {
+            margin-bottom: 20px;
+        }
+
+        .propiedades-papel .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .propiedades-papel .options div {
+            border: 1px solid #d1d3e2;
+            padding: 10px;
+            width: 150px;
+            text-align: center;
+        }
+
+        .propiedades-papel .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .propiedades-papel button {
+            padding: 10px 20px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Estilo para el botón de eliminar */
+.delete-row {
+    display: none; /* Ocultar el ícono por defecto */
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Mostrar el ícono al pasar el puntero sobre la fila */
+.table tbody tr:hover .delete-row {
+    display: block;
+}
+/* Cambiar el esto del boton del carrito */
+
+/* Estilo para el nuevo botón del avión de papel */
+#paper-plane-button {
+    background-color: #4e73df; /* Cambiar color de fondo */
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem; /* Espacio entre el botón de peso y el nuevo botón */
+    border-radius: 0.375rem; /* Radio del borde */
+    font-size: 1rem; /* Tamaño del ícono */
+    cursor: pointer;
+}
+
+/* Ajustar el espacio entre el botón de enviar y el signo de peso */
+#paper-plane-button {
+    margin-right: 2rem; /* Espacio entre el botón "Enviar" y el signo de peso */
+}
+
+#paper-plane-button i {
+    margin-right: 0.5rem; /* Espacio entre el ícono y el texto */
+}
+
+
+
+
+
+
+
+    

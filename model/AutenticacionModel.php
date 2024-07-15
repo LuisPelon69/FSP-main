@@ -1,5 +1,5 @@
 <?php
-// File: Model/DashboardModel.php
+// File: model/AutenticacionModel.php
 
 class AutenticacionModel {
     public function getMonthlyEarnings() {
