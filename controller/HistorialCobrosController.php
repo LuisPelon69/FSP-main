@@ -31,7 +31,7 @@ class HistorialCobrosController {
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'View/EmpleadosVista.php'; ?>
+                    <?php include 'View/HistorialCobros.php'; ?>
                     
                 </div>
                 <!-- End of Content -->

@@ -44,35 +44,11 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
-            <a class="collapse-item" href="View/TarjetaEmpleado.php">Tarjetas</a>
-            <a class="collapse-item" href="Recargar_Tarjeta.php">Recargar Tarjeta</a>
+            <a class="collapse-item" href="TarjetaEmpleado.php">Tarjetas</a>
+            <a class="collapse-item" href="#">Recargar Tarjeta</a>
         </div>
     </div>
-</li>
-
-<!-- Divider -->
-<hr class="sidebar-divider">
-
-<!-- Heading -->
-<div class="sidebar-heading">
-    Reportes y Gráficas
-</div>
-
-
-
-<!-- Nav Item - Charts -->
-<li class="nav-item">
-    <a class="nav-link" href="charts.html">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Gráficas</span></a>
-</li>
-
-<!-- Nav Item - Tables -->
-<li class="nav-item">
-    <a class="nav-link" href="tables.html">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Tablas de Datos</span></a>
-</li>
+</li><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
