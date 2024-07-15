@@ -1,35 +1,36 @@
 <?php
-require_once 'model/AutenticacionModel.php';
-require_once('bd/conex.php');
+require_once 'model\AutenticacionModel.php';
+require_once 'bd\conex.php';
 
 class AutenticacionController {
     private $model;
 
     public function __construct() {
         $this->model = new AutenticacionModel();
+        session_start();
         $this->handleLogin();
     }
 
     private function handleLogin() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST['nombre']) && isset($_POST['password'])) {
-                $nombre = $_POST['nombre'];
-                $password = $_POST['password'];
+                $nombre = trim($_POST['nombre']);
+                $password = trim($_POST['password']);
 
                 // Conexión a la base de datos y consulta
-                $db = Database::getConnection();
+                $database = new Database();
+                $db = $database->getConnection();
                 $query = "SELECT * FROM empleado WHERE NombreEmp = :nombre AND PasswordE = :password";
                 $stmt = $db->prepare($query);
                 $stmt->bindParam(':nombre', $nombre);
                 $stmt->bindParam(':password', $password);
                 $stmt->execute();
-                
+
                 $count = $stmt->rowCount();
                 if ($count > 0) {
                     // Iniciar sesión exitoso
-                    session_start();
-                    $_SESSION['nombre'] = $nombre;  
-                    header("Location: index.html");
+                    $_SESSION['nombre'] = $nombre;
+                    header("Location: ../index.html");
                     exit();
                 } else {
                     echo "Nombre de usuario o contraseña incorrectos";
@@ -45,28 +46,7 @@ class AutenticacionController {
         $annualEarnings = $this->model->getAnnualEarnings();
         $goalsCompletion = $this->model->getGoalsCompletion();
         $receivedEmails = $this->model->getReceivedEmails();
-?>
-
-        <!-- Wrapper para contenido y sidebar -->
-        <div id="wrapper" class="d-flex">
-
-            <!-- Contenido principal -->
-            <div id="content-wrapper" class="d-flex flex-column">
-                <div id="content">
-
-                    <!-- Contenido -->
-                    <?php include 'View/AutenticacionVista.php'; ?>
-                    
-                </div>
-                <!-- End of Content -->
-
-            </div>
-            <!-- End of Content Wrapper -->
-
-        </div>
-        <!-- End of Wrapper -->
-
-<?php
+        include 'View/AutenticacionVista.php';
         include 'View/Scripts.php';
     }
 }
