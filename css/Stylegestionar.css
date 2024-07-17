@@ -1,0 +1,83 @@
+
+/* Estilo para el botón de eliminar */
+.delete-row {
+    display: none; /* Ocultar el ícono por defecto */
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Mostrar el ícono al pasar el puntero sobre la fila */
+.table tbody tr:hover .delete-row {
+    display: block;
+}
+
+/* Centrar el botón de Gestionar Tabla */
+.centered-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px; /* Incrementa este valor para mover el botón más abajo */
+}
+
+
+
+
+
+/* Estilo para los botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem; /* Espacio entre los botones */
+}
+
+.action-buttons .btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.action-buttons .edit-row {
+    color: blue;
+}
+
+.action-buttons .delete-row {
+    color: red;
+}
+
+.action-buttons .btn:hover {
+    opacity: 0.7;
+}
+
+
+.modal-dialog {
+    max-width: 800px;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px;
+}
+
+
+
+/* Asegurar que el contenido del modal esté centrado */
+.modal-content {
+    margin: auto;
+}
+
+/* Estilo personalizado para centrar el modal horizontalmente */
+.modal-dialog {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
