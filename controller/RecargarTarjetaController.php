@@ -58,7 +58,7 @@ class RecargarTarjetaController {
             $cantidad = $_POST['cantidad'];
 
             // Obtener el saldo actual del cliente
-            $query = "SELECT Saldo FROM cliente WHERE NombreClien = ?";
+            $query = "SELECT Saldo FROM cliente WHERE idClien = ?";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(1, $cliente);
             $stmt->execute();
@@ -71,7 +71,7 @@ class RecargarTarjetaController {
                 $nuevo_saldo = $saldo_actual + $cantidad;
 
                 // Actualizar el saldo del cliente
-                $query = "UPDATE cliente SET Saldo = ? WHERE NombreClien = ?";
+                $query = "UPDATE cliente SET Saldo = ? WHERE idClien = ?";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(1, $nuevo_saldo);
                 $stmt->bindParam(2, $cliente);

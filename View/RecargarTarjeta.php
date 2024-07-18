@@ -74,7 +74,6 @@
         // Simulación de escaneo de QR
         let cliente = 'Juan Perez';  // Nombre del cliente obtenido del QR
 
-        // Realiza una solicitud AJAX para obtener el saldo del cliente
         $.post('controller/RecargarTarjetaController.php', { cliente: cliente }, function(data) {
             document.getElementById('cliente').value = data.nombre;
             document.getElementById('saldo').value = data.saldo;
