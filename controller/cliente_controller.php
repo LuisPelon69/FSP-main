@@ -86,22 +86,30 @@ try {
         echo json_encode($response);
 
     } elseif ($method === 'DELETE') {
-        $id = $_GET['id'] ?? null;
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!$id) {
-            echo json_encode(['error' => 'ID del cliente no proporcionado']);
+        if (!isset($data['ids'])) {
+            echo json_encode(['error' => 'IDs de los clientes no proporcionados']);
             exit;
         }
 
         $cliente = new ClienteModel();
         $response = [];
+        $success = true;
 
-        if ($cliente->delete($id)) {
+        foreach ($data['ids'] as $id) {
+            if (!$cliente->delete($id)) {
+                $success = false;
+                break;
+            }
+        }
+
+        if ($success) {
             $response['success'] = true;
-            $response['message'] = 'Cliente eliminado exitosamente';
+            $response['message'] = 'Clientes eliminados exitosamente';
         } else {
             $response['success'] = false;
-            $response['message'] = 'Error al eliminar el cliente';
+            $response['message'] = 'Error al eliminar los clientes';
         }
 
         echo json_encode($response);
