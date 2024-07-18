@@ -30,353 +30,298 @@
         }
 
         .disabled {
-            opacity: 0.6;
             pointer-events: none;
+            opacity: 0.5;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 90%;
+            height: 90%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-bottom: 220px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-        function fetchClientes() {
-            fetch('../FSP-main-2/controller/cliente_controller.php', {
+    document.addEventListener("DOMContentLoaded", function() {
+        const tipoEmpleadoSelect = document.querySelector('select[name="TipoEmpleado"]');
+        const empleadoTableBody = document.querySelector("table tbody");
+
+         // Cargar empleados en la tabla
+        function fetchEmpleados() {
+            fetch('../FSP-main-2/controller/empleado_controller.php', {
                 method: 'GET'
             })
             .then(response => response.json())
             .then(data => {
                 if (!data || data.error) {
-                    console.error('Error al obtener clientes:', data.error);
+                    console.error('Error al obtener empleados:', data.error);
                     return;
                 }
-                let table = document.querySelector("table tbody");
-                table.innerHTML = ''; // Limpiar la tabla antes de llenarla
-                data.forEach(cliente => {
-                    let row = table.insertRow();
-                    row.setAttribute('data-id', cliente.idClien);
+                empleadoTableBody.innerHTML = '';
+                data.forEach(empleado => {
+                    let row = empleadoTableBody.insertRow();
+                    row.setAttribute('data-id', empleado.idEmp);
 
-                    // Checkbox con la ID del cliente como valor
                     let cellCheckbox = row.insertCell(0);
                     let checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.classList.add('select-checkbox');
-                    checkbox.value = cliente.idClien;
+                    checkbox.value = empleado.idEmp;
                     cellCheckbox.appendChild(checkbox);
 
-                    // Nombre completo
-                    let cellNombre = row.insertCell(1);
-                    cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
-
-                    // Saldo
-                    let cellSaldo = row.insertCell(2);
-                    cellSaldo.textContent = `$ ${cliente.Saldo}`;
-
-                    // Correo
-                    let cellCorreo = row.insertCell(3);
-                    cellCorreo.textContent = cliente.Correo;
-
-                    // Teléfono
-                    let cellTelefono = row.insertCell(4);
-                    cellTelefono.textContent = cliente.Telefono;
+                    row.insertCell(1).textContent = empleado.idEmp;
+                    row.insertCell(2).textContent = empleado.NombreEmp;
+                    row.insertCell(3).textContent = empleado.NombreStatus;
+                    row.insertCell(4).textContent = empleado.RFC;
+                    row.insertCell(5).textContent = empleado.RecargasRealizadas;
+                    row.insertCell(6).textContent = empleado.CobrosRealizados;
+                    row.insertCell(7).textContent = empleado.Direccion;
                 });
-                updateButtonState();
             })
             .catch(error => console.error('Error:', error));
         }
 
-        fetchClientes();
+        // Verificar si los elementos existen
+        if (!tipoEmpleadoSelect || !empleadoTableBody) {
+            console.error('No se encontraron los elementos necesarios en el DOM.');
+            return;
+        }
 
+        // Cargar los tipos de empleados en el select
+        fetch('../FSP-main-2/controller/empleado_controller.php?type=statuse', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error al obtener los estados:', data.error);
+                return;
+            }
+            data.forEach(status => {
+                let option = document.createElement('option');
+                option.value = status.idStatus;
+                option.textContent = status.NombreStatus;
+                tipoEmpleadoSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+       
+
+        // Actualizar el estado de los botones según los checkboxes seleccionados
         function updateButtonState() {
             const checkboxes = document.querySelectorAll('.select-checkbox:checked');
-            const addButton = document.getElementById('add-card');
-            const editButton = document.querySelector('.edit-button');
-            const deleteButton = document.querySelector('.delete-button');
-
-            if (checkboxes.length === 0) {
-                addButton.classList.remove('disabled');
-                addButton.disabled = false;
-
-                editButton.classList.add('disabled');
-                editButton.disabled = true;
-
-                deleteButton.classList.add('disabled');
-                deleteButton.disabled = true;
-            } else if (checkboxes.length === 1) {
-                addButton.classList.add('disabled');
-                addButton.disabled = true;
-
-                editButton.classList.remove('disabled');
-                editButton.disabled = false;
-
-                deleteButton.classList.remove('disabled');
-                deleteButton.disabled = false;
-            } else {
-                addButton.classList.add('disabled');
-                addButton.disabled = true;
-
-                editButton.classList.add('disabled');
-                editButton.disabled = true;
-
-                deleteButton.classList.remove('disabled');
-                deleteButton.disabled = false;
-            }
+            document.querySelector('.edit-button').classList.toggle('disabled', checkboxes.length !== 1);
+            document.querySelector('.delete-button').classList.toggle('disabled', checkboxes.length === 0);
         }
 
-        document.addEventListener('change', function(e) {
-            if (e.target.classList.contains('select-checkbox')) {
-                updateButtonState();
-            }
-        });
+        // Verificar y agregar event listeners si los elementos existen
+        const editButton = document.querySelector('.edit-button');
+        const deleteButton = document.querySelector('.delete-button');
+        const addCardButton = document.getElementById('add-card');
+        const empleadoForm = document.getElementById('empleadoForm');
+        const editForm = document.getElementById('editForm');
+        const deleteForm = document.getElementById('deleteForm');
+        const modal = document.getElementById('modal');
+        const editModal = document.getElementById('edit-modal');
+        const deleteModal = document.getElementById('delete-modal');
 
-        function abrirModalEliminar(ids) {
-            const modal = document.getElementById('delete-modal');
-            const form = document.getElementById('deleteForm');
-            form.elements['ids'].value = JSON.stringify(ids);
-            modal.style.display = 'block';
+        if (editButton) {
+            editButton.addEventListener('click', function() {
+                const selectedCheckbox = document.querySelector('.select-checkbox:checked');
+                if (selectedCheckbox) {
+                    const empleadoId = selectedCheckbox.value;
+                    fetch(`../FSP-main-2/controller/empleado_controller.php?id=${empleadoId}`, {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Error al obtener los detalles del empleado:', data.error);
+                            return;
+                        }
+                        for (let key in data) {
+                            if (editForm.elements[key]) {
+                                editForm.elements[key].value = data[key];
+                            }
+                        }
+                        editModal.style.display = 'block';
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            });
         }
 
-        document.getElementById('add-card').addEventListener('click', function() {
-            if (!this.classList.contains('disabled')) {
-                console.log('Abrir modal para agregar una nueva tarjeta');
-                // Aquí puedes abrir el modal para agregar una nueva tarjeta
-            }
-        });
+        if (deleteButton) {
+            deleteButton.addEventListener('click', function() {
+                const selectedCheckboxes = document.querySelectorAll('.select-checkbox:checked');
+                if (selectedCheckboxes.length > 0) {
+                    const ids = Array.from(selectedCheckboxes).map(cb => cb.value);
+                    document.querySelector('#deleteForm input[name="ids"]').value = ids.join(',');
+                    deleteModal.style.display = 'block';
+                }
+            });
+        }
 
-        document.querySelector('.edit-button').addEventListener('click', function() {
-            if (!this.classList.contains('disabled')) {
-                const selectedId = document.querySelector('.select-checkbox:checked').value;
-                console.log('Abrir modal para editar la tarjeta con ID:', selectedId);
-                abrirModalEdicion(selectedId);
-            }
-        });
+        if (addCardButton) {
+            addCardButton.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+        }
 
-        document.querySelector('.delete-button').addEventListener('click', function() {
-            if (!this.classList.contains('disabled')) {
-                const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
-                console.log('Eliminar tarjetas con IDs:', selectedIds);
-                abrirModalEliminar(selectedIds);
-            }
-        });
-
-        function abrirModalEdicion(id) {
-            const modal = document.getElementById('edit-modal');
-            const form = document.getElementById('editForm');
-
-            fetch(`../FSP-main-2/controller/cliente_controller.php?id=${id}`, {
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(cliente => {
-                if (!cliente || cliente.error) {
-                    console.error('Error al obtener cliente:', cliente.error);
+        if (empleadoForm) {
+            empleadoForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                if (!form.checkValidity()) {
                     return;
                 }
-                form.elements['id'].value = cliente.idClien;
-                form.elements['NombreClien'].value = cliente.NombreClien;
-                form.elements['ApellidoP'].value = cliente.ApellidoP;
-                form.elements['ApellidoM'].value = cliente.ApellidoM;
-                form.elements['Telefono'].value = cliente.Telefono;
-                form.elements['Correo'].value = cliente.Correo;
-
-                modal.style.display = 'block';
-            })
-            .catch(error => console.error('Error:', error));
+                const formData = new FormData(form);
+                fetch('../FSP-main-2/controller/empleado_controller.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error al crear empleado:', data.error);
+                        return;
+                    }
+                    fetchEmpleados();
+                    form.reset();
+                    modal.style.display = 'none';
+                })
+                .catch(error => console.error('Error:', error));
+            });
         }
 
-        function cerrarModalEdicion() {
-            const modal = document.getElementById('edit-modal');
-            modal.style.display = 'none';
-        }
-
-        function validarNombres(value) {
-            const regex = /^[a-zA-Z\s]+$/;
-            return regex.test(value);
-        }
-
-        function validarTelefono(value) {
-            const regex = /^\d{10}$/;
-            return regex.test(value);
-        }
-
-        function validarCorreo(value) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(value);
-        }
-
-        function mostrarError(elemento, mensaje) {
-            const errorElemento = document.getElementById('error-' + elemento.id);
-            errorElemento.textContent = mensaje;
-            errorElemento.style.color = 'red';
-        }
-
-        function limpiarError(elemento) {
-            const errorElemento = document.getElementById('error-' + elemento.id);
-            errorElemento.textContent = '';
-        }
-
-        function validarCampoEnTiempoReal(event) {
-            const elemento = event.target;
-            const valor = elemento.value.trim();
-
-            if (elemento.id === 'NombreClien' || elemento.id === 'ApellidoP' || elemento.id === 'ApellidoM') {
-                if (!validarNombres(valor)) {
-                    mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
-                } else {
-                    limpiarError(elemento);
+        if (editForm) {
+            editForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                if (!form.checkValidity()) {
+                    return;
                 }
-            } else if (elemento.id === 'Telefono') {
-                if (!validarTelefono(valor)) {
-                    mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                } else {
-                    limpiarError(elemento);
-                }
-            } else if (elemento.id === 'Correo') {
-                if (!validarCorreo(valor)) {
-                    mostrarError(elemento, 'Ingrese un correo electrónico válido');
-                } else {
-                    limpiarError(elemento);
-                }
-            }
+                const formData = new FormData(form);
+                fetch('../FSP-main-2/controller/empleado_controller.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error al editar empleado:', data.error);
+                        return;
+                    }
+                    fetchEmpleados();
+                    editModal.style.display = 'none';
+                })
+                .catch(error => console.error('Error:', error));
+            });
         }
 
-        document.getElementById('editSave').addEventListener('click', function(event) {
-            event.preventDefault();
+        if (deleteForm) {
+            deleteForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                fetch('../FSP-main-2/controller/empleado_controller.php', {
+                    method: 'DELETE',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error al eliminar empleado(s):', data.error);
+                        return;
+                    }
+                    fetchEmpleados();
+                    deleteModal.style.display = 'none';
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
 
-            const form = document.getElementById('editForm');
-            const NombreClien = form.elements['NombreClien'];
-            const ApellidoP = form.elements['ApellidoP'];
-            const ApellidoM = form.elements['ApellidoM'];
-            const Telefono = form.elements['Telefono'];
-            const Correo = form.elements['Correo'];
-
-            if (!validarNombres(NombreClien.value.trim())) {
-                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
-                return;
-            } else {
-                limpiarError(NombreClien);
-            }
-
-            if (!validarNombres(ApellidoP.value.trim())) {
-                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                return;
-            } else {
-                limpiarError(ApellidoP);
-            }
-
-            if (!validarNombres(ApellidoM.value.trim())) {
-                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                return;
-            } else {
-                limpiarError(ApellidoM);
-            }
-
-            if (!validarTelefono(Telefono.value.trim())) {
-                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                return;
-            } else {
-                limpiarError(Telefono);
-            }
-
-            if (!validarCorreo(Correo.value.trim())) {
-                mostrarError(Correo, 'Ingrese un correo electrónico válido');
-                return;
-            } else {
-                limpiarError(Correo);
-            }
-
-            const data = {
-                idClien: form.elements['id'].value,
-                NombreClien: NombreClien.value,
-                ApellidoP: ApellidoP.value,
-                ApellidoM: ApellidoM.value,
-                Telefono: Telefono.value,
-                Correo: Correo.value
-            };
-
-            fetch('../FSP-main-2/controller/cliente_controller.php', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    alert('Error: ' + data.error);
-                } else {
-                    alert('Cliente actualizado exitosamente');
-                    fetchClientes(); // Actualizar la tabla
-                    cerrarModalEdicion();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Ocurrió un error: ' + error.message);
+        // Cerrar modal al hacer clic en el botón de cerrar
+        document.querySelectorAll('.modal .close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', function() {
+                closeBtn.closest('.modal').style.display = 'none';
             });
         });
 
-        document.querySelector('#edit-modal .close').addEventListener('click', function() {
-            cerrarModalEdicion();
-        });
-
-        window.addEventListener('click', function(event) {
-            if (event.target === document.getElementById('edit-modal')) {
-                cerrarModalEdicion();
-            }
-        });
-
-        document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
-        document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
-
-        document.getElementById('deleteForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const ids = JSON.parse(event.target.elements['ids'].value);
-
-            fetch('../FSP-main-2/controller/cliente_controller.php', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ ids: ids })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+        // Autocompletar dirección basado en el CP
+        const cpInput = document.getElementById('CP');
+        if (cpInput) {
+            cpInput.addEventListener('blur', function() {
+                const cp = this.value;
+                if (/^\d{5}$/.test(cp)) {
+                    fetch(`../FSP-main-2/controller/codigo_postal_controller.php?cp=${cp}`, {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Error al obtener datos de dirección:', data.error);
+                            return;
+                        }
+                        if (empleadoForm) {
+                            if (data.calle) empleadoForm.elements['Calle'].value = data.calle;
+                            if (data.colonia) empleadoForm.elements['Colonia'].value = data.colonia;
+                            if (data.noInterior) empleadoForm.elements['NoInterior'].value = data.noInterior;
+                            if (data.noExt) empleadoForm.elements['NoExt'].value = data.noExt;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
                 }
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    alert('Error: ' + data.error);
-                } else {
-                    alert('Cliente(s) eliminado(s) exitosamente');
-                    fetchClientes(); // Actualizar la tabla
-                    document.getElementById('delete-modal').style.display = 'none';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Ocurrió un error: ' + error.message);
             });
-        });
+        }
 
-        document.querySelector('#delete-modal .close').addEventListener('click', function() {
-            document.getElementById('delete-modal').style.display = 'none';
-        });
+        // Validar contraseñas
+        const confirmarPasswordInput = document.getElementById('ConfirmarPassword');
+        if (confirmarPasswordInput) {
+            confirmarPasswordInput.addEventListener('input', function() {
+                const password = document.querySelector('input[name="Password"]').value;
+                const confirmPassword = this.value;
+                if (password !== confirmPassword) {
+                    this.setCustomValidity('Las contraseñas no coinciden');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+        }
 
-        window.addEventListener('click', function(event) {
-            if (event.target === document.getElementById('delete-modal')) {
-                document.getElementById('delete-modal').style.display = 'none';
-            }
-        });
+        // Cargar empleados al iniciar
+        fetchEmpleados();
     });
 </script>
+
+
 </head>
 
 <body id="page-top">
@@ -470,6 +415,13 @@
             Reportes y Gráficas
         </div>
 
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Cobros</span>
+            </a>
         <!-- Nav Item - Charts -->
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
@@ -714,137 +666,145 @@
                     <!-- Page Heading -->
                     <div class="main-container">
                         <div class="table-container">
-                            <button id="add-card">Agregar Nueva Tarjeta</button>
-                            <button class="edit-button">Editar</button>
-                            <button class="delete-button">Eliminar</button>
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>SELECCIONAR</th>
-                                                    <th>Nombre</th>
-                                                    <th>Saldo Total</th>
-                                                    <th>Correo Electrónico</th>
-                                                    <th>Teléfono</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Las filas se añadirán dinámicamente con JavaScript -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <script href="../FSP-main-2/js/tarjetas_js/tabla_tarjetas.js"></script>
-                   <!-- Modal de Altas-->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="card">
-            <strong><h1>Crear Nuevo Cliente</h1></strong>
-            <form id="clienteForm">
-                <label for="NombreClien">Nombres:</label>
-                <input type="text" id="NombreClien" name="NombreClien">
-                <span id="error-NombreClien"></span><br>
+                        <button id="add-card">Agregar Empleado</button>
+    <button class="edit-button disabled">Editar Empleado</button>
+    <button class="delete-button disabled">Eliminar Empleado</button>
 
-                <label for="ApellidoP">Apellido Paterno:</label>
-                <input type="text" id="ApellidoP" name="ApellidoP">
-                <span id="error-ApellidoP"></span><br>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Seleccionar</th>
+                <th>ID Empleado</th>
+                <th>Nombre Completo</th>
+                <th>Puesto</th>
+                <th>RFC</th>
+                <th>Recargas Realizadas</th>
+                <th>Cobros Realizados</th>
+                <th>Dirección</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas de la tabla se llenarán dinámicamente con JavaScript -->
+        </tbody>
+    </table>
 
-                <label for="ApellidoM">Apellido Materno:</label>
-                <input type="text" id="ApellidoM" name="ApellidoM">
-                <span id="error-ApellidoM"></span><br>
+    <!-- Modal de Altas -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="card">
+                <strong><h1>Crear Nuevo Empleado</h1></strong>
+            </div>
+            <form id="nuevoEmpleadoForm" action="empleado_controller.php" method="POST">
+        <label for="nombres">Nombre(s):</label>
+        <input type="text" id="nombres" name="nombres" required>
 
-                <label for="Telefono">Teléfono:</label>
-                <input type="text" id="Telefono" name="Telefono">
-                <span id="error-Telefono"></span><br>
+        <label for="apellidoPaterno">Apellido Paterno:</label>
+        <input type="text" id="apellidoPaterno" name="apellidoPaterno" required>
 
-                <label for="Correo">Correo:</label>
-                <input type="email" id="Correo" name="Correo">
-                <span id="error-Correo"></span><br>
+        <label for="apellidoMaterno">Apellido Materno:</label>
+        <input type="text" id="apellidoMaterno" name="apellidoMaterno" required>
 
-                <label for="passwClien">Contraseña:</label>
-                <input type="password" id="passwClien" name="passwClien">
-                <span id="error-passwClien"></span><br>
+        <label for="idStatus">Tipo de Empleado:</label>
+        <select id="idStatus" name="idStatus" required>
+            <option value="">Seleccione un tipo de empleado</option>
+        </select>
 
-                <label for="confirm-passwClien">Confirmar Contraseña:</label>
-                <input type="password" id="confirm-passwClien" name="confirm-passwClien">
-                <span id="error-confirm-passwClien"></span><br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
 
-                <button id="save">Guardar</button>
-            </form>
-            
+        <label for="confirmPassword">Confirmar Contraseña:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+        <label for="CURP">CURP:</label>
+        <input type="text" id="CURP" name="CURP" required>
+
+        <label for="RFC">RFC:</label>
+        <input type="text" id="RFC" name="RFC" required>
+
+        <label for="CP">Código Postal:</label>
+        <input type="text" id="CP" name="CP" required>
+
+        <label for="Calle">Calle:</label>
+        <input type="text" id="Calle" name="Calle" required>
+
+        <label for="NoExt">Número Exterior:</label>
+        <input type="text" id="NoExt" name="NoExt" required>
+
+        <label for="NoInterior">Número Interior:</label>
+        <input type="text" id="NoInterior" name="NoInterior">
+
+        <label for="Colonia">Colonia:</label>
+        <input type="text" id="Colonia" name="Colonia" required>
+
+        <label for="Cruzamiento">Cruzamiento:</label>
+        <input type="text" id="Cruzamiento" name="Cruzamiento">
+
+        <button type="submit">Agregar Empleado</button>
+    </form>
         </div>
     </div>
-</div>
 
-
-<!-- Modal de Edición -->
-<div id="edit-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="card">
-            <strong><h1>Editar Cliente</h1></strong>
+    <!-- Modal de Edición -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="card">
+                <strong><h1>Editar Empleado</h1></strong>
+            </div>
             <form id="editForm">
-                <input type="hidden" id="editId" name="id">
-                
-                <div>
-                    <label for="editNombre">Nombre:</label>
-                    <input type="text" id="editNombre" name="NombreClien">
-                    <span id="error-editNombre"></span>
-                </div>
-                
-                <div>
-                    <label for="editApellidoP">Apellido Paterno:</label>
-                    <input type="text" id="editApellidoP" name="ApellidoP">
-                    <span id="error-editApellidoP"></span>
-                </div>
-                
-                <div>
-                    <label for="editApellidoM">Apellido Materno:</label>
-                    <input type="text" id="editApellidoM" name="ApellidoM">
-                    <span id="error-editApellidoM"></span>
-                </div>
-                
-                <div>
-                    <label for="editTelefono">Teléfono:</label>
-                    <input type="text" id="editTelefono" name="Telefono">
-                    <span id="error-editTelefono"></span>
-                </div>
-                
-                <div>
-                    <label for="editCorreo">Correo:</label>
-                    <input type="email" id="editCorreo" name="Correo">
-                    <span id="error-editCorreo"></span>
-                </div>
-            
-                <button id="editSave" type="submit">Guardar Cambios</button>
+                <input type="hidden" name="idEmp" />
+                <label for="Nombre">Nombre(s):</label>
+                <input type="text" name="Nombre" required pattern="[A-Za-z\s]+">
+                <label for="ApellidoPaterno">Apellido Paterno:</label>
+                <input type="text" name="ApellidoPaterno" required pattern="[A-Za-z\s]+">
+                <label for="ApellidoMaterno">Apellido Materno:</label>
+                <input type="text" name="ApellidoMaterno" required pattern="[A-Za-z\s]+">
+                <label for="TipoEmpleado">Tipo de Empleado:</label>
+                <select name="TipoEmpleado" required></select>
+                <label for="Password">Contraseña:</label>
+                <input type="password" name="Password" required>
+                <label for="ConfirmarPassword">Confirmar Contraseña:</label>
+                <input type="password" name="ConfirmarPassword" required>
+                <label for="CURP">CURP:</label>
+                <input type="text" name="CURP" required pattern="[A-Z0-9]{18}">
+                <label for="RFC">RFC:</label>
+                <input type="text" name="RFC" required pattern="[A-Z0-9]{13}">
+                <label for="CP">Código Postal:</label>
+                <input type="text" name="CP" required pattern="\d{5}">
+                <label for="Calle">Calle:</label>
+                <input type="text" name="Calle" required>
+                <label for="NoInterior">No. Interior:</label>
+                <input type="text" name="NoInterior" pattern="[A-Za-z0-9\-]*">
+                <label for="NoExt">No. Exterior:</label>
+                <input type="text" name="NoExt" required pattern="[A-Za-z0-9\-]+">
+                <label for="Colonia">Colonia:</label>
+                <input type="text" name="Colonia" required>
+                <label for="Cruzamiento">Cruzamiento:</label>
+                <input type="text" name="Cruzamiento" pattern="[A-Za-z0-9\s]*">
+                <button type="submit">Guardar Cambios</button>
             </form>
-            
         </div>
     </div>
-</div>
 
-<!-- Modal de Eliminación -->
-<div id="delete-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Confirmar Eliminación</h2>
-        <p>¿Estás seguro de que deseas eliminar <span id="delete-count"></span> registros seleccionados?</p>
-        <form id="deleteForm">
-            <input type="hidden" name="ids" id="delete-ids">
-            <button id="deleteConfirm" type="submit">Confirmar</button>
-        </form>
+    <!-- Modal de Eliminación -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="card">
+                <strong><h1>Confirmar Eliminación</h1></strong>
+            </div>
+            <form id="deleteForm">
+                <input type="hidden" name="ids">
+                <p>¿Está seguro de que desea eliminar el/los empleado(s) seleccionado(s)?</p>
+                <button type="submit">Sí, eliminar</button>
+                <button type="button" class="close">Cancelar</button>
+            </form>
+        </div>
     </div>
-</div>
+
+
+
 
 
                     
@@ -886,8 +846,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../FSP-main-2/js/sb-admin-2.min.js"></script>
-    <script src="../FSP-main-2/js/tarjetas_js/altas_tarjetas.js"></script> <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-1" para que tome las rutas correctamente.-->
-    
     </div>
 </body>
 
