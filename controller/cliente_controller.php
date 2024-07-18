@@ -2,6 +2,7 @@
 // Incluir la conexión a la base de datos y el modelo ClienteModel
 require_once '../bd/conex.php';
 require_once '../model/ClienteModel.php';
+require_once 'GenerarQRController.php'; // Incluir el nuevo controlador
 
 // Comprobar el método de la solicitud
 $method = $_SERVER['REQUEST_METHOD'];
@@ -26,8 +27,17 @@ try {
         $response = [];
 
         if ($cliente->save()) {
+            // Generar el código QR
+            $qrData = [
+                'NombreClien' => $data['NombreClien'],
+                'ApellidoP' => $data['ApellidoP'],
+                'ApellidoM' => $data['ApellidoM']
+            ];
+            $qrFilePath = GenerarQRController::generarQR($qrData);
+
             $response['success'] = true;
             $response['message'] = 'Cliente creado exitosamente';
+            $response['qrCodePath'] = $qrFilePath; // Devolver la ruta del código QR
         } else {
             $response['success'] = false;
             $response['message'] = 'Error al crear el cliente';

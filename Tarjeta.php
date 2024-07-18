@@ -271,6 +271,40 @@
                 }
             });
         });
+        document.getElementById('clienteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    fetch('path/to/ClienteController.php', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar el código QR en el modal
+            const qrModal = document.getElementById('qrModal');
+            const qrImage = document.getElementById('qrImage');
+            qrImage.src = data.qrCodePath;
+            qrModal.style.display = 'block';
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+document.querySelectorAll('.close').forEach(closeButton => {
+    closeButton.onclick = function() {
+        this.parentElement.parentElement.style.display = 'none';
+    };
+});
+
+
     </script>
     
 
@@ -318,7 +352,7 @@
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Operaciones de Cobros:</h6>
-                    <a class="collapse-item" href="Nuevo_Cobro.php">Nuevo Cobro</a>
+                    <a class="collapse-item" href="Cobros_sub.php">Nuevo Cobro</a>
                     <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
                 </div>
             </div>
@@ -746,6 +780,16 @@
         </form>
     </div>
 </div>
+<!-- Modal de Código QR -->
+<div id="qrModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Código QR del Cliente</h2>
+        <img id="qrImage" src="" alt="Código QR">
+        <a id="downloadQR" download="QRCode.png">Descargar Código QR</a>
+    </div>
+</div>
+
 
                     
  
