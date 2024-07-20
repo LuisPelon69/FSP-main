@@ -15,12 +15,13 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   display: flex;
+  flex-direction: column; /* Cambiado a columna para organizar los botones verticalmente */
   justify-content: center;
   align-items: center;
   font-size: 24px;
   margin-right: 20px;
   position: relative; 
-  background-image: url('img\Logo2.3.png'); 
+  background-image: url('img/Logo2.3.png'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -31,16 +32,26 @@
 }
 
 .scan-btn {
-  position: absolute;
-  bottom: 10px; /* Ajusta este valor según el espacio necesario */
-  left: 50%;
-  transform: translateX(-50%);
   background-color: #641cbd;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 10px; /* Añadido margen inferior para separar el botón de reinicio */
+}
+
+.reset-btn {
+  background-color: #641cbd; /* Mismo color que el botón de escaneo */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #4551a0;
 }
 
 .form-container {
