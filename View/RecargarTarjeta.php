@@ -18,16 +18,16 @@
 <body>
 
 <div class="container">
-    <div class="qr-code" id="qrCodeContainer">
+    <div class="qr-code">
         <div id="reader" style="width: 100%; height: 100%;"></div>
         <button type="button" class="scan-btn" id="scan-btn">Scan QR Code</button>
     </div>
     <div class="form-container">
-        <center><h1>Recargar tarjeta</h1></center>
+        <h1>Recargar tarjeta</h1>
         <form id="recargaForm" action="controller/RecargarTarjetaController.php" method="post">
             <div class="input-field">
                 <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente" name="cliente">
+                <input type="text" id="cliente" name="cliente" readonly>
             </div>
             <div class="input-field">
                 <label for="saldo">Saldo:</label>
@@ -59,57 +59,84 @@
     </div>
 </div>
 
-<!-- Cargar scripts necesarios -->  
+<!-- Cargar scripts necesarios -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="js/sb-admin-2.min.js"></script>
 <script src="js/lib/html5-qrcode.min.js"></script>
+
+<!-- Código para manejar el escaneo del código QR -->
 <script>
     document.getElementById('scan-btn').addEventListener('click', function() {
-        // Simulación de escaneo de QR
-        let cliente = 'Juan Perez';  // Nombre del cliente obtenido del QR
+        const html5QrCode = new Html5Qrcode("reader");
 
-        $.post('controller/RecargarTarjetaController.php', { cliente: cliente }, function(data) {
-            document.getElementById('cliente').value = data.nombre;
-            document.getElementById('saldo').value = data.saldo;
-        }, 'json').fail(function() {
-            alert('Error al obtener el saldo del cliente.');
-        });
-    });
-
-$(document).ready(function() {
-    $('#recargaForm').submit(function(event) {
-        event.preventDefault();
-        let cantidad = $('#cantidad').val();
-        
-        // Validar que la cantidad ingresada es numérica
-        if (isNaN(cantidad) || cantidad.trim() === '') {
-            $('#modal-message').text('Por favor, ingrese una cantidad válida.');
-            $('#mensajeModal').modal('show');
-            return;
-        }
-        
-        $.post($(this).attr('action'), $(this).serialize(), function(response) {
-            $('#modal-message').text(response.message);
-            $('#mensajeModal').modal('show');
-            if (response.status === 'success') {
-                // Actualizar el saldo en la textbox
-                $.post('controller/RecargarTarjetaController.php', { action: 'obtenerSaldo', clienteId: $('#cliente').val() }, function(response) {
-                    if (response.status === 'success') {
-                        $('#saldo').val(response.saldo);
-                    } else {
-                        alert(response.message);
+        html5QrCode.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            qrCodeMessage => {
+                console.log("QR Code detected: ", qrCodeMessage);
+                html5QrCode.stop().then(ignore => {
+                    let clienteId = qrCodeMessage;
+                    if (clienteId) {
+                        $.post('controller/RecargarTarjetaController.php', { action: 'obtenerSaldo', clienteId: clienteId }, function(response) {
+                            if (response.status === 'success') {
+                                $('#cliente').val(clienteId);
+                                $('#saldo').val(response.saldo);
+                            } else {
+                                alert(response.message);
+                            }
+                        }, 'json').fail(function() {
+                            alert('Error al obtener el saldo del cliente.');
+                        });
                     }
-                }, 'json').fail(function() {
-                    alert('Error al obtener el saldo actualizado.');
+                }).catch(err => {
+                    console.log(err);
                 });
+            },
+            errorMessage => {
+                console.log("QR Code no match: ", errorMessage);
             }
-        }, 'json').fail(function() {
-            alert('Error al procesar la recarga.');
+        ).catch(err => {
+            console.log("Unable to start scanning.", err);
         });
     });
-});
+
+    $(document).ready(function() {
+        $('#recargaForm').submit(function(event) {
+            event.preventDefault();
+            let cantidad = $('#cantidad').val();
+            
+            // Validar que la cantidad ingresada es numérica
+            if (isNaN(cantidad) || cantidad.trim() === '') {
+                $('#modal-message').text('Por favor, ingrese una cantidad válida.');
+                $('#mensajeModal').modal('show');
+                return;
+            }
+            
+            $.post($(this).attr('action'), $(this).serialize(), function(response) {
+                $('#modal-message').text(response.message);
+                $('#mensajeModal').modal('show');
+                if (response.status === 'success') {
+                    // Actualizar el saldo en la textbox
+                    $.post('controller/RecargarTarjetaController.php', { action: 'obtenerSaldo', clienteId: $('#cliente').val() }, function(response) {
+                        if (response.status === 'success') {
+                            $('#saldo').val(response.saldo);
+                        } else {
+                            alert(response.message);
+                        }
+                    }, 'json').fail(function() {
+                        alert('Error al obtener el saldo actualizado.');
+                    });
+                }
+            }, 'json').fail(function() {
+                alert('Error al procesar la recarga.');
+            });
+        });
+    });
 </script>
 </body>
 </html>
