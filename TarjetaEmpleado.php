@@ -153,7 +153,7 @@
                 const form = document.getElementById('editForm');
     
                 // Obtener los datos del cliente seleccionado
-                fetch(`../FSP-main-2/controller/TarjetaEmpleadoController.php?id=${id}`, {
+                fetch(`../controller/TarjetaEmpleadoController.php?id=${id}`, {
                     method: 'GET'
                 })
                 .then(response => response.json())
@@ -183,7 +183,7 @@
                     Correo: form.elements['Correo'].value
                 };
     
-                fetch('../FSP-main-2/controller/TarjetaEmpleadoController.php', {
+                fetch('../controller/TarjetaEmpleadoController.php', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -230,7 +230,7 @@
                 const form = document.getElementById('deleteForm');
                 const ids = form.elements['ids'].value.split(',');
     
-                fetch('../FSP-main-2/controller/TarjetaEmpleadoController.php', {
+                fetch('../controller/TarjetaEmpleadoController.php', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -324,35 +324,14 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
-            <a class="collapse-item" href="View/TarjetaEmpleado.php">Tarjetas</a>
-            <a class="collapse-item" href="Recargar_Tarjeta.php">Recargar Tarjeta</a>
+            <a class="collapse-item" href="TarjetaEmpleado.php">Tarjetas</a>
+            <a class="collapse-item" href="#">Recargar Tarjeta</a>
         </div>
     </div>
 </li>
 
 <!-- Divider -->
 <hr class="sidebar-divider">
-
-<!-- Heading -->
-<div class="sidebar-heading">
-    Reportes y Gráficas
-</div>
-
-
-
-<!-- Nav Item - Charts -->
-<li class="nav-item">
-    <a class="nav-link" href="charts.html">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Gráficas</span></a>
-</li>
-
-<!-- Nav Item - Tables -->
-<li class="nav-item">
-    <a class="nav-link" href="tables.html">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Tablas de Datos</span></a>
-</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
@@ -583,8 +562,6 @@
                     <div class="main-container">
                         <div class="table-container">
                             <button id="add-card">Agregar Nueva Tarjeta</button>
-                            <button class="edit-button">Editar</button>
-                            <button class="delete-button">Eliminar</button>
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
@@ -653,72 +630,7 @@
             
         </div>
     </div>
-</div>
-
-
-<!-- Modal de Edición -->
-<div id="edit-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="card">
-            <strong><h1>Editar Cliente</h1></strong>
-            <form id="editForm">
-                <input type="hidden" id="editId" name="id">
-                
-                <div>
-                    <label for="editNombre">Nombre:</label>
-                    <input type="text" id="editNombre" name="NombreClien">
-                    <span id="error-editNombre"></span>
-                </div>
-                
-                <div>
-                    <label for="editApellidoP">Apellido Paterno:</label>
-                    <input type="text" id="editApellidoP" name="ApellidoP">
-                    <span id="error-editApellidoP"></span>
-                </div>
-                
-                <div>
-                    <label for="editApellidoM">Apellido Materno:</label>
-                    <input type="text" id="editApellidoM" name="ApellidoM">
-                    <span id="error-editApellidoM"></span>
-                </div>
-                
-                <div>
-                    <label for="editTelefono">Teléfono:</label>
-                    <input type="text" id="editTelefono" name="Telefono">
-                    <span id="error-editTelefono"></span>
-                </div>
-                
-                <div>
-                    <label for="editCorreo">Correo:</label>
-                    <input type="email" id="editCorreo" name="Correo">
-                    <span id="error-editCorreo"></span>
-                </div>
-            
-                <button id="editSave">Guardar Cambios</button>
-                <button id="editCancel">Cancelar</button>
-            </form>
-            
-        </div>
-    </div>
-</div>
-
-
-            
-<!-- Modal de Eliminación -->
-<div id="delete-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Confirmar Eliminación</h2>
-        <p>¿Estás seguro de que deseas eliminar <span id="delete-count"></span> registros seleccionados?</p>
-        <form id="deleteForm">
-            <input type="hidden" name="ids" id="delete-ids">
-            <button id="deleteConfirm" type="submit">Confirmar</button>
-        </form>
-    </div>
-</div>
-
-                    
+</div>                    
  
                 <!-- /.container-fluid -->
 

@@ -66,43 +66,17 @@
 <script src="js/sb-admin-2.min.js"></script>
 <script src="js/lib/html5-qrcode.min.js"></script>
 <script>
-document.getElementById('scan-btn').addEventListener('click', function() {
-    const html5QrCode = new Html5Qrcode("reader");
+    document.getElementById('scan-btn').addEventListener('click', function() {
+        // Simulación de escaneo de QR
+        let cliente = 'Juan Perez';  // Nombre del cliente obtenido del QR
 
-    html5QrCode.start(
-        { facingMode: "environment" },
-        {
-            fps: 10,
-            qrbox: 250
-        },
-        qrCodeMessage => {
-            console.log("QR Code detected: ", qrCodeMessage);
-            html5QrCode.stop().then(ignore => {
-                let clienteId = qrCodeMessage;
-                if (clienteId) {
-                    $.post('controller/RecargarTarjetaController.php', { action: 'obtenerSaldo', clienteId: clienteId }, function(response) {
-                        if (response.status === 'success') {
-                            $('#cliente').val(clienteId);
-                            $('#saldo').val(response.saldo);
-                            document.getElementById('qrCodeContainer').classList.add('active'); // Ocultar imagen de fondo
-                        } else {
-                            alert(response.message);
-                        }
-                    }, 'json').fail(function() {
-                        alert('Error al obtener el saldo del cliente.');
-                    });
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-        },
-        errorMessage => {
-            console.log("QR Code no match: ", errorMessage);
-        }
-    ).catch(err => {
-        console.log("Unable to start scanning.", err);
+        $.post('controller/RecargarTarjetaController.php', { cliente: cliente }, function(data) {
+            document.getElementById('cliente').value = data.nombre;
+            document.getElementById('saldo').value = data.saldo;
+        }, 'json').fail(function() {
+            alert('Error al obtener el saldo del cliente.');
+        });
     });
-});
 
 $(document).ready(function() {
     $('#recargaForm').submit(function(event) {

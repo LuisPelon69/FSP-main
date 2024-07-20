@@ -1,14 +1,14 @@
 <?php
 // Incluir la conexión a la base de datos y el modelo ClienteModel
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bd' . DIRECTORY_SEPARATOR . 'conex.php';
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'ClienteModel.php';
+require_once '../bd/conex.php';
+require_once '../model/ClienteModel.php';
 
 // Comprobar el método de la solicitud
 $method = $_SERVER['REQUEST_METHOD'];
 
 try {
     if ($method === 'POST') {
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = json_decode(file_get_contents('php://input'), true);//uhnybyb
 
         if (!isset($data['NombreClien'], $data['ApellidoP'], $data['ApellidoM'], $data['Telefono'], $data['Correo'], $data['passwClien'])) {
             echo json_encode(['error' => 'Datos incompletos para crear el cliente']);
@@ -26,8 +26,17 @@ try {
         $response = [];
 
         if ($cliente->save()) {
+            // Generar el código QR
+            $qrData = [
+                'NombreClien' => $data['NombreClien'],
+                'ApellidoP' => $data['ApellidoP'],
+                'ApellidoM' => $data['ApellidoM']
+            ];
+            $qrFilePath = GenerarQRController::generarQR($qrData);
+
             $response['success'] = true;
             $response['message'] = 'Cliente creado exitosamente';
+            $response['qrCodePath'] = $qrFilePath; // Devolver la ruta del código QR
         } else {
             $response['success'] = false;
             $response['message'] = 'Error al crear el cliente';
