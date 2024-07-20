@@ -5,6 +5,7 @@ class ClienteModel {
     private $conn;
     private $table_name = "cliente";
     public $idClien;
+    public $idStatus;
     public $NombreClien;
     public $ApellidoP;
     public $ApellidoM;
@@ -20,6 +21,10 @@ class ClienteModel {
 
     public function setIdClien($idClien) {
         $this->idClien = $idClien;
+    }
+
+    public function setIdStatus($idStatus) {
+        $this->idStatus = $idStatus;
     }
 
     public function setNombreClien($NombreClien) {
