@@ -13,7 +13,7 @@ class GenerarQRController {
         
         $filename = '../qrcodes/' . uniqid() . '.png';
         $result->saveToFile($filename);
-        
+
         return $filename;
     }
 }

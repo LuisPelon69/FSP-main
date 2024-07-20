@@ -717,6 +717,7 @@
                             <button id="add-card">Agregar Nueva Tarjeta</button>
                             <button class="edit-button">Editar</button>
                             <button class="delete-button">Eliminar</button>
+                            <button class="VerQR-button">Ver QR</button>    
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
@@ -886,7 +887,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../FSP-main-2/js/sb-admin-2.min.js"></script>
-    <script src="../FSP-main-2/js/tarjetas_js/altas_tarjetas.js"></script> <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-1" para que tome las rutas correctamente.-->
+    <script src="../FSP-main-2/js/tarjetas_js/altas_tarjetas.js"></script> <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-2" para que tome las rutas correctamente.-->
     
     </div>
 </body>

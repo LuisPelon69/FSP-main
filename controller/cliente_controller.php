@@ -1,7 +1,7 @@
 <?php
 // Incluir la conexión a la base de datos y el modelo ClienteModel
-require_once '../bd/conex.php';
-require_once '../model/ClienteModel.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bd' . DIRECTORY_SEPARATOR . 'conex.php';
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'ClienteModel.php';
 
 // Comprobar el método de la solicitud
 $method = $_SERVER['REQUEST_METHOD'];
