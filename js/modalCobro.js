@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const modal = bootstrap.Modal.getInstance(document.getElementById('propiedadesPapelModal'));
             modal.hide();
         } else {
-            alert('Por favor, completa todos los campos en el modal.');
+            alert('Por favor, completa todos los campos en propiedades.');
         }
     });
 

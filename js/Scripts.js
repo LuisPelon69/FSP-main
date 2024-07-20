@@ -1,24 +1,3 @@
-$(document).ready(function() {
-    // Evento para abrir el modal de registro desde el modal de login
-    $('#linkRegistro').on('click', function(event) {
-        event.preventDefault();
-
-        // Cerrar el modal de login
-        $('#loginModal').modal('hide');
-
-        // Abrir el modal de registro después de que el modal de login se haya cerrado
-        $('#loginModal').on('hidden.bs.modal', function () {
-            $('#ModalRegistro').modal('show');
-            // Remover el evento de cierre del modal de registro
-            $('#ModalRegistro').off('hidden.bs.modal');
-        });
-    });
-
-    // Evento para limpiar el formulario del modal de registro cuando se cierra
-    $('#ModalRegistro').on('hidden.bs.modal', function () {
-        $(this).find('form')[0].reset();
-    });
-});
 
 //(Hay un pedo con los modales login y registro)
 

@@ -1,104 +1,219 @@
-<!--Aqui empezaron los problemas pero fue uno que otro link, despues de este checa el Sidebar.php para que veas la otra falla-->
-<!-- Menu-Gestionar.php -->
-<!-- Custom fonts for this template-->
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="es">
 
-<!-- Custom styles for this template-->
-<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz Administrativa</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-<div id="content">
-    <div class="container-fluid">
-        <h1 class="h3 mb-1 text-gray-800">En este apartado usted puede ver una vista previa</h1>
-        <p class="mb-4">aquí debe ir alguna información sobre las tablas o unas pequeñas gráficas.
-            <br>
-            la información semanal
-            a la vanguardia de la compra y venta.
-        </p>
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/tarjeta.css">
+    <link href="css/stylesCobro.css" rel="stylesheet">
+    <link href="css\Stylegestionar.css" rel="stylesheet">
+    <style>
+        /* Estilo personalizado para centrar el modal horizontalmente */
+        .modal-dialog {
+            display: flex;
+            justify-content: center;
+            margin: auto;
+        }
+    </style>
+</head>
 
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card position-relative">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Grow In Animation Utilty</h6>
+<body id="page-top">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800"></h1>
+                </div>
+
+                <div class="content">
+                    <!-- Tabla con filas que tienen íconos para editar, guardar y eliminar -->
+                    <div class="mt-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Lote</th>
+                                    <th>Cantidad de Hojas</th>
+                                    <th>Duplex</th>
+                                    <th>Tamaño Papel</th>
+                                    <th>Tipo de Papel</th>
+                                    <th>Tipo de Impresión</th>
+                                    <th>Total</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>500</td>
+                                    <td>Sí</td>
+                                    <td>A4</td>
+                                    <td>Bond</td>
+                                    <td>Color</td>
+                                    <td>$200.00</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn edit-row"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-danger delete-row"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Repite las filas según sea necesario -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <code>.animated--grow-in</code>
-                        </div>
-                        <div class="small mb-1">Navbar Dropdown Example:</div>
-                        <nav class="navbar navbar-expand navbar-light bg-light mb-4">
-                            <a class="navbar-brand" href="#">Navbar</a>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Dropdown
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </li>
+                    <div class="right-pane">
+                        <!-- Botón de Gestionar Tabla centrado y convertido en un dropdown -->
+                        <div class="dropdown centered-button">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Gestionar Tabla
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="#">Gestionar Empleado</a></li>
+                                <li><a class="dropdown-item" href="#">Gestionar Productos</a></li>
+                                <li><a class="dropdown-item" href="#">Gestionar Proveedores</a></li>
+                                <li><a class="dropdown-item" href="#">Gestionar Tarjetas</a></li>
                             </ul>
-                        </nav>
-                        <p class="mb-0 small">Note: This utility animates the CSS transform property, meaning it will override any existing transforms on an element being animated! In this theme, the grow in animation is only being used on dropdowns within the navbar.</p>
+                        </div>
                     </div>
                 </div>
+                
             </div>
+        </div>
+    </div>
 
-            <div class="col-lg-6">
-                <div class="card position-relative">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Fade In Animation Utilty</h6>
-                    </div>
-                    <div class="card-body">
+    <!-- Modal para Editar -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Fila</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
                         <div class="mb-3">
-                            <code>.animated--fade-in</code>
+                            <label for="lote" class="form-label">Lote</label>
+                            <input type="text" class="form-control" id="lote" required>
                         </div>
-                        <div class="small mb-1">Navbar Dropdown Example:</div>
-                        <nav class="navbar navbar-expand navbar-light bg-light mb-4">
-                            <a class="navbar-brand" href="#">Navbar</a>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Dropdown
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right animated--fade-in" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </nav>
-                        <div class="small mb-1">Dropdown Button Example:</div>
-                        <div class="dropdown mb-4">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown
-                            </button>
-                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
+                        <div class="mb-3">
+                            <label for="cantidad" class="form-label">Cantidad de Hojas</label>
+                            <input type="text" class="form-control" id="cantidad" required>
                         </div>
-                        <p class="mb-0 small">Note: This utility animates the CSS opacity property, meaning it will override any existing opacity on an element being animated!</p>
-                    </div>
+                        <div class="mb-3">
+                            <label for="duplex" class="form-label">Duplex</label>
+                            <input type="text" class="form-control" id="duplex" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tamano" class="form-label">Tamaño Papel</label>
+                            <input type="text" class="form-control" id="tamano" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="papel" class="form-label">Tipo de Papel</label>
+                            <input type="text" class="form-control" id="papel" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="impresion" class="form-label">Tipo de Impresión</label>
+                            <input type="text" class="form-control" id="impresion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="total" class="form-label">Total</label>
+                            <input type="text" class="form-control" id="total" required>
+                        </div>
+                        <button type="button" id="saveChanges" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <script src="js/modalCobro.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Manejar el evento de clic en el botón de Editar
+            document.querySelectorAll('.edit-row').forEach(button => {
+                button.addEventListener('click', function () {
+                    const row = this.closest('tr');
+                    const cells = row.querySelectorAll('td');
 
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+                    // Llenar el formulario del modal con los datos actuales de la fila
+                    document.getElementById('lote').value = cells[0].textContent;
+                    document.getElementById('cantidad').value = cells[1].textContent;
+                    document.getElementById('duplex').value = cells[2].textContent;
+                    document.getElementById('tamano').value = cells[3].textContent;
+                    document.getElementById('papel').value = cells[4].textContent;
+                    document.getElementById('impresion').value = cells[5].textContent;
+                    document.getElementById('total').value = cells[6].textContent;
+
+                    // Guardar el índice de la fila en un atributo de datos
+                    document.getElementById('saveChanges').setAttribute('data-row-index', row.rowIndex - 1);
+
+                    // Mostrar el modal
+                    var myModal = new bootstrap.Modal(document.getElementById('editModal'));
+                    myModal.show();
+                });
+            });
+
+            // Manejar el evento de clic en el botón de Guardar Cambios
+            document.getElementById('saveChanges').addEventListener('click', function () {
+                const rowIndex = this.getAttribute('data-row-index');
+                const row = document.querySelector(`table tbody tr:nth-child(${parseInt(rowIndex) + 1})`);
+                const cells = row.querySelectorAll('td');
+
+                // Obtener valores del formulario
+                const lote = document.getElementById('lote').value;
+                const cantidad = document.getElementById('cantidad').value;
+                const duplex = document.getElementById('duplex').value;
+                const tamano = document.getElementById('tamano').value;
+                const papel = document.getElementById('papel').value;
+                const impresion = document.getElementById('impresion').value;
+                const total = document.getElementById('total').value;
+
+                // Actualizar la fila con los nuevos datos
+                cells[0].textContent = lote;
+                cells[1].textContent = cantidad;
+                cells[2].textContent = duplex;
+                cells[3].textContent = tamano;
+                cells[4].textContent = papel;
+                cells[5].textContent = impresion;
+                cells[6].textContent = total;
+
+                // Cerrar el modal
+                var myModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+                myModal.hide();
+
+                // Aquí puedes agregar lógica para enviar los cambios al servidor si es necesario
+                // Ejemplo: sendUpdateToServer(row);
+            });
+
+            // Funcionalidad de eliminar fila
+            document.querySelectorAll('.delete-row').forEach(button => {
+                button.addEventListener('click', function () {
+                    if (confirm('¿Estás seguro de que deseas eliminar esta fila?')) {
+                        this.closest('tr').remove();
+                    }
+                });
+            });
+
+            // Función de ejemplo para enviar los cambios al servidor
+            function sendUpdateToServer(row) {
+                // Aquí iría la lógica para enviar los datos al servidor
+                console.log("Enviar cambios al servidor");
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -504,6 +504,49 @@
                     cerrarModalEdicion();
                 }
             });
+<<<<<<< HEAD
+=======
+        });
+<<<<<<< HEAD
+        document.getElementById('clienteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    fetch('path/to/ClienteController.php', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar el código QR en el modal
+            const qrModal = document.getElementById('qrModal');
+            const qrImage = document.getElementById('qrImage');
+            qrImage.src = data.qrCodePath;
+            qrModal.style.display = 'block';
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+document.querySelectorAll('.close').forEach(closeButton => {
+    closeButton.onclick = function() {
+        this.parentElement.parentElement.style.display = 'none';
+    };
+});
+
+
+    </script>
+    
+=======
+>>>>>>> 964b71e0afa411e29d89bfcfcb13d38528e257b2
+>>>>>>> b939bf45ebabd23a9363b4d66a81602e0eed0016
 
             document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
             document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
@@ -564,10 +607,49 @@
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
+<<<<<<< HEAD
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="Admin.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
+=======
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="Admin.php">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">FSP Admin<sup>©</sup></div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="Admin.php">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Panel de Gestión</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Interfaz de Administración
+        </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                aria-expanded="true" aria-controls="collapseThree">
+                <i class="fas fa-fw fa-money-bill"></i>
+                <span>Cobros</span>
+            </a>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Operaciones de Cobros:</h6>
+                    <a class="collapse-item" href="Cobros_sub.php">Nuevo Cobro</a>
+                    <a class="collapse-item" href="Historial_Cobros.php">Historial de Cobros</a>
+>>>>>>> b939bf45ebabd23a9363b4d66a81602e0eed0016
                 </div>
                 <div class="sidebar-brand-text mx-3">FSP Admin<sup>©</sup></div>
             </a>
@@ -873,6 +955,7 @@
                             <button id="add-card">Agregar Nueva Tarjeta</button>
                             <button class="edit-button">Editar</button>
                             <button class="delete-button">Eliminar</button>
+                            <button class="VerQR-button">Ver QR</button>    
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
@@ -1012,7 +1095,64 @@
                     <!-- /.container-fluid -->
 
                 </div>
+<<<<<<< HEAD
                 <!-- End of Main Content -->
+=======
+                
+                <div>
+                    <label for="editApellidoP">Apellido Paterno:</label>
+                    <input type="text" id="editApellidoP" name="ApellidoP">
+                    <span id="error-editApellidoP"></span>
+                </div>
+                
+                <div>
+                    <label for="editApellidoM">Apellido Materno:</label>
+                    <input type="text" id="editApellidoM" name="ApellidoM">
+                    <span id="error-editApellidoM"></span>
+                </div>
+                
+                <div>
+                    <label for="editTelefono">Teléfono:</label>
+                    <input type="text" id="editTelefono" name="Telefono">
+                    <span id="error-editTelefono"></span>
+                </div>
+                
+                <div>
+                    <label for="editCorreo">Correo:</label>
+                    <input type="email" id="editCorreo" name="Correo">
+                    <span id="error-editCorreo"></span>
+                </div>
+            
+                <button id="editSave" type="submit">Guardar Cambios</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Eliminación -->
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Confirmar Eliminación</h2>
+        <p>¿Estás seguro de que deseas eliminar <span id="delete-count"></span> registros seleccionados?</p>
+        <form id="deleteForm">
+            <input type="hidden" name="ids" id="delete-ids">
+            <button id="deleteConfirm" type="submit">Confirmar</button>
+        </form>
+    </div>
+</div>
+<!-- Modal de Código QR -->
+<div id="qrModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Código QR del Cliente</h2>
+        <img id="qrImage" src="" alt="Código QR">
+        <a id="downloadQR" download="QRCode.png">Descargar Código QR</a>
+    </div>
+</div>
+
+>>>>>>> b939bf45ebabd23a9363b4d66a81602e0eed0016
 
 
 
@@ -1048,6 +1188,13 @@
         <script src="../FSP-main-2/js/sb-admin-2.min.js"></script>
         <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-1" para que tome las rutas correctamente.-->
 
+<<<<<<< HEAD
+=======
+    <!-- Custom scripts for all pages-->
+    <script src="../FSP-main-2/js/sb-admin-2.min.js"></script>
+    <script src="../FSP-main-2/js/tarjetas_js/altas_tarjetas.js"></script> <!--Cuando se metan a View o a cualquier otra carpeta a TODAS las rutas se le elimina el "/FSP-main-2" para que tome las rutas correctamente.-->
+    
+>>>>>>> b939bf45ebabd23a9363b4d66a81602e0eed0016
     </div>
 </body>
 
