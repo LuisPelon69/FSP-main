@@ -226,6 +226,7 @@
 </head>
 
 <body id="page-top">
+<<<<<<< HEAD
 
     <!-- Page Heading -->
     <div class="main-container">
@@ -247,6 +248,17 @@
                         </div>
                     </div>
                 </form>
+=======
+<!-- Page Heading -->
+<div class="main-container">
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <button id="add-card">Agregar Nueva Tarjeta</button>
+                <button id="view-qr" class="QR">Ver QR</button>
+                <button class="edit-button">Editar</button>
+                <button class="delete-button">Eliminar</button>
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
             </div>
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -294,6 +306,7 @@
             </div>
         </div>
     </div>
+
 
 
     <!-- Modal de Altas-->
@@ -453,14 +466,15 @@
 
     <script src="js\qrcode.min.js"></script>
     <!-- Bootstrap core JavaScript-->
-    <script src="./vendor/jquery/jquery.min.js"></script>
-    <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor\jquery\jquery.min.js"></script>
+    <script src="vendor\bootstrap\js\bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor\jquery-easing\jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="./js/sb-admin-2.min.js"></script>
+    <script src="js\sb-admin-2.min.js"></script>
     <!-- Incluye tus scripts al final del body -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<<<<<<< HEAD
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function fetchClientes() {
@@ -476,6 +490,256 @@
                         populateTable(data);
                     })
                     .catch(error => console.error('Error:', error));
+=======
+  
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function fetchClientes() {
+            fetch('../FSP-main-2/controller/cliente_controller.php', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data || data.error) {
+                    console.error('Error al obtener clientes:', data.error);
+                    return;
+                }
+                populateTable(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function populateTable(data) {
+            let table = document.querySelector("table tbody");
+            table.innerHTML = ''; // Limpiar la tabla antes de llenarla
+            data.forEach(cliente => {
+                let row = table.insertRow();
+                row.setAttribute('data-id', cliente.idClien);
+
+                // Checkbox con la ID del cliente como valor
+                let cellCheckbox = row.insertCell(0);
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('select-checkbox');
+                checkbox.value = cliente.idClien;
+                cellCheckbox.appendChild(checkbox);
+
+                // Nombre completo
+                let cellNombre = row.insertCell(1);
+                cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
+
+                // Saldo
+                let cellSaldo = row.insertCell(2);
+                cellSaldo.textContent = `$ ${cliente.Saldo}`;
+
+                // Correo
+                let cellCorreo = row.insertCell(3);
+                cellCorreo.textContent = cliente.Correo;
+
+                // Teléfono
+                let cellTelefono = row.insertCell(4);
+                cellTelefono.textContent = cliente.Telefono;
+            });
+            updateButtonState();
+        }
+
+        function updateButtonState() {
+            const checkboxes = document.querySelectorAll('.select-checkbox:checked');
+            const addButton = document.getElementById('add-card');
+            const editButton = document.querySelector('.edit-button');
+            const deleteButton = document.querySelector('.delete-button');
+            const viewQrButton = document.getElementById('view-qr');
+
+            if (checkboxes.length === 0) {
+                addButton.classList.remove('disabled');
+                addButton.disabled = false;
+
+                editButton.classList.add('disabled');
+                editButton.disabled = true;
+
+                deleteButton.classList.add('disabled');
+                deleteButton.disabled = true;
+
+                viewQrButton.classList.add('disabled');
+                viewQrButton.disabled = true;
+            } else if (checkboxes.length === 1) {
+                addButton.classList.add('disabled');
+                addButton.disabled = true;
+
+                editButton.classList.remove('disabled');
+                editButton.disabled = false;
+
+                deleteButton.classList.remove('disabled');
+                deleteButton.disabled = false;
+
+                viewQrButton.classList.remove('disabled');
+                viewQrButton.disabled = false;
+            } else {
+                addButton.classList.add('disabled');
+                addButton.disabled = true;
+
+                editButton.classList.add('disabled');
+                editButton.disabled = true;
+
+                deleteButton.classList.remove('disabled');
+                deleteButton.disabled = false;
+
+                viewQrButton.classList.add('disabled');
+                viewQrButton.disabled = true;
+            }
+        }
+
+        function filterTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            rows.forEach(row => {
+                const name = row.cells[1].textContent.toLowerCase();
+                if (name.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterTable);
+
+        const NombreClien = document.getElementById('NombreClien');
+        const ApellidoP = document.getElementById('ApellidoP');
+        const ApellidoM = document.getElementById('ApellidoM');
+        const Telefono = document.getElementById('Telefono');
+        const Correo = document.getElementById('Correo');
+        const passwClien = document.getElementById('passwClien');
+        const confirmPassword = document.getElementById('confirm-passwClien');
+        const modal = document.getElementById('modal');
+        const saveButton = document.getElementById('save');
+        const closeButton = document.querySelector('.close');
+        const tableBody = document.querySelector('table tbody');
+
+        function validarNombres(value) {
+            const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+            return regex.test(value);
+        }
+
+        function validarTelefono(value) {
+            const regex = /^\d{10}$/;
+            return regex.test(value);
+        }
+
+        function validarCorreo(value) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(value);
+        }
+
+        function validarContrasena(value) {
+            const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
+            return regex.test(value);
+        }
+
+        function mostrarError(elemento, mensaje) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = mensaje;
+            errorElemento.style.color = 'red';
+        }
+
+        function limpiarError(elemento) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = '';
+        }
+
+        function abrirModal() {
+            modal.style.display = 'block';
+        }
+
+        function cerrarModal() {
+            modal.style.display = 'none';
+        }
+
+        NombreClien.addEventListener('input', function() {
+            if (!validarNombres(NombreClien.value.trim())) {
+                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+            } else {
+                limpiarError(NombreClien);
+            }
+        });
+
+        ApellidoP.addEventListener('input', function() {
+            if (!validarNombres(ApellidoP.value.trim())) {
+                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
+            } else {
+                limpiarError(ApellidoP);
+            }
+        });
+
+        ApellidoM.addEventListener('input', function() {
+            if (!validarNombres(ApellidoM.value.trim())) {
+                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
+            } else {
+                limpiarError(ApellidoM);
+            }
+        });
+
+        Telefono.addEventListener('input', function() {
+            if (!validarTelefono(Telefono.value.trim())) {
+                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+            } else {
+                limpiarError(Telefono);
+            }
+        });
+
+        Correo.addEventListener('input', function() {
+            if (!validarCorreo(Correo.value.trim())) {
+                mostrarError(Correo, 'Ingrese un correo electrónico válido');
+            } else {
+                limpiarError(Correo);
+            }
+        });
+
+        passwClien.addEventListener('input', function() {
+            if (!validarContrasena(passwClien.value.trim())) {
+                mostrarError(passwClien, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un carácter especial y un número');
+            } else {
+                limpiarError(passwClien);
+            }
+        });
+
+        confirmPassword.addEventListener('input', function() {
+            const passwordValue = passwClien.value.trim();
+            const confirmPasswordValue = confirmPassword.value.trim();
+            if (passwordValue !== confirmPasswordValue) {
+                mostrarError(confirmPassword, 'Las contraseñas no coinciden');
+            } else {
+                limpiarError(confirmPassword);
+            }
+        });
+
+        document.getElementById('add-card').addEventListener('click', abrirModal);
+
+        document.getElementById('cancel-button').addEventListener('click', function() {
+            cerrarModal();
+        });
+
+        closeButton.addEventListener('click', cerrarModal);
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        });
+
+        saveButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            if (!validarNombres(NombreClien.value.trim()) ||
+                !validarNombres(ApellidoP.value.trim()) ||
+                !validarNombres(ApellidoM.value.trim()) ||
+                !validarTelefono(Telefono.value.trim()) ||
+                !validarCorreo(Correo.value.trim()) ||
+                !validarContrasena(passwClien.value.trim()) ||
+                passwClien.value.trim() !== confirmPassword.value.trim()) {
+                alert('Por favor corrija los campos antes de guardar.');
+                return;
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
             }
 
             function populateTable(data) {
@@ -493,6 +757,7 @@
                     checkbox.value = cliente.idClien;
                     cellCheckbox.appendChild(checkbox);
 
+<<<<<<< HEAD
                     // Nombre completo
                     let cellNombre = row.insertCell(1);
                     cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
@@ -509,6 +774,10 @@
                     let cellTelefono = row.insertCell(4);
                     cellTelefono.textContent = cliente.Telefono;
                 });
+=======
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('select-checkbox')) {
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
                 updateButtonState();
             }
 
@@ -774,6 +1043,7 @@
                 }
             });
 
+<<<<<<< HEAD
             document.getElementById('cancelEdit-button').addEventListener('click', function() {
                 cerrarModalEdicion();
             });
@@ -882,6 +1152,15 @@
                 if (!validarNombres(NombreClien.value.trim())) {
                     mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
                     return;
+=======
+        function validarCampoEnTiempoReal(event) {
+            const elemento = event.target;
+            const valor = elemento.value.trim();
+
+            if (elemento.id === 'NombreClien' || elemento.id === 'ApellidoP' || elemento.id === 'ApellidoM') {
+                if (!validarNombres(valor)) {
+                    mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
                 } else {
                     limpiarError(NombreClien);
                 }
@@ -900,9 +1179,85 @@
                     limpiarError(ApellidoM);
                 }
 
+<<<<<<< HEAD
                 if (!validarTelefono(Telefono.value.trim())) {
                     mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
                     return;
+=======
+        document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
+        document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
+
+        document.getElementById('editSave').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('editForm');
+            const NombreClien = form.elements['NombreClien'];
+            const ApellidoP = form.elements['ApellidoP'];
+            const ApellidoM = form.elements['ApellidoM'];
+            const Telefono = form.elements['Telefono'];
+            const Correo = form.elements['Correo'];
+
+            if (!validarNombres(NombreClien.value.trim())) {
+                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(NombreClien);
+            }
+
+            if (!validarNombres(ApellidoP.value.trim())) {
+                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(ApellidoP);
+            }
+
+            if (!validarNombres(ApellidoM.value.trim())) {
+                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(ApellidoM);
+            }
+
+            if (!validarTelefono(Telefono.value.trim())) {
+                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+                return;
+            } else {
+                limpiarError(Telefono);
+            }
+
+            if (!validarCorreo(Correo.value.trim())) {
+                mostrarError(Correo, 'Ingrese un correo electrónico válido');
+                return;
+            } else {
+                limpiarError(Correo);
+            }
+
+            const data = {
+                idClien: form.elements['id'].value,
+                NombreClien: NombreClien.value,
+                ApellidoP: ApellidoP.value,
+                ApellidoM: ApellidoM.value,
+                Telefono: Telefono.value,
+                Correo: Correo.value
+            };
+
+            fetch('../FSP-main-2/controller/cliente_controller.php', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
                 } else {
                     limpiarError(Telefono);
                 }
@@ -957,6 +1312,7 @@
                 }
             });
 
+<<<<<<< HEAD
             document.getElementById('deleteForm').addEventListener('submit', function(event) {
                 event.preventDefault();
 
@@ -991,6 +1347,10 @@
                         alert('Ocurrió un error: ' + error.message);
                     });
             });
+=======
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
 
             document.querySelector('#delete-modal .close').addEventListener('click', function() {
                 document.getElementById('delete-modal').style.display = 'none';
@@ -1069,11 +1429,31 @@
         });
     </script>
 
+<<<<<<< HEAD
     <style>
         .modal-body {
             display: flex;
             justify-content: center;
             align-items: center;
+=======
+        document.getElementById('close-modal').addEventListener('click', function() {
+            $('#qrModal').modal('hide');
+        });
+
+        fetchClientes(); // Asegúrate de llamar a esta función después de definir todas las demás funciones
+    });
+
+    $('#togglePassword').click(function() {
+        var passwordField = $('#passwClien');
+        var fieldType = passwordField.attr('type');
+
+        if (fieldType === 'password') {
+            passwordField.attr('type', 'text');
+            $('#eyeIcon').removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordField.attr('type', 'password');
+            $('#eyeIcon').removeClass('fa-eye-slash').addClass('fa-eye');
+>>>>>>> 3200d283d37a940b8aea6e15f1578f48f007e15e
         }
 
         #qrcode {
