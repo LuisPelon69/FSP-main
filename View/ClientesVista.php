@@ -500,7 +500,7 @@
 
                     // Saldo
                     let cellSaldo = row.insertCell(2);
-                    cellSaldo.textContent = $ `${cliente.Saldo}`;
+                    cellSaldo.textContent = `$ ${cliente.Saldo}`;
 
                     // Correo
                     let cellCorreo = row.insertCell(3);

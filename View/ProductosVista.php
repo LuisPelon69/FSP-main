@@ -230,13 +230,14 @@
     <div class="main-container">
         <div class="d-flex justify-content-end mb-3">
             <select id="productTypeSelect" class="form-control" style="width: 200px;">
-                <option value="Tamaño de Papel">Tamaño de Papel</option>
-                <option value="Tipo de Papel">Tipo de Papel</option>
-                <option value="Tipo de Impresión">Tipo de Impresión</option>
+                <option value="tamañoPapel">Tamaño de Papel</option>
+                <option value="tipoPapel">Tipo de Papel</option>
+                <option value="tipoImpresion">Tipo de Impresión</option>
             </select>
         </div>
 
-        <div class="table-container">
+        <!-- Contenedores -->
+        <div id="tamañoPapelContainer" class="table-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
                     <button id="add-card">Agregar Nuevo Tamaño de Papel</button>
@@ -245,7 +246,7 @@
                 </div>
                 <form class="d-none d-sm-inline-block form-inline">
                     <div class="input-group">
-                        <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
+                        <input type="text" id="searchInputTA" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
                                 <i class="fas fa-search fa-sm"></i>
@@ -260,7 +261,91 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTableTA" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>SELECCIONAR</th>
+                                    <th>Nombre</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Fecha de Última Modificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas se añadirán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tipoPapelContainer" class="table-container" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <button id="add-card">Agregar Nuevo Tipo de Papel</button>
+                    <button class="edit-button">Editar</button>
+                    <button class="delete-button">Eliminar</button>
+                </div>
+                <form class="d-none d-sm-inline-block form-inline">
+                    <div class="input-group">
+                        <input type="text" id="searchInputTP" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tipos de Papel</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTableTP" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>SELECCIONAR</th>
+                                    <th>Nombre</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Fecha de Última Modificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas se añadirán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tipoImpresionContainer" class="table-container" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <button id="add-card">Agregar Nuevo Tipo de Impresión</button>
+                    <button class="edit-button">Editar</button>
+                    <button class="delete-button">Eliminar</button>
+                </div>
+                <form class="d-none d-sm-inline-block form-inline">
+                    <div class="input-group">
+                        <input type="text" id="searchInputTI" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tipos de Impresión</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTableTI" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>SELECCIONAR</th>
@@ -279,96 +364,7 @@
         </div>
     </div>
 
-    <div class="table-container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <button id="add-card">Agregar Nuevo Tipo de Papel</button>
-                <button class="edit-button">Editar</button>
-                <button class="delete-button">Eliminar</button>
-            </div>
-            <form class="d-none d-sm-inline-block form-inline">
-                <div class="input-group">
-                    <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tipos de Papel</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>SELECCIONAR</th>
-                                <th>Nombre</th>
-                                <th>Precio Unitario</th>
-                                <th>Fecha de Última Modificación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Las filas se añadirán dinámicamente con JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-    <div class="table-container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <button id="add-card">Agregar Nuevo Tipo de Impresión</button>
-                <button class="edit-button">Editar</button>
-                <button class="delete-button">Eliminar</button>
-            </div>
-            <form class="d-none d-sm-inline-block form-inline">
-                <div class="input-group">
-                    <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tipos de Impresión</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>SELECCIONAR</th>
-                                <th>Nombre</th>
-                                <th>Precio Unitario</th>
-                                <th>Fecha de Última Modificación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Las filas se añadirán dinámicamente con JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-
-    <!-- Modal de Altas-->
+    <!-- Modales -->
     <div id="modalTA" class="modal">
         <div class="modal-content">
             <div class="card">
@@ -378,17 +374,15 @@
             </div>
             <form class="form-container" id="addFormTA">
                 <div class="form-group">
-                    <label for="NombreProducto">Nombre:</label>
+                    <label for="NombreProductoTA">Nombre:</label>
                     <input type="text" id="NombreProductoTA" name="NombreProductoTA">
                     <span id="error-NombreProductoTA"></span><br>
                 </div>
-
                 <div class="form-group">
-                    <label for="PrecioUnitario">Precio Unitario:</label>
+                    <label for="PrecioUnitarioTA">Precio Unitario:</label>
                     <input type="text" id="PrecioUnitarioTA" name="PrecioUnitarioTA">
                     <span id="error-PrecioUnitarioTA"></span><br>
                 </div>
-
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonTA">Cancelar</button>
                     <button type="submit" class="submit" id="saveTA">Agregar Tamaño de Papel</button>
@@ -397,8 +391,7 @@
         </div>
     </div>
 
-        <!-- Modal de Altas-->
-        <div id="modalTP" class="modal">
+    <div id="modalTP" class="modal">
         <div class="modal-content">
             <div class="card">
                 <strong>
@@ -407,17 +400,15 @@
             </div>
             <form class="form-container" id="addFormTP">
                 <div class="form-group">
-                    <label for="NombreProducto">Nombre:</label>
+                    <label for="NombreProductoTP">Nombre:</label>
                     <input type="text" id="NombreProductoTP" name="NombreProductoTP">
                     <span id="error-NombreProductoTP"></span><br>
                 </div>
-
                 <div class="form-group">
-                    <label for="PrecioUnitario">Precio Unitario:</label>
+                    <label for="PrecioUnitarioTP">Precio Unitario:</label>
                     <input type="text" id="PrecioUnitarioTP" name="PrecioUnitarioTP">
                     <span id="error-PrecioUnitarioTP"></span><br>
                 </div>
-
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonTP">Cancelar</button>
                     <button type="submit" class="submit" id="saveTP">Agregar Tipo de Papel</button>
@@ -426,17 +417,16 @@
         </div>
     </div>
 
-
     <div id="modalTI" class="modal">
         <div class="modal-content">
             <div class="card">
                 <strong>
-                    <h1>Crear Nuevo Tipo de Papel</h1>
+                    <h1>Crear Nuevo Tipo de Impresión</h1>
                 </strong>
             </div>
             <form class="form-container" id="addFormTI">
                 <div class="form-group">
-                    <label for="NombreProducto">Nombre:</label>
+                    <label for="NombreProductoTI">Nombre:</label>
                     <input type="text" id="NombreProductoTI" name="NombreProductoTI">
                     <span id="error-NombreProductoTI"></span><br>
                 </div>
@@ -522,519 +512,544 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
+            const selectElement = document.getElementById('productTypeSelect');
+            const containers = {
+                tamañoPapel: document.getElementById('tamañoPapelContainer'),
+                tipoPapel: document.getElementById('tipoPapelContainer'),
+                tipoImpresion: document.getElementById('tipoImpresionContainer')
+            };
 
+            function showContainer(type) {
+                // Oculta todos los contenedores
+                Object.values(containers).forEach(container => container.style.display = 'none');
 
-
-
-            function fetchClientes() {
-                fetch('../FSP-main-2/controller/producto_controller.php', {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data || data.error) {
-                            console.error('Error al obtener clientes:', data.error);
-                            return;
-                        }
-                        populateTable(data);
-                    })
-                    .catch(error => console.error('Error:', error));
+                // Muestra el contenedor correspondiente
+                if (containers[type]) {
+                    containers[type].style.display = 'block';
+                }
             }
 
-            function populateTable(data) {
-                let table = document.querySelector("table tbody");
-                table.innerHTML = ''; // Limpiar la tabla antes de llenarla
-                data.forEach(cliente => {
-                    let row = table.insertRow();
-                    row.setAttribute('data-id', cliente.idClien);
+            // Muestra el primer tipo por defecto
+            showContainer('tamañoPapel');
 
-                    // Checkbox con la ID del cliente como valor
-                    let cellCheckbox = row.insertCell(0);
-                    let checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.classList.add('select-checkbox');
-                    checkbox.value = cliente.idClien;
-                    cellCheckbox.appendChild(checkbox);
+            // Maneja el cambio en el select
+            selectElement.addEventListener('change', (event) => {
+                const selectedType = event.target.value;
+                showContainer(selectedType);
+            });
+        
 
-                    // Nombre completo
-                    let cellNombre = row.insertCell(1);
-                    cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
 
-                    // Saldo
-                    let cellSaldo = row.insertCell(2);
-                    cellSaldo.textContent = $ `${cliente.Saldo}`;
 
-                    // Correo
-                    let cellCorreo = row.insertCell(3);
-                    cellCorreo.textContent = cliente.Correo;
+        function fetchClientes() {
+            fetch('../FSP-main-2/controller/producto_controller.php', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || data.error) {
+                        console.error('Error al obtener productos:', data.error);
+                        return;
+                    }
+                    populateTable(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-                    // Teléfono
-                    let cellTelefono = row.insertCell(4);
-                    cellTelefono.textContent = cliente.Telefono;
+        function populateTable(data) {
+            let table = document.querySelector("table tbody");
+            table.innerHTML = ''; // Limpiar la tabla antes de llenarla
+            data.forEach(cliente => {
+                let row = table.insertRow();
+                row.setAttribute('data-id', cliente.idClien);
+
+                // Checkbox con la ID del cliente como valor
+                let cellCheckbox = row.insertCell(0);
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('select-checkbox');
+                checkbox.value = cliente.idClien;
+                cellCheckbox.appendChild(checkbox);
+
+                // Nombre completo
+                let cellNombre = row.insertCell(1);
+                cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
+
+                // Saldo
+                let cellSaldo = row.insertCell(2);
+                cellSaldo.textContent = $ `${cliente.Saldo}`;
+
+                // Correo
+                let cellCorreo = row.insertCell(3);
+                cellCorreo.textContent = cliente.Correo;
+
+                // Teléfono
+                let cellTelefono = row.insertCell(4);
+                cellTelefono.textContent = cliente.Telefono;
+            });
+            updateButtonState();
+        }
+
+        function updateButtonState() {
+            const checkboxes = document.querySelectorAll('.select-checkbox:checked');
+            const addButton = document.getElementById('add-card');
+            const editButton = document.querySelector('.edit-button');
+            const deleteButton = document.querySelector('.delete-button');
+
+            if (checkboxes.length === 0) {
+                addButton.classList.remove('disabled');
+                addButton.disabled = false;
+
+                editButton.classList.add('disabled');
+                editButton.disabled = true;
+
+                deleteButton.classList.add('disabled');
+                deleteButton.disabled = true;
+
+                viewQrButton.classList.add('disabled');
+                viewQrButton.disabled = true;
+            } else if (checkboxes.length === 1) {
+                addButton.classList.add('disabled');
+                addButton.disabled = true;
+
+                editButton.classList.remove('disabled');
+                editButton.disabled = false;
+
+                deleteButton.classList.remove('disabled');
+                deleteButton.disabled = false;
+
+                viewQrButton.classList.remove('disabled');
+                viewQrButton.disabled = false;
+            } else {
+                addButton.classList.add('disabled');
+                addButton.disabled = true;
+
+                editButton.classList.add('disabled');
+                editButton.disabled = true;
+
+                deleteButton.classList.remove('disabled');
+                deleteButton.disabled = false;
+
+                viewQrButton.classList.add('disabled');
+                viewQrButton.disabled = true;
+            }
+        }
+
+        function filterTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            rows.forEach(row => {
+                const name = row.cells[1].textContent.toLowerCase();
+                if (name.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterTable);
+
+        const NombreClien = document.getElementById('NombreClien');
+        const ApellidoP = document.getElementById('ApellidoP');
+        const ApellidoM = document.getElementById('ApellidoM');
+        const Telefono = document.getElementById('Telefono');
+        const Correo = document.getElementById('Correo');
+        const passwClien = document.getElementById('passwClien');
+        const confirmPassword = document.getElementById('confirm-passwClien');
+        const modal = document.getElementById('modal');
+        const saveButton = document.getElementById('save');
+        const closeButton = document.querySelector('.close');
+        const tableBody = document.querySelector('table tbody');
+
+        function validarNombres(value) {
+            const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1])[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+            return regex.test(value);
+        }
+
+        function validarTelefono(value) {
+            const regex = /^\d{10}$/;
+            return regex.test(value);
+        }
+
+        function validarCorreo(value) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(value);
+        }
+
+        function validarContrasena(value) {
+            const regex = /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
+            return regex.test(value);
+        }
+
+        function mostrarError(elemento, mensaje) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = mensaje;
+            errorElemento.style.color = 'red';
+        }
+
+        function limpiarError(elemento) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = '';
+        }
+
+        function abrirModal() {
+            modal.style.display = 'block';
+        }
+
+        function cerrarModal() {
+            modal.style.display = 'none';
+        }
+
+        NombreClien.addEventListener('input', function() {
+            if (!validarNombres(NombreClien.value.trim())) {
+                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+            } else {
+                limpiarError(NombreClien);
+            }
+        });
+
+        ApellidoP.addEventListener('input', function() {
+            if (!validarNombres(ApellidoP.value.trim())) {
+                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
+            } else {
+                limpiarError(ApellidoP);
+            }
+        });
+
+        ApellidoM.addEventListener('input', function() {
+            if (!validarNombres(ApellidoM.value.trim())) {
+                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
+            } else {
+                limpiarError(ApellidoM);
+            }
+        });
+
+        Telefono.addEventListener('input', function() {
+            if (!validarTelefono(Telefono.value.trim())) {
+                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+            } else {
+                limpiarError(Telefono);
+            }
+        });
+
+        Correo.addEventListener('input', function() {
+            if (!validarCorreo(Correo.value.trim())) {
+                mostrarError(Correo, 'Ingrese un correo electrónico válido');
+            } else {
+                limpiarError(Correo);
+            }
+        });
+
+        passwClien.addEventListener('input', function() {
+            if (!validarContrasena(passwClien.value.trim())) {
+                mostrarError(passwClien, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un carácter especial y un número');
+            } else {
+                limpiarError(passwClien);
+            }
+        });
+
+        confirmPassword.addEventListener('input', function() {
+            const passwordValue = passwClien.value.trim();
+            const confirmPasswordValue = confirmPassword.value.trim();
+            if (passwordValue !== confirmPasswordValue) {
+                mostrarError(confirmPassword, 'Las contraseñas no coinciden');
+            } else {
+                limpiarError(confirmPassword);
+            }
+        });
+
+        document.getElementById('add-card').addEventListener('click', abrirModal);
+
+        document.getElementById('cancel-button').addEventListener('click', function() {
+            cerrarModal();
+        });
+
+        closeButton.addEventListener('click', cerrarModal);
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        });
+
+        saveButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            if (!validarNombres(NombreClien.value.trim()) ||
+                !validarNombres(ApellidoP.value.trim()) ||
+                !validarNombres(ApellidoM.value.trim()) ||
+                !validarTelefono(Telefono.value.trim()) ||
+                !validarCorreo(Correo.value.trim()) ||
+                !validarContrasena(passwClien.value.trim()) ||
+                passwClien.value.trim() !== confirmPassword.value.trim()) {
+                alert('Por favor corrija los campos antes de guardar.');
+                return;
+            }
+
+            const form = document.getElementById('addForm');
+            const data = {
+                NombreClien: form.elements['NombreClien'].value,
+                ApellidoP: form.elements['ApellidoP'].value,
+                ApellidoM: form.elements['ApellidoM'].value,
+                Telefono: form.elements['Telefono'].value,
+                Correo: form.elements['Correo'].value,
+                passwClien: form.elements['passwClien'].value
+            };
+
+            fetch('../FSP-main-2/controller/producto_controller.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        alert('Cliente creado exitosamente');
+                        form.reset();
+                        fetchClientes();
+                        cerrarModal();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error: ' + error.message);
                 });
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('select-checkbox')) {
                 updateButtonState();
             }
+        });
 
-            function updateButtonState() {
-                const checkboxes = document.querySelectorAll('.select-checkbox:checked');
-                const addButton = document.getElementById('add-card');
-                const editButton = document.querySelector('.edit-button');
-                const deleteButton = document.querySelector('.delete-button');
+        function abrirModalEliminar(ids) {
+            const modal = document.getElementById('delete-modal');
+            const form = document.getElementById('deleteForm');
+            form.elements['ids'].value = JSON.stringify(ids);
+            modal.style.display = 'block';
+        }
 
-                if (checkboxes.length === 0) {
-                    addButton.classList.remove('disabled');
-                    addButton.disabled = false;
+        document.querySelector('.edit-button').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                const selectedId = document.querySelector('.select-checkbox:checked').value;
+                console.log('Abrir modal para editar la tarjeta con ID:', selectedId);
+                abrirModalEdicion(selectedId);
+            }
+        });
 
-                    editButton.classList.add('disabled');
-                    editButton.disabled = true;
+        document.getElementById('cancelEdit-button').addEventListener('click', function() {
+            cerrarModalEdicion();
+        });
 
-                    deleteButton.classList.add('disabled');
-                    deleteButton.disabled = true;
+        document.querySelector('.delete-button').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
+                console.log('Eliminar tarjetas con IDs:', selectedIds);
+                abrirModalEliminar(selectedIds);
+            }
+        });
 
-                    viewQrButton.classList.add('disabled');
-                    viewQrButton.disabled = true;
-                } else if (checkboxes.length === 1) {
-                    addButton.classList.add('disabled');
-                    addButton.disabled = true;
+        function abrirModalEdicion(id) {
+            const modal = document.getElementById('edit-modal');
+            const form = document.getElementById('editForm');
 
-                    editButton.classList.remove('disabled');
-                    editButton.disabled = false;
+            fetch(`../FSP-main-2/controller/producto_controller.php?id=${id}`, {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(cliente => {
+                    if (!cliente || cliente.error) {
+                        console.error('Error al obtener cliente:', cliente.error);
+                        return;
+                    }
+                    form.elements['id'].value = cliente.idClien;
+                    form.elements['NombreClien'].value = cliente.NombreClien;
+                    form.elements['ApellidoP'].value = cliente.ApellidoP;
+                    form.elements['ApellidoM'].value = cliente.ApellidoM;
+                    form.elements['Telefono'].value = cliente.Telefono;
+                    form.elements['Correo'].value = cliente.Correo;
 
-                    deleteButton.classList.remove('disabled');
-                    deleteButton.disabled = false;
+                    modal.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-                    viewQrButton.classList.remove('disabled');
-                    viewQrButton.disabled = false;
+        function cerrarModalEdicion() {
+            const modal = document.getElementById('edit-modal');
+            modal.style.display = 'none';
+        }
+
+        function validarCampoEnTiempoReal(event) {
+            const elemento = event.target;
+            const valor = elemento.value.trim();
+
+            if (elemento.id === 'editNombreClien' || elemento.id === 'editApellidoP' || elemento.id === 'editApellidoM') {
+                if (!validarNombres(valor)) {
+                    mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
                 } else {
-                    addButton.classList.add('disabled');
-                    addButton.disabled = true;
-
-                    editButton.classList.add('disabled');
-                    editButton.disabled = true;
-
-                    deleteButton.classList.remove('disabled');
-                    deleteButton.disabled = false;
-
-                    viewQrButton.classList.add('disabled');
-                    viewQrButton.disabled = true;
+                    limpiarError(elemento);
+                }
+            } else if (elemento.id === 'editTelefono') {
+                if (!validarTelefono(valor)) {
+                    mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+                } else {
+                    limpiarError(elemento);
+                }
+            } else if (elemento.id === 'editCorreo') {
+                if (!validarCorreo(valor)) {
+                    mostrarError(elemento, 'Ingrese un correo electrónico válido');
+                } else {
+                    limpiarError(elemento);
                 }
             }
+        }
 
-            function filterTable() {
-                const searchInput = document.getElementById('searchInput').value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                    const name = row.cells[1].textContent.toLowerCase();
-                    if (name.includes(searchInput)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
+
+        document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
+
+        document.getElementById('editSave').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('editForm');
+            const NombreClien = form.elements['editNombreClien'];
+            const ApellidoP = form.elements['editApellidoP'];
+            const ApellidoM = form.elements['editApellidoM'];
+            const Telefono = form.elements['editTelefono'];
+            const Correo = form.elements['editCorreo'];
+
+            if (!validarNombres(NombreClien.value.trim())) {
+                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(NombreClien);
+            }
+
+            if (!validarNombres(ApellidoP.value.trim())) {
+                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(ApellidoP);
+            }
+
+            if (!validarNombres(ApellidoM.value.trim())) {
+                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(ApellidoM);
+            }
+
+            if (!validarTelefono(Telefono.value.trim())) {
+                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+                return;
+            } else {
+                limpiarError(Telefono);
+            }
+
+            if (!validarCorreo(Correo.value.trim())) {
+                mostrarError(Correo, 'Ingrese un correo electrónico válido');
+                return;
+            } else {
+                limpiarError(Correo);
+            }
+
+            const data = {
+                idClien: form.elements['id'].value,
+                NombreClien: NombreClien.value,
+                ApellidoP: ApellidoP.value,
+                ApellidoM: ApellidoM.value,
+                Telefono: Telefono.value,
+                Correo: Correo.value
+            };
+
+            fetch('../FSP-main-2/controller/producto_controller.php', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        alert('Cliente actualizado exitosamente');
+                        fetchClientes(); // Actualizar la tabla
+                        cerrarModalEdicion();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error: ' + error.message);
                 });
-            }
+        });
 
-            document.getElementById('searchInput').addEventListener('input', filterTable);
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            const NombreClien = document.getElementById('NombreClien');
-            const ApellidoP = document.getElementById('ApellidoP');
-            const ApellidoM = document.getElementById('ApellidoM');
-            const Telefono = document.getElementById('Telefono');
-            const Correo = document.getElementById('Correo');
-            const passwClien = document.getElementById('passwClien');
-            const confirmPassword = document.getElementById('confirm-passwClien');
-            const modal = document.getElementById('modal');
-            const saveButton = document.getElementById('save');
-            const closeButton = document.querySelector('.close');
-            const tableBody = document.querySelector('table tbody');
+            const ids = JSON.parse(event.target.elements['ids'].value);
 
-            function validarNombres(value) {
-                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1])[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-                return regex.test(value);
-            }
-
-            function validarTelefono(value) {
-                const regex = /^\d{10}$/;
-                return regex.test(value);
-            }
-
-            function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(value);
-            }
-
-            function validarContrasena(value) {
-                const regex = /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
-                return regex.test(value);
-            }
-
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-
-            function abrirModal() {
-                modal.style.display = 'block';
-            }
-
-            function cerrarModal() {
-                modal.style.display = 'none';
-            }
-
-            NombreClien.addEventListener('input', function() {
-                if (!validarNombres(NombreClien.value.trim())) {
-                    mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
-                } else {
-                    limpiarError(NombreClien);
-                }
-            });
-
-            ApellidoP.addEventListener('input', function() {
-                if (!validarNombres(ApellidoP.value.trim())) {
-                    mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(ApellidoP);
-                }
-            });
-
-            ApellidoM.addEventListener('input', function() {
-                if (!validarNombres(ApellidoM.value.trim())) {
-                    mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(ApellidoM);
-                }
-            });
-
-            Telefono.addEventListener('input', function() {
-                if (!validarTelefono(Telefono.value.trim())) {
-                    mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                } else {
-                    limpiarError(Telefono);
-                }
-            });
-
-            Correo.addEventListener('input', function() {
-                if (!validarCorreo(Correo.value.trim())) {
-                    mostrarError(Correo, 'Ingrese un correo electrónico válido');
-                } else {
-                    limpiarError(Correo);
-                }
-            });
-
-            passwClien.addEventListener('input', function() {
-                if (!validarContrasena(passwClien.value.trim())) {
-                    mostrarError(passwClien, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un carácter especial y un número');
-                } else {
-                    limpiarError(passwClien);
-                }
-            });
-
-            confirmPassword.addEventListener('input', function() {
-                const passwordValue = passwClien.value.trim();
-                const confirmPasswordValue = confirmPassword.value.trim();
-                if (passwordValue !== confirmPasswordValue) {
-                    mostrarError(confirmPassword, 'Las contraseñas no coinciden');
-                } else {
-                    limpiarError(confirmPassword);
-                }
-            });
-
-            document.getElementById('add-card').addEventListener('click', abrirModal);
-
-            document.getElementById('cancel-button').addEventListener('click', function() {
-                cerrarModal();
-            });
-
-            closeButton.addEventListener('click', cerrarModal);
-
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    cerrarModal();
-                }
-            });
-
-            saveButton.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                if (!validarNombres(NombreClien.value.trim()) ||
-                    !validarNombres(ApellidoP.value.trim()) ||
-                    !validarNombres(ApellidoM.value.trim()) ||
-                    !validarTelefono(Telefono.value.trim()) ||
-                    !validarCorreo(Correo.value.trim()) ||
-                    !validarContrasena(passwClien.value.trim()) ||
-                    passwClien.value.trim() !== confirmPassword.value.trim()) {
-                    alert('Por favor corrija los campos antes de guardar.');
-                    return;
-                }
-
-                const form = document.getElementById('addForm');
-                const data = {
-                    NombreClien: form.elements['NombreClien'].value,
-                    ApellidoP: form.elements['ApellidoP'].value,
-                    ApellidoM: form.elements['ApellidoM'].value,
-                    Telefono: form.elements['Telefono'].value,
-                    Correo: form.elements['Correo'].value,
-                    passwClien: form.elements['passwClien'].value
-                };
-
-                fetch('../FSP-main-2/controller/producto_controller.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
+            fetch('../FSP-main-2/controller/producto_controller.php', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ids: ids
                     })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            alert('Error: ' + data.error);
-                        } else {
-                            alert('Cliente creado exitosamente');
-                            form.reset();
-                            fetchClientes();
-                            cerrarModal();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error: ' + error.message);
-                    });
-            });
-
-            document.addEventListener('change', function(e) {
-                if (e.target.classList.contains('select-checkbox')) {
-                    updateButtonState();
-                }
-            });
-
-            function abrirModalEliminar(ids) {
-                const modal = document.getElementById('delete-modal');
-                const form = document.getElementById('deleteForm');
-                form.elements['ids'].value = JSON.stringify(ids);
-                modal.style.display = 'block';
-            }
-
-            document.querySelector('.edit-button').addEventListener('click', function() {
-                if (!this.classList.contains('disabled')) {
-                    const selectedId = document.querySelector('.select-checkbox:checked').value;
-                    console.log('Abrir modal para editar la tarjeta con ID:', selectedId);
-                    abrirModalEdicion(selectedId);
-                }
-            });
-
-            document.getElementById('cancelEdit-button').addEventListener('click', function() {
-                cerrarModalEdicion();
-            });
-
-            document.querySelector('.delete-button').addEventListener('click', function() {
-                if (!this.classList.contains('disabled')) {
-                    const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
-                    console.log('Eliminar tarjetas con IDs:', selectedIds);
-                    abrirModalEliminar(selectedIds);
-                }
-            });
-
-            function abrirModalEdicion(id) {
-                const modal = document.getElementById('edit-modal');
-                const form = document.getElementById('editForm');
-
-                fetch(`../FSP-main-2/controller/producto_controller.php?id=${id}`, {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(cliente => {
-                        if (!cliente || cliente.error) {
-                            console.error('Error al obtener cliente:', cliente.error);
-                            return;
-                        }
-                        form.elements['id'].value = cliente.idClien;
-                        form.elements['NombreClien'].value = cliente.NombreClien;
-                        form.elements['ApellidoP'].value = cliente.ApellidoP;
-                        form.elements['ApellidoM'].value = cliente.ApellidoM;
-                        form.elements['Telefono'].value = cliente.Telefono;
-                        form.elements['Correo'].value = cliente.Correo;
-
-                        modal.style.display = 'block';
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-
-            function cerrarModalEdicion() {
-                const modal = document.getElementById('edit-modal');
-                modal.style.display = 'none';
-            }
-
-            function validarCampoEnTiempoReal(event) {
-                const elemento = event.target;
-                const valor = elemento.value.trim();
-
-                if (elemento.id === 'editNombreClien' || elemento.id === 'editApellidoP' || elemento.id === 'editApellidoM') {
-                    if (!validarNombres(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
-                    } else {
-                        limpiarError(elemento);
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
-                } else if (elemento.id === 'editTelefono') {
-                    if (!validarTelefono(valor)) {
-                        mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
                     } else {
-                        limpiarError(elemento);
+                        alert('Cliente(s) eliminado(s) exitosamente');
+                        fetchClientes(); // Actualizar la tabla
+                        document.getElementById('delete-modal').style.display = 'none';
                     }
-                } else if (elemento.id === 'editCorreo') {
-                    if (!validarCorreo(valor)) {
-                        mostrarError(elemento, 'Ingrese un correo electrónico válido');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                }
-            }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error: ' + error.message);
+                });
+        });
 
+        document.querySelector('#delete-modal .close').addEventListener('click', function() {
+            document.getElementById('delete-modal').style.display = 'none';
+        });
 
-            document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
-
-            document.getElementById('editSave').addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const form = document.getElementById('editForm');
-                const NombreClien = form.elements['editNombreClien'];
-                const ApellidoP = form.elements['editApellidoP'];
-                const ApellidoM = form.elements['editApellidoM'];
-                const Telefono = form.elements['editTelefono'];
-                const Correo = form.elements['editCorreo'];
-
-                if (!validarNombres(NombreClien.value.trim())) {
-                    mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
-                    return;
-                } else {
-                    limpiarError(NombreClien);
-                }
-
-                if (!validarNombres(ApellidoP.value.trim())) {
-                    mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                    return;
-                } else {
-                    limpiarError(ApellidoP);
-                }
-
-                if (!validarNombres(ApellidoM.value.trim())) {
-                    mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                    return;
-                } else {
-                    limpiarError(ApellidoM);
-                }
-
-                if (!validarTelefono(Telefono.value.trim())) {
-                    mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                    return;
-                } else {
-                    limpiarError(Telefono);
-                }
-
-                if (!validarCorreo(Correo.value.trim())) {
-                    mostrarError(Correo, 'Ingrese un correo electrónico válido');
-                    return;
-                } else {
-                    limpiarError(Correo);
-                }
-
-                const data = {
-                    idClien: form.elements['id'].value,
-                    NombreClien: NombreClien.value,
-                    ApellidoP: ApellidoP.value,
-                    ApellidoM: ApellidoM.value,
-                    Telefono: Telefono.value,
-                    Correo: Correo.value
-                };
-
-                fetch('../FSP-main-2/controller/producto_controller.php', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            alert('Error: ' + data.error);
-                        } else {
-                            alert('Cliente actualizado exitosamente');
-                            fetchClientes(); // Actualizar la tabla
-                            cerrarModalEdicion();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error: ' + error.message);
-                    });
-            });
-
-            document.getElementById('deleteForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const ids = JSON.parse(event.target.elements['ids'].value);
-
-                fetch('../FSP-main-2/controller/producto_controller.php', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            ids: ids
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            alert('Error: ' + data.error);
-                        } else {
-                            alert('Cliente(s) eliminado(s) exitosamente');
-                            fetchClientes(); // Actualizar la tabla
-                            document.getElementById('delete-modal').style.display = 'none';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error: ' + error.message);
-                    });
-            });
-
-            document.querySelector('#delete-modal .close').addEventListener('click', function() {
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('delete-modal')) {
                 document.getElementById('delete-modal').style.display = 'none';
-            });
-
-            window.addEventListener('click', function(event) {
-                if (event.target === document.getElementById('delete-modal')) {
-                    document.getElementById('delete-modal').style.display = 'none';
-                }
-            });
+            }
+        });
 
 
-            document.getElementById('close-modal').addEventListener('click', function() {
-                $('#qrModal').modal('hide');
-            });
+        document.getElementById('close-modal').addEventListener('click', function() {
+            $('#qrModal').modal('hide');
+        });
 
-            fetchClientes(); // Asegúrate de llamar a esta función después de definir todas las demás funciones
+        fetchClientes(); // Asegúrate de llamar a esta función después de definir todas las demás funciones
         });
 
         $('#togglePassword').click(function() {
