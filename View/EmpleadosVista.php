@@ -370,53 +370,60 @@
                     </strong>
                 </div>
                 <form class="form-container" id="editForm">
-
                     <input type="hidden" id="editId" name="idEmple">
 
-
                     <div class="form-group">
-                        <label for="NombreEmp">Nombre Completo:</label>
-                        <input type="text" id="NombreEmpE" name="NombreEmp" pattern="[A-Za-z\s]+">
+                        <label for="NombreEmpE">Nombre Completo:</label>
+                        <input type="text" id="NombreEmpE" name="NombreEmpE">
+                        <span id="error-NombreEmpE"></span><br>
                     </div>
 
                     <div class="form-group">
-                        <label for="CURPemp">CURP:</label>
-                        <input type="text" id="CURPempE" name="CURPemp">
+                        <label for="CURPempE">CURP:</label>
+                        <input type="text" id="CURPempE" name="CURPempE">
+                        <span id="error-CURPempE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="RFC">RFC:</label>
-                        <input type="text" id="RFCE" name="RFC">
+                        <label for="RFCE">RFC:</label>
+                        <input type="text" id="RFCE" name="RFCE">
+                        <span id="error-RFCE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="CP">Código Postal:</label>
-                        <input type="text" id="CPE" name="CP">
+                        <label for="CPE">Código Postal:</label>
+                        <input type="text" id="CPE" name="CPE">
+                        <span id="error-CPE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="Calle">Calle:</label>
-                        <input type="text" id="CalleE" name="Calle">
+                        <label for="CalleE">Calle:</label>
+                        <input type="text" id="CalleE" name="CalleE">
+                        <span id="error-CalleE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="NoInterior">Número Interior:</label>
-                        <input type="text" id="NoInteriorE" name="NoInterior">
+                        <label for="NoInteriorE">Número Interior:</label>
+                        <input type="text" id="NoInteriorE" name="NoInteriorE">
+                        <span id="error-NoInteriorE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="NoExt">Número Exterior:</label>
-                        <input type="text" id="NoExtE" name="NoExt">
+                        <label for="NoExtE">Número Exterior:</label>
+                        <input type="text" id="NoExtE" name="NoExtE">
+                        <span id="error-NoExtE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="Colonia">Colonia:</label>
-                        <input type="text" id="ColoniaE" name="Colonia">
+                        <label for="ColoniaE">Colonia:</label>
+                        <input type="text" id="ColoniaE" name="ColoniaE">
+                        <span id="error-ColoniaE"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="Cruzamiento">Cruzamiento:</label>
-                        <input type="text" id="CruzamientoE" name="Cruzamiento">
+                        <label for="CruzamientoE">Cruzamiento:</label>
+                        <input type="text" id="CruzamientoE" name="CruzamientoE">
+                        <span id="error-CruzamientoE"></span>
                     </div>
 
                     <div class="form-buttons">
@@ -424,6 +431,7 @@
                         <button type="submit" class="submitchanges" id="editSave">Guardar Cambios</button>
                     </div>
                 </form>
+
 
             </div>
         </div>
@@ -831,7 +839,7 @@
                     Colonia: form.elements['Colonia'].value,
                     Cruzamiento: form.elements['Cruzamiento'].value,
                     PasswordE: form.elements['PasswordE'].value
-                }; 
+                };
 
                 fetch('../FSP-main-2/controller/empleado_controller.php', {
                         method: 'POST',
@@ -881,6 +889,7 @@
             document.querySelector('.edit-button').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
+                    console.log('Editar Empleado con ID:', selectedId);
                     abrirModalEdicion(selectedId);
                 }
             });
@@ -893,7 +902,7 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked'))
                         .map(cb => cb.value);
-                    console.log('Eliminar tarjetas con IDs:', selectedIds);
+                    console.log('Eliminar Empleados con IDs:', selectedIds);
                     abrirModalEliminar(selectedIds);
                 }
             });
@@ -906,21 +915,21 @@
                         method: 'GET'
                     })
                     .then(response => response.json())
-                    .then(empleado => {
-                        if (!empleado || empleado.error) {
-                            console.error('Error al obtener empleado:', empleado.error);
+                    .then(empleadoz => {
+                        if (!empleadoz || empleadoz.error) {
+                            console.error('Error al obtener empleado:', empleadoz.error);
                             return;
                         }
-                        form.elements['idEmple'].value = empleado.idEmple || '';
-                        form.elements['NombreEmp'].value = empleado.NombreEmp || '';
-                        form.elements['CURPemp'].value = empleado.CURPemp || '';
-                        form.elements['RFC'].value = empleado.RFC || '';
-                        form.elements['Calle'].value = empleado.Calle || '';
-                        form.elements['NoInterior'].value = empleado.NoInterior || '';
-                        form.elements['NoExt'].value = empleado.NoExt || '';
-                        form.elements['Colonia'].value = empleado.Colonia || '';
-                        form.elements['Cruzamiento'].value = empleado.Cruzamiento || '';
-                        form.elements['CP'].value = empleado.CP || '';
+                        form.elements['editId'].value = empleadoz.idEmple || '';
+                        form.elements['NombreEmpE'].value = empleadoz.NombreEmp || '';
+                        form.elements['CURPempE'].value = empleadoz.CURPemp || '';
+                        form.elements['RFCE'].value = empleadoz.RFC || '';
+                        form.elements['CalleE'].value = empleadoz.Calle || '';
+                        form.elements['NoInteriorE'].value = empleadoz.NoInterior || '';
+                        form.elements['NoExtE'].value = empleadoz.NoExt || '';
+                        form.elements['ColoniaE'].value = empleadoz.Colonia || '';
+                        form.elements['CruzamientoE'].value = empleadoz.Cruzamiento || '';
+                        form.elements['CPE'].value = empleadoz.CP || '';
 
                         modal.style.display = 'block';
                     })
@@ -994,60 +1003,59 @@
                 errorElemento.textContent = '';
             }
 
-
             function validarCampoEnTiempoReal(event) {
                 const elemento = event.target;
                 const valor = elemento.value.trim();
 
-                if (elemento.id === 'NombreEmp') {
+                if (elemento.id === 'NombreEmpE') {
                     if (!validarNombreEmp(valor)) {
                         mostrarError(elemento, 'Ingrese un nombre y apellido válido (solo letras y espacios)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'CURPemp') {
+                } else if (elemento.id === 'CURPempE') {
                     if (!validarCURP(valor)) {
                         mostrarError(elemento, 'Ingrese una CURP válida (18 caracteres alfanuméricos)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'RFC') {
+                } else if (elemento.id === 'RFCE') {
                     if (!validarRFC(valor)) {
                         mostrarError(elemento, 'Ingrese un RFC válido (13 caracteres alfanuméricos)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'CP') {
+                } else if (elemento.id === 'CPE') {
                     if (!validarCP(valor)) {
                         mostrarError(elemento, 'Ingrese un código postal válido (5 dígitos numéricos)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'Calle') {
+                } else if (elemento.id === 'CalleE') {
                     if (!validarCalle(valor)) {
                         mostrarError(elemento, 'Ingrese un nombre de calle válido');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'NoInterior') {
+                } else if (elemento.id === 'NoInteriorE') {
                     if (!validarNoInterior(valor)) {
                         mostrarError(elemento, 'Ingrese un número interior de domicilio válido (o no lo ingrese)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'NoExt') {
+                } else if (elemento.id === 'NoExtE') {
                     if (!validarNoExt(valor)) {
                         mostrarError(elemento, 'Ingrese un número exterior de domicilio válido');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'Colonia') {
+                } else if (elemento.id === 'ColoniaE') {
                     if (!validarColonia(valor)) {
                         mostrarError(elemento, 'Ingrese un nombre de colonia válido');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'Cruzamiento') {
+                } else if (elemento.id === 'CruzamientoE') {
                     if (!validarCruzamiento(valor)) {
                         mostrarError(elemento, 'Ingrese un nombre de cruzamiento válido (o no lo ingrese)');
                     } else {
@@ -1056,97 +1064,24 @@
                 }
             }
 
+            document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
 
             document.getElementById('editSave').addEventListener('click', function(event) {
                 event.preventDefault();
 
                 const form = document.getElementById('editForm');
-                const NombreEmp = form.elements['NombreEmp'];
-                const CURPemp = form.elements['CURPemp'];
-                const RFC = form.elements['RFC'];
-                const CP = form.elements['CP'];
-                const Calle = form.elements['Calle'];
-                const NoInterior = form.elements['NoInterior'];
-                const NoExt = form.elements['NoExt'];
-                const Colonia = form.elements['Colonia'];
-                const Cruzamiento = form.elements['Cruzamiento'];
-
-                if (!validarNombreEmp(NombreEmp.value.trim())) {
-                    mostrarError(NombreEmp, 'Ingrese nombres y apellidos válidos (solo letras y espacios)');
-                    return;
-                } else {
-                    limpiarError(NombreEmp);
-                }
-
-                if (!validarCURP(CURPemp.value.trim())) {
-                    mostrarError(CURPemp, 'Ingrese una CURP válida (18 caracteres alfanuméricos)');
-                    return;
-                } else {
-                    limpiarError(CURPemp);
-                }
-
-                if (!validarRFC(RFC.value.trim())) {
-                    mostrarError(RFC, 'Ingrese un RFC válido (13 caracteres alfanuméricos)');
-                    return;
-                } else {
-                    limpiarError(RFC);
-                }
-
-                if (!validarCP(CP.value.trim())) {
-                    mostrarError(CP, 'Ingrese un código postal válido (5 dígitos numéricos)');
-                    return;
-                } else {
-                    limpiarError(CP);
-                }
-
-                if (!validarCalle(Calle.value.trim())) {
-                    mostrarError(Calle, 'Ingrese un nombre de calle válido');
-                    return;
-                } else {
-                    limpiarError(Calle);
-                }
-
-                if (!validarNoInterior(NoInterior.value.trim())) {
-                    mostrarError(NoInterior, 'Ingrese un número interior de domicilio válido (o no lo ingrese)');
-                    return;
-                } else {
-                    limpiarError(NoInterior);
-                }
-
-                if (!validarNoExt(NoExt.value.trim())) {
-                    mostrarError(NoExt, 'Ingrese un número exterior de domicilio válido');
-                    return;
-                } else {
-                    limpiarError(NoExt);
-                }
-
-                if (!validarColonia(Colonia.value.trim())) {
-                    mostrarError(Colonia, 'Ingrese un nombre de colonia válido');
-                    return;
-                } else {
-                    limpiarError(Colonia);
-                }
-
-                if (!validarCruzamiento(Cruzamiento.value.trim())) {
-                    mostrarError(Cruzamiento, 'Ingrese un nombre de cruzamiento válido (o no lo ingrese)');
-                    return;
-                } else {
-                    limpiarError(Cruzamiento);
-                }
-
                 const data = {
                     idEmple: form.elements['idEmple'].value,
-                    NombreEmp: NombreEmp.value,
-                    CURPemp: CURPemp.value,
-                    RFC: RFC.value,
-                    CP: CP.value,
-                    Calle: Calle.value,
-                    NoInterior: NoInterior.value,
-                    NoExt: NoExt.value,
-                    Colonia: Colonia.value,
-                    Cruzamiento: Cruzamiento.value
+                    NombreEmp: form.elements['NombreEmpE'].value,
+                    CURPemp: form.elements['CURPempE'].value,
+                    RFC: form.elements['RFCE'].value,
+                    CP: form.elements['CPE'].value,
+                    Calle: form.elements['CalleE'].value,
+                    NoInterior: form.elements['NoInteriorE'].value,
+                    NoExt: form.elements['NoExtE'].value,
+                    Colonia: form.elements['ColoniaE'].value,
+                    Cruzamiento: form.elements['CruzamientoE'].value
                 };
-
 
                 fetch('../FSP-main-2/controller/empleado_controller.php', {
                         method: 'PUT',
@@ -1177,16 +1112,13 @@
             });
 
 
+
             window.addEventListener('click', function(event) {
                 if (event.target === document.getElementById('edit-modal')) {
                     cerrarModalEdicion();
                 }
             });
 
-            document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
-            document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
-
-            
 
             document.getElementById('deleteForm').addEventListener('submit', function(event) {
                 event.preventDefault();

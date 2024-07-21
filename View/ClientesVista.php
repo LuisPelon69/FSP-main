@@ -785,19 +785,19 @@
                 const elemento = event.target;
                 const valor = elemento.value.trim();
 
-                if (elemento.id === 'NombreClien' || elemento.id === 'ApellidoP' || elemento.id === 'ApellidoM') {
+                if (elemento.id === 'editNombre' || elemento.id === 'editApellidoP' || elemento.id === 'editApellidoM') {
                     if (!validarNombres(valor)) {
                         mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'Telefono') {
+                } else if (elemento.id === 'editTelefono') {
                     if (!validarTelefono(valor)) {
                         mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'Correo') {
+                } else if (elemento.id === 'editCorreo') {
                     if (!validarCorreo(valor)) {
                         mostrarError(elemento, 'Ingrese un correo electrónico válido');
                     } else {
@@ -805,6 +805,8 @@
                     }
                 }
             }
+
+            document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
 
             document.getElementById('editSave').addEventListener('click', function(event) {
                 event.preventDefault();
