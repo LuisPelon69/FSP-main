@@ -125,8 +125,8 @@ $(document).ready(function() {
         event.preventDefault();
         let cantidad = $('#cantidad').val();
         
-        // Validar que la cantidad ingresada es numérica
-        if (isNaN(cantidad) || cantidad.trim() === '') {
+        // Validar que la cantidad ingresada es numérica y está en el rango permitido
+        if (isNaN(cantidad) || cantidad.trim() === '' || cantidad <= 0 || cantidad > 500000) {
             $('#modal-message').text('Por favor, ingrese una cantidad válida.');
             $('#mensajeModal').modal('show');
             return;
