@@ -541,8 +541,8 @@
                 editButton.classList.remove('disabled');
                 editButton.disabled = false;
 
-                deleteButton.classList.add('disabled');
-                deleteButton.disabled = true;
+                deleteButton.classList.remove('disabled');
+                deleteButton.disabled = false;
 
                 viewQrButton.classList.remove('disabled');
                 viewQrButton.disabled = false;
