@@ -5,7 +5,7 @@ class EmpleadoModel {
     private $conn;
     private $table_name = "empleado";
     
-    public $idEmp;
+    public $idEmple;
     public $NombreEmp;
     public $Idstatus;
     public $PasswordE;
@@ -24,7 +24,7 @@ class EmpleadoModel {
     }
 
     // Métodos setters
-    public function setIdEmp($idEmp) { $this->idEmp = $idEmp; }
+    public function setIdEmp($idEmple) { $this->idEmple = $idEmple; }
     public function setNombreEmp($NombreEmp) { $this->NombreEmp = $NombreEmp; }
     public function setIdstatus($Idstatus) { $this->Idstatus = $Idstatus; }
     public function setPasswordE($PasswordE) { $this->PasswordE = $PasswordE; }
@@ -39,7 +39,7 @@ class EmpleadoModel {
 
     // Método para guardar un nuevo empleado
     public function save() {
-        $query = "INSERT INTO " . $this->table_name . " (idEmp, NombreEmp, Idstatus, PasswordE, CURPemp, RFC, CP, Calle, NoInterior, NoExt, Colonia, Cruzamiento) VALUES (:idEmp, :NombreEmp, :Idstatus, :PasswordE, :CURPemp, :RFC, :CP, :Calle, :NoInterior, :NoExt, :Colonia, :Cruzamiento)";
+        $query = "INSERT INTO " . $this->table_name . " (NombreEmp, Idstatus, PasswordE, CURPemp, RFC, CP, Calle, NoInterior, NoExt, Colonia, Cruzamiento) VALUES (:NombreEmp, :Idstatus, :PasswordE, :CURPemp, :RFC, :CP, :Calle, :NoInterior, :NoExt, :Colonia, :Cruzamiento)";
         
         $stmt = $this->conn->prepare($query);
 
@@ -57,7 +57,6 @@ class EmpleadoModel {
         $this->Cruzamiento = htmlspecialchars(strip_tags($this->Cruzamiento));
 
         // Vinculación de parámetros
-        $stmt->bindParam(':idEmp', $this->idEmp);
         $stmt->bindParam(':NombreEmp', $this->NombreEmp);
         $stmt->bindParam(':Idstatus', $this->Idstatus);
         $stmt->bindParam(':PasswordE', $this->PasswordE);
@@ -70,18 +69,34 @@ class EmpleadoModel {
         $stmt->bindParam(':Colonia', $this->Colonia);
         $stmt->bindParam(':Cruzamiento', $this->Cruzamiento);
 
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            error_log("Error al guardar el empleado: " . $errorInfo[2]);
+            return false;
+        }
     }
 
     // Método para actualizar un empleado existente
     public function update() {
-        $query = "UPDATE " . $this->table_name . " SET NombreEmp = :NombreEmp, Idstatus = :Idstatus, PasswordE = :PasswordE, CURPemp = :CURPemp, RFC = :RFC, CP = :CP, Calle = :Calle, NoInterior = :NoInterior, NoExt = :NoExt, Colonia = :Colonia, Cruzamiento = :Cruzamiento WHERE idEmp = :idEmp";
-
+        $query = "UPDATE " . $this->table_name . " 
+                  SET NombreEmp = :NombreEmp, 
+                      PasswordE = :PasswordE, 
+                      CURPemp = :CURPemp, 
+                      RFC = :RFC, 
+                      CP = :CP, 
+                      Calle = :Calle, 
+                      NoInterior = :NoInterior, 
+                      NoExt = :NoExt, 
+                      Colonia = :Colonia, 
+                      Cruzamiento = :Cruzamiento 
+                  WHERE idEmple = :idEmple";
+    
         $stmt = $this->conn->prepare($query);
-
+    
         // Limpieza de datos
         $this->NombreEmp = htmlspecialchars(strip_tags($this->NombreEmp));
-        $this->Idstatus = htmlspecialchars(strip_tags($this->Idstatus));
         $this->PasswordE = htmlspecialchars(strip_tags($this->PasswordE));
         $this->CURPemp = htmlspecialchars(strip_tags($this->CURPemp));
         $this->RFC = htmlspecialchars(strip_tags($this->RFC));
@@ -91,11 +106,10 @@ class EmpleadoModel {
         $this->NoExt = htmlspecialchars(strip_tags($this->NoExt));
         $this->Colonia = htmlspecialchars(strip_tags($this->Colonia));
         $this->Cruzamiento = htmlspecialchars(strip_tags($this->Cruzamiento));
-
+    
         // Vinculación de parámetros
-        $stmt->bindParam(':idEmp', $this->idEmp);
+        $stmt->bindParam(':idEmple', $this->idEmple);
         $stmt->bindParam(':NombreEmp', $this->NombreEmp);
-        $stmt->bindParam(':Idstatus', $this->Idstatus);
         $stmt->bindParam(':PasswordE', $this->PasswordE);
         $stmt->bindParam(':CURPemp', $this->CURPemp);
         $stmt->bindParam(':RFC', $this->RFC);
@@ -105,37 +119,56 @@ class EmpleadoModel {
         $stmt->bindParam(':NoExt', $this->NoExt);
         $stmt->bindParam(':Colonia', $this->Colonia);
         $stmt->bindParam(':Cruzamiento', $this->Cruzamiento);
-
-        return $stmt->execute();
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            error_log("Error al actualizar el empleado: " . $errorInfo[2]);
+            return false;
+        }
     }
+    
 
     // Método para eliminar un empleado
-    public function delete($idEmp) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE idEmp = :idEmp";
+    public function delete($idEmple) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE idEmple = :idEmple";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':idEmp', $idEmp);
+        $stmt->bindParam(':idEmple', $idEmple);
 
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            error_log("Error al eliminar el empleado: " . $errorInfo[2]);
+            return false;
+        }
     }
 
     // Método para obtener un empleado por su ID
-    public function obtenerEmpleadoPorId($idEmp) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE idEmp = :idEmp";
-
+    public function obtenerEmpleadoPorId($idEmple) {
+        $query = "SELECT e.*, s.NombreStatus 
+                  FROM " . $this->table_name . " e 
+                  LEFT JOIN statuse s ON e.Idstatus = s.Idstatus 
+                  WHERE e.idEmple = :idEmple";
+    
         $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':idEmp', $idEmp);
-
+        $stmt->bindParam(':idEmple', $idEmple);
         $stmt->execute();
-
+    
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    
 
     // Método para obtener todos los empleados
     public function obtenerEmpleados() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT e.*, 
+                    (SELECT COUNT(*) FROM recarga WHERE recarga.idEmpleado = e.idEmple) AS Recargas,
+                    (SELECT COUNT(*) FROM cobro WHERE cobro.idEmpleado = e.idEmple) AS Cobros
+                FROM empleado e";
 
         $stmt = $this->conn->prepare($query);
 
@@ -144,21 +177,12 @@ class EmpleadoModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Método para generar un ID incremental basado en el tipo de empleado
-    public function generarIdEmp($Idstatus) {
-        // Calcular el prefijo basado en el tipo de empleado
-        $prefix = $Idstatus * 1000000;
-
-        // Obtener el número total de empleados con el mismo Idstatus
-        $query = "SELECT COUNT(*) as total FROM " . $this->table_name . " WHERE Idstatus = :Idstatus";
+    // Método para obtener los tipos de empleado
+    public function obtenerTiposEmpleado() {
+        $query = "SELECT Idstatus, NombreStatus FROM statuse";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':Idstatus', $Idstatus);
         $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $total = $row['total'];
-
-        // Generar el nuevo ID
-        return $prefix + ($total + 1);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>
+

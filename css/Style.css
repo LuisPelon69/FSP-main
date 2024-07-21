@@ -106,6 +106,7 @@ body{
 
 /* Contenedor de imagen */
 .image-container {
+    height: 450px;
     background: #f0f0f0;
     padding: 20px;
     display: flex;

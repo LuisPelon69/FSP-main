@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 800px; 
+}
+
+.qr-code {
+  width: 300px;
+  height: 350px;
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column; /* Cambiado a columna para organizar los botones verticalmente */
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-right: 20px;
+  position: relative; 
+  background-image: url('img/Logo2.3.png'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.qr-code.active {
+  background-image: none; 
+}
+
+.scan-btn {
+  background-color: #641cbd;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px; /* Añadido margen inferior para separar el botón de reinicio */
+}
+
+.reset-btn {
+  background-color: #641cbd; /* Mismo color que el botón de escaneo */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #4551a0;
+}
+
+.form-container {
+  flex: 1; /* Ocupa el espacio restante en el contenedor */
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #641cbd;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px; /* Espacio entre el botón y el campo de entrada */
+}
+
+button:hover {
+  background-color: #4551a0;
+}
+
+.input-field {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.btn-purple {
+  color: #fff;
+  background-color: #800080; /* Color morado */
+  border-color: #800080; /* Color del borde */
+}
+
+.btn-purple:hover {
+  color: #fff;
+  background-color: #6a006a; /* Color morado oscuro al hacer hover */
+  border-color: #6a006a; /* Color del borde al hacer hover */
+}
+
+.btn-purple:focus, .btn-purple.focus {
+  box-shadow: 0 0 0 0.2rem rgba(128, 0, 128, 0.5); /* Sombra de enfoque */
+}

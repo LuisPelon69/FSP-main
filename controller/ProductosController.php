@@ -1,13 +1,13 @@
 <?php
-require_once 'model/EmpleadosModel.php';
+require_once 'model/ProductosModel.php';
 
-class EmpleadosController
+class ProductosController
 {
     private $model;
 
     public function __construct()
     {
-        $this->model = new EmpleadosModel();
+        $this->model = new ProductosModel();
     }
 
     public function index()
@@ -34,24 +34,26 @@ class EmpleadosController
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'View/EmpleadosVista.php'; ?>
+                    <?php include 'View/ProductosVista.php'; ?>
+
+                    <!-- Footer -->
+                    <?php include 'View/Footer.php'; ?>
 
                 </div>
                 <!-- End of Content -->
 
-                <!-- Footer -->
-                <?php include 'View/Footer.php'; ?>
+
             </div>
             <!-- End of Content Wrapper -->
-            
+
         </div>
         <!-- End of Wrapper -->
-        
+
 <?php
         include 'View/Scripts.php';
     }
 }
 
-$controller = new EmpleadosController();
+$controller = new ProductosController();
 $controller->index();
 ?>

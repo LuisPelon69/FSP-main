@@ -54,7 +54,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Operaciones con Tarjetas:</h6>
-            <a class="collapse-item" href="Tarjeta.php">Tarjetas</a>
+            <a class="collapse-item" href="Clientes.php">Tarjetas</a>
             <a class="collapse-item" href="Recargar_Tarjeta.php">Recargar Tarjeta</a>
         </div>
     </div>
@@ -72,7 +72,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="Empleados.php">Empleados</a>
-            <a class="collapse-item" href="Agregar_Producto.php">Agregar Producto</a>
+            <a class="collapse-item" href="Productos.php">Productos</a>
             <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
             <a class="collapse-item" href="Proveedores.php">Proovedores</a>
         </div>

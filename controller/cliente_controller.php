@@ -2,14 +2,16 @@
 // Incluir la conexión a la base de datos y el modelo ClienteModel
 require_once '../bd/conex.php';
 require_once '../model/ClienteModel.php';
-require_once 'GenerarQRController.php'; // Incluir el nuevo controlador
 
 // Comprobar el método de la solicitud
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Configurar cabecera para que las respuestas sean en formato JSON
+header('Content-Type: application/json; charset=UTF-8');
+
 try {
     if ($method === 'POST') {
-        $data = json_decode(file_get_contents('php://input'), true);//uhnybyb
+        $data = json_decode(file_get_contents('php://input'), true);
 
         if (!isset($data['NombreClien'], $data['ApellidoP'], $data['ApellidoM'], $data['Telefono'], $data['Correo'], $data['passwClien'])) {
             echo json_encode(['error' => 'Datos incompletos para crear el cliente']);
@@ -33,14 +35,14 @@ try {
                 'ApellidoP' => $data['ApellidoP'],
                 'ApellidoM' => $data['ApellidoM']
             ];
-            $qrFilePath = GenerarQRController::generarQR($qrData);
+            
 
             $response['success'] = true;
             $response['message'] = 'Cliente creado exitosamente';
-            $response['qrCodePath'] = $qrFilePath; // Devolver la ruta del código QR
+
         } else {
             $response['success'] = false;
-            $response['message'] = 'Error al crear el cliente';
+            $response['message'] = 'Error al crear el cliente. Por favor, verifica los datos e intenta nuevamente.';
         }
 
         echo json_encode($response);
@@ -80,7 +82,7 @@ try {
             $response['message'] = 'Cliente actualizado exitosamente';
         } else {
             $response['success'] = false;
-            $response['message'] = 'Error al actualizar el cliente';
+            $response['message'] = 'Error al actualizar el cliente. Por favor, verifica los datos e intenta nuevamente.';
         }
 
         echo json_encode($response);
@@ -109,7 +111,7 @@ try {
             $response['message'] = 'Clientes eliminados exitosamente';
         } else {
             $response['success'] = false;
-            $response['message'] = 'Error al eliminar los clientes';
+            $response['message'] = 'Error al eliminar los clientes. Por favor, intenta nuevamente.';
         }
 
         echo json_encode($response);
@@ -119,6 +121,6 @@ try {
     }
 
 } catch (Exception $e) {
-    echo json_encode(['error' => $e->getMessage()]);
+    echo json_encode(['error' => 'Error del servidor: ' . $e->getMessage()]);
 }
 ?>
