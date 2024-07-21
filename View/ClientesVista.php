@@ -226,7 +226,6 @@
 </head>
 
 <body id="page-top">
-
 <!-- Page Heading -->
 <div class="main-container">
     <div class="table-container">
@@ -295,6 +294,7 @@
         </div>
     </div>
 </div>
+
 
 
     <!-- Modal de Altas-->
@@ -454,15 +454,16 @@
 
 <script src="js\qrcode.min.js"></script>
     <!-- Bootstrap core JavaScript-->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor\jquery\jquery.min.js"></script>
+    <script src="vendor\bootstrap\js\bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor\jquery-easing\jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src="../js/sb-admin-2.min.js"></script>
+    <script src="js\sb-admin-2.min.js"></script>
     <!-- Incluye tus scripts al final del body -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script>
+  
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         function fetchClientes() {
             fetch('../FSP-main-2/controller/cliente_controller.php', {
@@ -512,8 +513,6 @@
             });
             updateButtonState();
         }
-
-        fetchClientes();
 
         function updateButtonState() {
             const checkboxes = document.querySelectorAll('.select-checkbox:checked');
@@ -752,8 +751,6 @@
             });
         });
 
-        fetchClientes();
-
         document.addEventListener('change', function(e) {
             if (e.target.classList.contains('select-checkbox')) {
                 updateButtonState();
@@ -817,113 +814,13 @@
             modal.style.display = 'none';
         }
 
-        function validarNombres(value) {
-            const regex = /^[a-zA-Z\s]+$/;
-            return regex.test(value);
-        }
-
-        function validarTelefono(value) {
-            const regex = /^\d{10}$/;
-            return regex.test(value);
-        }
-
-        function validarCorreo(value) {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return regex.test(value);
-        }
-
-        function mostrarError(elemento, mensaje) {
-            const errorElemento = document.getElementById('error-' + elemento.id);
-            errorElemento.textContent = mensaje;
-            errorElemento.style.color = 'red';
-        }
-
-        function limpiarError(elemento) {
-            const errorElemento = document.getElementById('error-' + elemento.id);
-            errorElemento.textContent = '';
-        }
-
         function validarCampoEnTiempoReal(event) {
             const elemento = event.target;
             const valor = elemento.value.trim();
 
-<<<<<<< HEAD
-            function cerrarModalEdicion() {
-                const modal = document.getElementById('edit-modal');
-                modal.style.display = 'none';
-            }
-
-            function validarNombres(value) {
-                const regex = /^[a-zA-Z\s]+$/;
-                return regex.test(value);
-            }
-
-            function validarTelefono(value) {
-                const regex = /^\d{10}$/;
-                return regex.test(value);
-            }
-
-            function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(value);
-            }
-
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-
-            function validarCampoEnTiempoReal(event) {
-                const elemento = event.target;
-                const valor = elemento.value.trim();
-
-                if (elemento.id === 'editNombre' || elemento.id === 'editApellidoP' || elemento.id === 'editApellidoM') {
-                    if (!validarNombres(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                } else if (elemento.id === 'editTelefono') {
-                    if (!validarTelefono(valor)) {
-                        mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                } else if (elemento.id === 'editCorreo') {
-                    if (!validarCorreo(valor)) {
-                        mostrarError(elemento, 'Ingrese un correo electrónico válido');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                }
-            }
-
-            document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
-
-            document.getElementById('editSave').addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const form = document.getElementById('editForm');
-                const NombreClien = form.elements['NombreClien'];
-                const ApellidoP = form.elements['ApellidoP'];
-                const ApellidoM = form.elements['ApellidoM'];
-                const Telefono = form.elements['Telefono'];
-                const Correo = form.elements['Correo'];
-
-                if (!validarNombres(NombreClien.value.trim())) {
-                    mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
-                    return;
-=======
             if (elemento.id === 'NombreClien' || elemento.id === 'ApellidoP' || elemento.id === 'ApellidoM') {
                 if (!validarNombres(valor)) {
                     mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
->>>>>>> 5eb0e42161a55d4dc2a2df1effa1e98d084d5ab9
                 } else {
                     limpiarError(elemento);
                 }
@@ -941,6 +838,9 @@
                 }
             }
         }
+
+        document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
+        document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
 
         document.getElementById('editSave').addEventListener('click', function(event) {
             event.preventDefault();
@@ -1024,15 +924,6 @@
             });
         });
 
-        window.addEventListener('click', function(event) {
-            if (event.target === document.getElementById('edit-modal')) {
-                cerrarModalEdicion();
-            }
-        });
-
-        document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
-        document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
-
         document.getElementById('deleteForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -1113,6 +1004,7 @@
             $('#qrModal').modal('hide');
         });
 
+        fetchClientes(); // Asegúrate de llamar a esta función después de definir todas las demás funciones
     });
 
     $('#togglePassword').click(function() {
