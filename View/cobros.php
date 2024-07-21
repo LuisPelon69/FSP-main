@@ -134,9 +134,9 @@
                                         </select>
                                     </div>
                                     <div class="input-container">
-    <label for="hojas">Cantidad de hojas:</label>
-    <input type="number" id="hojas" min="1" max="999" step="1" pattern="\d{1,3}" title="Debe ser un número entre 1 y 999 con hasta 3 dígitos" required>
-</div>
+                                        <label for="hojas">Cantidad de hojas:</label>
+                                        <input type="number" id="hojas" min="1" max="999" step="1" pattern="\d{1,3}" title="Debe ser un número entre 1 y 999 con hasta 3 dígitos" required>
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -190,27 +190,24 @@
                                 <label for="clb_TamañoPapel">Tamaño de papel</label>
                                 <select class="form-control" id="clb_TamañoPapel">
                                     <option value="">Selecciona</option>
-                                    <option value="A4">A4</option>
-                                    <option value="A3">A3</option>
-                                    <option value="Carta">Carta</option>
                                 </select>
                             </div>
                             <div class="col-md-4 text-center">
                                 <label for="clb_TipoPapel">Tipo de papel</label>
                                 <select class="form-control" id="clb_TipoPapel">
                                     <option value="">Selecciona</option>
-                                    <option value="Mate">Mate</option>
-                                    <option value="Brillante">Brillante</option>
-                                    <option value="Satinado">Satinado</option>
+                                    <option value="Mate"></option>
+                                    <option value="Brillante"></option>
+                                    <option value="Satinado"></option>
                                 </select>
                             </div>
                             <div class="col-md-4 text-center">
                                 <label for="clb_TipoImpresion">Tipo de impresión</label>
                                 <select class="form-control" id="clb_TipoImpresion">
                                     <option value="">Selecciona</option>
-                                    <option value="Offset">Offset</option>
-                                    <option value="Digital">Digital</option>
-                                    <option value="Serigrafía">Serigrafía</option>
+                                    <option value="Offset"></option>
+                                    <option value="Digital"></option>
+                                    <option value="Serigrafía"></option>
                                 </select>
                             </div>
                         </div>
@@ -227,28 +224,32 @@
         </div>
     </div>
 </div>
-                </div>
 
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-<script src="js\modalCobro.js"></script>
+<script src="js/modalCobro.js"></script>
 <script>
-    document.getElementById('hojas').addEventListener('input', function (e) {
-        const value = e.target.value;
-        if (value.length > 3) {
-            e.target.value = value.slice(0, 3);
-        }
+    $('#propiedadesPapelModal').on('show.bs.modal', function () {
+        $.ajax({
+            url: 'get_tamaños_papel.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var select = $('#clb_TamañoPapel');
+                select.empty();
+                select.append('<option value="">Selecciona</option>');
+                $.each(data, function (index, tamaño) {
+                    select.append('<option value="' + tamaño.NombreTam + '">' + tamaño.NombreTam + '</option>');
+                });
+            },
+            error: function () {
+                alert('Error al cargar los tamaños de papel.');
+            }
+        });
     });
 </script>
 
-
+</body>
+</html>
 
