@@ -113,7 +113,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 
 <!-- Sidebar Message -->
 <div class="sidebar-card d-none d-lg-flex">
-    <img class="sidebar-card-illustration mb-2" src="img/fsplogo.svg" alt="...">
+    <img class="sidebar-card-illustration mb-2" src="img\Logo3.png" alt="...">
 </div>
 </li>
 </ul>
