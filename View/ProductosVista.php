@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>FSP - CLIENTES</title>
+    <title>FSP - PRODUCTOS</title>
 
     <!-- Custom fonts for this template-->
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -228,11 +228,18 @@
 <body id="page-top">
     <!-- Page Heading -->
     <div class="main-container">
+        <div class="d-flex justify-content-end mb-3">
+            <select id="productTypeSelect" class="form-control" style="width: 200px;">
+                <option value="Tamaño de Papel">Tamaño de Papel</option>
+                <option value="Tipo de Papel">Tipo de Papel</option>
+                <option value="Tipo de Impresión">Tipo de Impresión</option>
+            </select>
+        </div>
+
         <div class="table-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <button id="add-card">Agregar Nueva Tarjeta</button>
-                    <button id="view-qr" class="QR">Ver QR</button>
+                    <button id="add-card">Agregar Nuevo Tamaño de Papel</button>
                     <button class="edit-button">Editar</button>
                     <button class="delete-button">Eliminar</button>
                 </div>
@@ -249,7 +256,7 @@
             </div>
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
+                    <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tamaños de Papel</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -258,9 +265,8 @@
                                 <tr>
                                     <th>SELECCIONAR</th>
                                     <th>Nombre</th>
-                                    <th>Saldo Total</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Teléfono</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Fecha de Última Modificación</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -273,125 +279,203 @@
         </div>
     </div>
 
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <button id="add-card">Agregar Nuevo Tipo de Papel</button>
+                <button class="edit-button">Editar</button>
+                <button class="delete-button">Eliminar</button>
+            </div>
+            <form class="d-none d-sm-inline-block form-inline">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tipos de Papel</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>SELECCIONAR</th>
+                                <th>Nombre</th>
+                                <th>Precio Unitario</th>
+                                <th>Fecha de Última Modificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se añadirán dinámicamente con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
+
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <button id="add-card">Agregar Nuevo Tipo de Impresión</button>
+                <button class="edit-button">Editar</button>
+                <button class="delete-button">Eliminar</button>
+            </div>
+            <form class="d-none d-sm-inline-block form-inline">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 id="tableHeader" class="m-0 font-weight-bold text-primary">Tipos de Impresión</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>SELECCIONAR</th>
+                                <th>Nombre</th>
+                                <th>Precio Unitario</th>
+                                <th>Fecha de Última Modificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se añadirán dinámicamente con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
 
 
     <!-- Modal de Altas-->
-    <div id="modal" class="modal">
+    <div id="modalTA" class="modal">
         <div class="modal-content">
             <div class="card">
                 <strong>
-                    <h1>Crear Nuevo Cliente</h1>
+                    <h1>Crear Nuevo Tamaño de Papel</h1>
                 </strong>
             </div>
-            <form class="form-container" id="addForm">
+            <form class="form-container" id="addFormTA">
                 <div class="form-group">
-                    <label for="NombreClien">Nombres:</label>
-                    <input type="text" id="NombreClien" name="NombreClien">
-                    <span id="error-NombreClien"></span><br>
+                    <label for="NombreProducto">Nombre:</label>
+                    <input type="text" id="NombreProductoTA" name="NombreProductoTA">
+                    <span id="error-NombreProductoTA"></span><br>
                 </div>
 
                 <div class="form-group">
-                    <label for="ApellidoP">Apellido Paterno:</label>
-                    <input type="text" id="ApellidoP" name="ApellidoP">
-                    <span id="error-ApellidoP"></span><br>
-                </div>
-
-                <div class="form-group">
-                    <label for="ApellidoM">Apellido Materno:</label>
-                    <input type="text" id="ApellidoM" name="ApellidoM">
-                    <span id="error-ApellidoM"></span><br>
-                </div>
-
-                <div class="form-group">
-                    <label for="Telefono">Teléfono:</label>
-                    <input type="text" id="Telefono" name="Telefono">
-                    <span id="error-Telefono"></span><br>
-                </div>
-
-                <div class="form-group">
-                    <label for="Correo">Correo:</label>
-                    <input type="email" id="Correo" name="Correo">
-                    <span id="error-Correo"></span><br>
-                </div>
-
-                <div class="form-group"></div>
-
-                <div class="form-group">
-                    <label for="passwClien">Contraseña:</label>
-                    <input type="password" id="passwClien" name="passwClien">
-                    <div class="password-input-container">
-                        <span class="toggle-password" id="togglePassword">
-                            <i class="fas fa-eye" id="eyeIcon"></i>
-                        </span>
-                    </div>
-                    <span id="error-passwClien"></span><br>
-
-                </div>
-
-                <div class="form-group">
-                    <label for="confirm-passwClien">Confirmar Contraseña:</label>
-                    <input type="password" id="confirm-passwClien" name="confirm-passwClien">
-                    <div class="password-input-container">
-                        <span class="toggle-password" id="toggleConfirmPassword">
-                            <i class="fas fa-eye" id="eyeIconConfirm"></i>
-                        </span>
-                    </div>
-                    <span id="error-confirm-passwClien"></span><br>
-
+                    <label for="PrecioUnitario">Precio Unitario:</label>
+                    <input type="text" id="PrecioUnitarioTA" name="PrecioUnitarioTA">
+                    <span id="error-PrecioUnitarioTA"></span><br>
                 </div>
 
                 <div class="form-buttons">
-                    <button type="button" class="cancel" id="cancel-button">Cancelar</button>
-                    <button type="submit" class="submit" id="save">Agregar Tarjeta</button>
+                    <button type="button" class="cancel" id="cancel-buttonTA">Cancelar</button>
+                    <button type="submit" class="submit" id="saveTA">Agregar Tamaño de Papel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        <!-- Modal de Altas-->
+        <div id="modalTP" class="modal">
+        <div class="modal-content">
+            <div class="card">
+                <strong>
+                    <h1>Crear Nuevo Tipo de Papel</h1>
+                </strong>
+            </div>
+            <form class="form-container" id="addFormTP">
+                <div class="form-group">
+                    <label for="NombreProducto">Nombre:</label>
+                    <input type="text" id="NombreProductoTP" name="NombreProductoTP">
+                    <span id="error-NombreProductoTP"></span><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="PrecioUnitario">Precio Unitario:</label>
+                    <input type="text" id="PrecioUnitarioTP" name="PrecioUnitarioTP">
+                    <span id="error-PrecioUnitarioTP"></span><br>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="cancel" id="cancel-buttonTP">Cancelar</button>
+                    <button type="submit" class="submit" id="saveTP">Agregar Tipo de Papel</button>
                 </div>
             </form>
         </div>
     </div>
 
 
+    <div id="modalTI" class="modal">
+        <div class="modal-content">
+            <div class="card">
+                <strong>
+                    <h1>Crear Nuevo Tipo de Papel</h1>
+                </strong>
+            </div>
+            <form class="form-container" id="addFormTI">
+                <div class="form-group">
+                    <label for="NombreProducto">Nombre:</label>
+                    <input type="text" id="NombreProductoTI" name="NombreProductoTI">
+                    <span id="error-NombreProductoTI"></span><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="PrecioUnitario">Precio Unitario:</label>
+                    <input type="text" id="PrecioUnitarioTI" name="PrecioUnitarioTI">
+                    <span id="error-PrecioUnitarioTI"></span><br>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="cancel" id="cancel-buttonTI">Cancelar</button>
+                    <button type="submit" class="submit" id="saveTI">Agregar Tipo de Papel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal de Edición -->
     <div id="edit-modal" class="modal">
         <div class="modal-content">
             <div class="card">
                 <strong>
-                    <h1>Editar Cliente</h1>
+                    <h1>Editar Tamaño de Papel</h1>
                 </strong>
             </div>
             <form class="form-container" id="editForm">
                 <input type="hidden" id="editId" name="id">
 
                 <div class="form-group">
-                    <label for="editNombreClien">Nombre:</label>
-                    <input type="text" id="editNombreClien" name="NombreClien">
-                    <span id="error-editNombreClien"></span>
+                    <label for="editNombreProducto">Nombre:</label>
+                    <input type="text" id="editNombreProducto" name="NombreProducto">
+                    <span id="error-editNombreProducto"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="editApellidoP">Apellido Paterno:</label>
-                    <input type="text" id="editApellidoP" name="ApellidoP">
-                    <span id="error-editApellidoP"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="editApellidoM">Apellido Materno:</label>
-                    <input type="text" id="editApellidoM" name="ApellidoM">
-                    <span id="error-editApellidoM"></span>
-                </div>
-
-                <div class="form-group"></div>
-
-                <div class="form-group">
-                    <label for="editTelefono">Teléfono:</label>
-                    <input type="text" id="editTelefono" name="Telefono">
-                    <span id="error-editTelefono"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="editCorreo">Correo:</label>
-                    <input type="email" id="editCorreo" name="Correo">
-                    <span id="error-editCorreo"></span>
+                    <label for="editPrecioUnitario">Precio Unitario:</label>
+                    <input type="text" id="editPrecioUnitario" name="PrecioUnitario">
+                    <span id="error-editPrecioUnitario"></span>
                 </div>
 
                 <div class="form-buttons">
@@ -414,35 +498,8 @@
             </form>
         </div>
     </div>
-
-    <!-- Modal para mostrar el QR -->
-    <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="qrModalLabel">Código QR</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <div id="qrcode" class="d-flex justify-content-center"></div>
-                </div>
-                <div class="modal-footer">
-                    <button id="download-qr" class="btn btn-primary">Descargar QR</button>
-                    <button id="close-modal" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- /.container-fluid -->
-
     </div>
     <!-- End of Main Content -->
-
-
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -464,8 +521,13 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+
+
+
+
+
             function fetchClientes() {
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
+                fetch('../FSP-main-2/controller/producto_controller.php', {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -518,7 +580,6 @@
                 const addButton = document.getElementById('add-card');
                 const editButton = document.querySelector('.edit-button');
                 const deleteButton = document.querySelector('.delete-button');
-                const viewQrButton = document.getElementById('view-qr');
 
                 if (checkboxes.length === 0) {
                     addButton.classList.remove('disabled');
@@ -721,7 +782,7 @@
                     passwClien: form.elements['passwClien'].value
                 };
 
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
+                fetch('../FSP-main-2/controller/producto_controller.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -787,7 +848,7 @@
                 const modal = document.getElementById('edit-modal');
                 const form = document.getElementById('editForm');
 
-                fetch(`../FSP-main-2/controller/cliente_controller.php?id=${id}`, {
+                fetch(`../FSP-main-2/controller/producto_controller.php?id=${id}`, {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -895,7 +956,7 @@
                     Correo: Correo.value
                 };
 
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
+                fetch('../FSP-main-2/controller/producto_controller.php', {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -928,7 +989,7 @@
 
                 const ids = JSON.parse(event.target.elements['ids'].value);
 
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
+                fetch('../FSP-main-2/controller/producto_controller.php', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'
@@ -968,38 +1029,6 @@
                 }
             });
 
-            document.getElementById('view-qr').addEventListener('click', function() {
-                const selectedCheckbox = document.querySelector('input.select-checkbox:checked');
-                if (!selectedCheckbox) {
-                    alert('Por favor, seleccione un cliente.');
-                    return;
-                }
-                const clientId = selectedCheckbox.value;
-                const qrContainer = document.getElementById('qrcode');
-                qrContainer.innerHTML = '';
-
-                // Generar el QR
-                if (QRCode) {
-                    console.log('QRCode is loaded:', QRCode); // Verificar si QRCode está definido
-                    const qr = new QRCode(qrContainer, {
-                        text: clientId,
-                        width: 128,
-                        height: 128
-                    });
-                    $('#qrModal').modal('show');
-                } else {
-                    console.error('QRCode is not defined');
-                }
-            });
-
-            document.getElementById('download-qr').addEventListener('click', function() {
-                const qrCanvas = document.querySelector('#qrcode canvas');
-                const url = qrCanvas.toDataURL("image/png");
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'QR_Code.png';
-                link.click();
-            });
 
             document.getElementById('close-modal').addEventListener('click', function() {
                 $('#qrModal').modal('hide');
