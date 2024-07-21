@@ -23,11 +23,20 @@
         <button type="button" class="scan-btn" id="scan-btn">Scan QR Code</button>
     </div>
     <div class="form-container">
-        <h1>Recargar tarjeta</h1>
+        <center><h1>Recargar tarjeta</h1></center>
+        <div class="reset-container">
+        <button id="reset-payment" class="btn btn-secondary">
+            <i class="fas fa-sync-alt"></i> Reiniciar
+        </button>
+    </div>
         <form id="recargaForm" action="controller/RecargarTarjetaController.php" method="post">
             <div class="input-field">
-                <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente" name="cliente" readonly>
+                <label for="cliente">ID cliente:</label>
+                <input type="text" id="cliente" name="cliente" >
+            </div>
+            <div class="input-field">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" readonly>
             </div>
             <div class="input-field">
                 <label for="saldo">Saldo:</label>
@@ -35,7 +44,7 @@
             </div>
             <div class="input-field">
                 <label for="cantidad">Ingrese cantidad a recargar:</label>
-                <input type="text" id="cantidad" name="cantidad" required>
+                <input type="text" id="cantidad" name="cantidad" >
             </div>
             <button type="submit">Recargar</button>
         </form>
@@ -68,75 +77,75 @@
 
 <!-- Código para manejar el escaneo del código QR -->
 <script>
-    document.getElementById('scan-btn').addEventListener('click', function() {
-        const html5QrCode = new Html5Qrcode("reader");
+document.getElementById('scan-btn').addEventListener('click', function() {
+    const html5QrCode = new Html5Qrcode("reader");
 
-        html5QrCode.start(
-            { facingMode: "environment" },
-            {
-                fps: 10,
-                qrbox: 250
-            },
-            qrCodeMessage => {
-                console.log("QR Code detected: ", qrCodeMessage);
-                html5QrCode.stop().then(ignore => {
-                    let clienteId = qrCodeMessage;
-                    if (clienteId) {
-                        $.post('controller/RecargarTarjetaController.php', { action: 'obtenerSaldo', clienteId: clienteId }, function(response) {
-                            if (response.status === 'success') {
-                                $('#cliente').val(clienteId);
-                                $('#saldo').val(response.saldo);
-                            } else {
-                                alert(response.message);
-                            }
-                        }, 'json').fail(function() {
-                            alert('Error al obtener el saldo del cliente.');
-                        });
-                    }
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
-            errorMessage => {
-                console.log("QR Code no match: ", errorMessage);
-            }
-        ).catch(err => {
-            console.log("Unable to start scanning.", err);
-        });
-    });
-
-    $(document).ready(function() {
-        $('#recargaForm').submit(function(event) {
-            event.preventDefault();
-            let cantidad = $('#cantidad').val();
-            
-            // Validar que la cantidad ingresada es numérica
-            if (isNaN(cantidad) || cantidad.trim() === '') {
-                $('#modal-message').text('Por favor, ingrese una cantidad válida.');
-                $('#mensajeModal').modal('show');
-                return;
-            }
-            
-            $.post($(this).attr('action'), $(this).serialize(), function(response) {
-                $('#modal-message').text(response.message);
-                $('#mensajeModal').modal('show');
-                if (response.status === 'success') {
-                    // Actualizar el saldo en la textbox
-                    $.post('controller/RecargarTarjetaController.php', { action: 'obtenerSaldo', clienteId: $('#cliente').val() }, function(response) {
+    html5QrCode.start(
+        { facingMode: "environment" },
+        {
+            fps: 10,
+            qrbox: 250
+        },
+        qrCodeMessage => {
+            console.log("QR Code detected: ", qrCodeMessage);
+            html5QrCode.stop().then(ignore => {
+                let clienteId = qrCodeMessage;
+                if (clienteId) {
+                    $.post('controller/RecargarTarjetaController.php', { action: 'obtenerDatosCliente', clienteId: clienteId }, function(response) {
                         if (response.status === 'success') {
+                            $('#cliente').val(clienteId);
+                            $('#nombre').val(response.nombre); // Mostrar nombre del cliente
                             $('#saldo').val(response.saldo);
                         } else {
                             alert(response.message);
                         }
                     }, 'json').fail(function() {
-                        alert('Error al obtener el saldo actualizado.');
+                        alert('Error al obtener los datos del cliente.');
                     });
                 }
-            }, 'json').fail(function() {
-                alert('Error al procesar la recarga.');
+            }).catch(err => {
+                console.log(err);
             });
+        },
+        errorMessage => {
+            console.log("QR Code no match: ", errorMessage);
+        }
+    ).catch(err => {
+        console.log("Unable to start scanning.", err);
+    });
+});
+
+// Función para reiniciar el formulario y recargar la página
+document.getElementById('reset-payment').addEventListener('click', function() {
+    location.reload(); // Recargar la página
+});
+
+$(document).ready(function() {
+    $('#recargaForm').submit(function(event) {
+        event.preventDefault();
+        let cantidad = $('#cantidad').val();
+        
+        // Validar que la cantidad ingresada es numérica
+        if (isNaN(cantidad) || cantidad.trim() === '') {
+            $('#modal-message').text('Por favor, ingrese una cantidad válida.');
+            $('#mensajeModal').modal('show');
+            return;
+        }
+        
+        $.post($(this).attr('action'), $(this).serialize(), function(response) {
+            $('#modal-message').text(response.message);
+            $('#mensajeModal').modal('show');
+            if (response.status === 'success') {
+                // Actualizar el saldo en la textbox
+                $('#saldo').val(response.saldo);
+                // Mostrar el nombre del cliente en el textbox
+                $('#nombre').val(response.nombre);
+            }
+        }, 'json').fail(function() {
+            alert('Error al procesar la recarga.');
         });
     });
+});
 </script>
 </body>
 </html>

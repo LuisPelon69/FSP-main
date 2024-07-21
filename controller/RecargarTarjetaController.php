@@ -2,7 +2,6 @@
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bd' . DIRECTORY_SEPARATOR . 'conex.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'RecargarTarjetaModel.php';
 
-
 class RecargarTarjetaController {
     private $model;
     private $db;
@@ -59,7 +58,7 @@ class RecargarTarjetaController {
                 $cantidad = $_POST['cantidad'];
 
                 // Obtener el saldo actual del cliente
-                $query = "SELECT Saldo FROM cliente WHERE idClien = ?";
+                $query = "SELECT NombreClien, Saldo FROM cliente WHERE idClien = ?";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(1, $cliente);
                 $stmt->execute();
@@ -68,6 +67,7 @@ class RecargarTarjetaController {
                 $response = array('status' => '', 'message' => '');
 
                 if ($row) {
+                    $nombre = $row['NombreClien'];
                     $saldo_actual = $row['Saldo'];
                     $nuevo_saldo = $saldo_actual + $cantidad;
 
@@ -80,6 +80,8 @@ class RecargarTarjetaController {
                     if ($stmt->execute()) {
                         $response['status'] = 'success';
                         $response['message'] = 'Recarga realizada con éxito.';
+                        $response['nombre'] = $nombre; // Incluye el nombre del cliente
+                        $response['saldo'] = $nuevo_saldo; // Incluye el saldo actualizado
                     } else {
                         $response['status'] = 'error';
                         $response['message'] = 'Error al actualizar el saldo.';
@@ -114,6 +116,25 @@ class RecargarTarjetaController {
             }
         }
     }
+
+    public function obtenerDatosCliente() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $clienteId = $_POST['clienteId'];
+
+            // Obtener los datos del cliente
+            $query = "SELECT NombreClien, Saldo FROM cliente WHERE idClien = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(1, $clienteId);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                echo json_encode(['status' => 'success', 'nombre' => $row['NombreClien'], 'saldo' => $row['Saldo']]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Cliente no encontrado.']);
+            }
+        }
+    }
 }
 
 $controller = new RecargarTarjetaController();
@@ -121,6 +142,8 @@ $controller = new RecargarTarjetaController();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action']) && $_POST['action'] === 'obtenerSaldo') {
         $controller->obtenerSaldo();
+    } elseif (isset($_POST['action']) && $_POST['action'] === 'obtenerDatosCliente') {
+        $controller->obtenerDatosCliente();
     } else {
         $controller->recargarSaldo();
     }
