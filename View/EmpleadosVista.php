@@ -511,7 +511,7 @@
                 .catch(error => console.error('Error:', error));
 
 
-            function fetchEmpleados() {
+                function fetchEmpleados() {
                 fetch('../FSP-main-2/controller/empleado_controller.php', {
                         method: 'GET'
                     })
