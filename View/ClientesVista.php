@@ -15,6 +15,7 @@
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../FSP-main-2/css/tarjeta.css">
+    <script src="/xampp/FSP-main-2/js/qrcode.min.js"></script>
 
     <!-- Custom styles for this template-->
     <link href="./css/sb-admin-2.min.css" rel="stylesheet">
@@ -226,37 +227,74 @@
 
 <body id="page-top">
 
-    <!-- Page Heading -->
-    <div class="main-container">
-        <div class="table-container">
-            <button id="add-card">Agregar Nueva Tarjeta</button>
-            <button class="edit-button">Editar</button>
-            <button class="delete-button">Eliminar</button>
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>SELECCIONAR</th>
-                                    <th>Nombre</th>
-                                    <th>Saldo Total</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Teléfono</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Las filas se añadirán dinámicamente con JavaScript -->
-                            </tbody>
-                        </table>
+<!-- Page Heading -->
+<div class="main-container">
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <button id="add-card">Agregar Nueva Tarjeta</button>
+                <button id="view-qr" class="QR">Ver QR</button>
+                <button class="edit-button">Editar</button>
+                <button class="delete-button">Eliminar</button>
+            </div>
+            <form class="d-none d-sm-inline-block form-inline">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..."
+                        aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
                     </div>
+                </div>
+            </form>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tarjetas</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>SELECCIONAR</th>
+                                <th>Nombre</th>
+                                <th>Saldo Total</th>
+                                <th>Correo Electrónico</th>
+                                <th>Teléfono</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas se añadirán dinámicamente con JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal para mostrar el QR -->
+<div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrModalLabel">Código QR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="qrcode" class="d-flex justify-content-center"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="download-qr" class="btn btn-primary">Descargar QR</button>
+                <button id="close-modal" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
     <!-- Modal de Altas-->
@@ -414,7 +452,7 @@
 
     <!-- Logout Modal-->
 
-
+<script src="js\qrcode.min.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>
     <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -425,554 +463,621 @@
     <!-- Incluye tus scripts al final del body -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            function fetchClientes() {
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data || data.error) {
-                            console.error('Error al obtener clientes:', data.error);
-                            return;
-                        }
-                        let table = document.querySelector("table tbody");
-                        table.innerHTML = ''; // Limpiar la tabla antes de llenarla
-                        data.forEach(cliente => {
-                            let row = table.insertRow();
-                            row.setAttribute('data-id', cliente.idClien);
-
-                            // Checkbox con la ID del cliente como valor
-                            let cellCheckbox = row.insertCell(0);
-                            let checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
-                            checkbox.classList.add('select-checkbox');
-                            checkbox.value = cliente.idClien;
-                            cellCheckbox.appendChild(checkbox);
-
-                            // Nombre completo
-                            let cellNombre = row.insertCell(1);
-                            cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
-
-                            // Saldo
-                            let cellSaldo = row.insertCell(2);
-                            cellSaldo.textContent = `$ ${cliente.Saldo}`;
-
-                            // Correo
-                            let cellCorreo = row.insertCell(3);
-                            cellCorreo.textContent = cliente.Correo;
-
-                            // Teléfono
-                            let cellTelefono = row.insertCell(4);
-                            cellTelefono.textContent = cliente.Telefono;
-                        });
-                        updateButtonState();
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-
-            fetchClientes();
-
-            function updateButtonState() {
-                const checkboxes = document.querySelectorAll('.select-checkbox:checked');
-                const addButton = document.getElementById('add-card');
-                const editButton = document.querySelector('.edit-button');
-                const deleteButton = document.querySelector('.delete-button');
-
-                if (checkboxes.length === 0) {
-                    addButton.classList.remove('disabled');
-                    addButton.disabled = false;
-
-                    editButton.classList.add('disabled');
-                    editButton.disabled = true;
-
-                    deleteButton.classList.add('disabled');
-                    deleteButton.disabled = true;
-                } else if (checkboxes.length === 1) {
-                    addButton.classList.add('disabled');
-                    addButton.disabled = true;
-
-                    editButton.classList.remove('disabled');
-                    editButton.disabled = false;
-
-                    deleteButton.classList.remove('disabled');
-                    deleteButton.disabled = false;
-                } else {
-                    addButton.classList.add('disabled');
-                    addButton.disabled = true;
-
-                    editButton.classList.add('disabled');
-                    editButton.disabled = true;
-
-                    deleteButton.classList.remove('disabled');
-                    deleteButton.disabled = false;
+    document.addEventListener("DOMContentLoaded", function() {
+        function fetchClientes() {
+            fetch('../FSP-main-2/controller/cliente_controller.php', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data || data.error) {
+                    console.error('Error al obtener clientes:', data.error);
+                    return;
                 }
+                populateTable(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function populateTable(data) {
+            let table = document.querySelector("table tbody");
+            table.innerHTML = ''; // Limpiar la tabla antes de llenarla
+            data.forEach(cliente => {
+                let row = table.insertRow();
+                row.setAttribute('data-id', cliente.idClien);
+
+                // Checkbox con la ID del cliente como valor
+                let cellCheckbox = row.insertCell(0);
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('select-checkbox');
+                checkbox.value = cliente.idClien;
+                cellCheckbox.appendChild(checkbox);
+
+                // Nombre completo
+                let cellNombre = row.insertCell(1);
+                cellNombre.textContent = `${cliente.NombreClien} ${cliente.ApellidoP} ${cliente.ApellidoM}`;
+
+                // Saldo
+                let cellSaldo = row.insertCell(2);
+                cellSaldo.textContent = `$ ${cliente.Saldo}`;
+
+                // Correo
+                let cellCorreo = row.insertCell(3);
+                cellCorreo.textContent = cliente.Correo;
+
+                // Teléfono
+                let cellTelefono = row.insertCell(4);
+                cellTelefono.textContent = cliente.Telefono;
+            });
+            updateButtonState();
+        }
+
+        fetchClientes();
+
+        function updateButtonState() {
+            const checkboxes = document.querySelectorAll('.select-checkbox:checked');
+            const addButton = document.getElementById('add-card');
+            const editButton = document.querySelector('.edit-button');
+            const deleteButton = document.querySelector('.delete-button');
+            const viewQrButton = document.getElementById('view-qr');
+
+            if (checkboxes.length === 0) {
+                addButton.classList.remove('disabled');
+                addButton.disabled = false;
+
+                editButton.classList.add('disabled');
+                editButton.disabled = true;
+
+                deleteButton.classList.add('disabled');
+                deleteButton.disabled = true;
+
+                viewQrButton.classList.add('disabled');
+                viewQrButton.disabled = true;
+            } else if (checkboxes.length === 1) {
+                addButton.classList.add('disabled');
+                addButton.disabled = true;
+
+                editButton.classList.remove('disabled');
+                editButton.disabled = false;
+
+                deleteButton.classList.add('disabled');
+                deleteButton.disabled = true;
+
+                viewQrButton.classList.remove('disabled');
+                viewQrButton.disabled = false;
+            } else {
+                addButton.classList.add('disabled');
+                addButton.disabled = true;
+
+                editButton.classList.add('disabled');
+                editButton.disabled = true;
+
+                deleteButton.classList.remove('disabled');
+                deleteButton.disabled = false;
+
+                viewQrButton.classList.add('disabled');
+                viewQrButton.disabled = true;
             }
+        }
 
-
-            const NombreClien = document.getElementById('NombreClien');
-            const ApellidoP = document.getElementById('ApellidoP');
-            const ApellidoM = document.getElementById('ApellidoM');
-            const Telefono = document.getElementById('Telefono');
-            const Correo = document.getElementById('Correo');
-            const passwClien = document.getElementById('passwClien');
-            const confirmPassword = document.getElementById('confirm-passwClien');
-            const modal = document.getElementById('modal');
-            const saveButton = document.getElementById('save');
-            const closeButton = document.querySelector('.close');
-            const tableBody = document.querySelector('table tbody');
-
-            function validarNombres(value) {
-                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
-                return regex.test(value);
-            }
-
-            function validarTelefono(value) {
-                const regex = /^\d{10}$/;
-                return regex.test(value);
-            }
-
-            function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(value);
-            }
-
-            function validarContrasena(value) {
-                const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
-                return regex.test(value);
-            }
-
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-
-            function abrirModal() {
-                modal.style.display = 'block';
-            }
-
-            function cerrarModal() {
-                modal.style.display = 'none';
-            }
-
-
-            NombreClien.addEventListener('input', function() {
-                if (!validarNombres(NombreClien.value.trim())) {
-                    mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+        function filterTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            rows.forEach(row => {
+                const name = row.cells[1].textContent.toLowerCase();
+                if (name.includes(searchInput)) {
+                    row.style.display = '';
                 } else {
-                    limpiarError(NombreClien);
+                    row.style.display = 'none';
                 }
             });
+        }
 
-            ApellidoP.addEventListener('input', function() {
-                if (!validarNombres(ApellidoP.value.trim())) {
-                    mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(ApellidoP);
-                }
-            });
+        document.getElementById('searchInput').addEventListener('input', filterTable);
 
-            ApellidoM.addEventListener('input', function() {
-                if (!validarNombres(ApellidoM.value.trim())) {
-                    mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                } else {
-                    limpiarError(ApellidoM);
-                }
-            });
+        const NombreClien = document.getElementById('NombreClien');
+        const ApellidoP = document.getElementById('ApellidoP');
+        const ApellidoM = document.getElementById('ApellidoM');
+        const Telefono = document.getElementById('Telefono');
+        const Correo = document.getElementById('Correo');
+        const passwClien = document.getElementById('passwClien');
+        const confirmPassword = document.getElementById('confirm-passwClien');
+        const modal = document.getElementById('modal');
+        const saveButton = document.getElementById('save');
+        const closeButton = document.querySelector('.close');
+        const tableBody = document.querySelector('table tbody');
 
-            Telefono.addEventListener('input', function() {
-                if (!validarTelefono(Telefono.value.trim())) {
-                    mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                } else {
-                    limpiarError(Telefono);
-                }
-            });
+        function validarNombres(value) {
+            const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+            return regex.test(value);
+        }
 
-            Correo.addEventListener('input', function() {
-                if (!validarCorreo(Correo.value.trim())) {
-                    mostrarError(Correo, 'Ingrese un correo electrónico válido');
-                } else {
-                    limpiarError(Correo);
-                }
-            });
+        function validarTelefono(value) {
+            const regex = /^\d{10}$/;
+            return regex.test(value);
+        }
 
-            passwClien.addEventListener('input', function() {
-                if (!validarContrasena(passwClien.value.trim())) {
-                    mostrarError(passwClien, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un carácter especial y un número');
-                } else {
-                    limpiarError(passwClien);
-                }
-            });
+        function validarCorreo(value) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(value);
+        }
 
-            confirmPassword.addEventListener('input', function() {
-                const passwordValue = passwClien.value.trim();
-                const confirmPasswordValue = confirmPassword.value.trim();
-                if (passwordValue !== confirmPasswordValue) {
-                    mostrarError(confirmPassword, 'Las contraseñas no coinciden');
-                } else {
-                    limpiarError(confirmPassword);
-                }
-            });
+        function validarContrasena(value) {
+            const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
+            return regex.test(value);
+        }
 
-            document.getElementById('add-card').addEventListener('click', abrirModal);
+        function mostrarError(elemento, mensaje) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = mensaje;
+            errorElemento.style.color = 'red';
+        }
 
-            document.getElementById('cancel-button').addEventListener('click', function() {
+        function limpiarError(elemento) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = '';
+        }
+
+        function abrirModal() {
+            modal.style.display = 'block';
+        }
+
+        function cerrarModal() {
+            modal.style.display = 'none';
+        }
+
+        NombreClien.addEventListener('input', function() {
+            if (!validarNombres(NombreClien.value.trim())) {
+                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+            } else {
+                limpiarError(NombreClien);
+            }
+        });
+
+        ApellidoP.addEventListener('input', function() {
+            if (!validarNombres(ApellidoP.value.trim())) {
+                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
+            } else {
+                limpiarError(ApellidoP);
+            }
+        });
+
+        ApellidoM.addEventListener('input', function() {
+            if (!validarNombres(ApellidoM.value.trim())) {
+                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
+            } else {
+                limpiarError(ApellidoM);
+            }
+        });
+
+        Telefono.addEventListener('input', function() {
+            if (!validarTelefono(Telefono.value.trim())) {
+                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+            } else {
+                limpiarError(Telefono);
+            }
+        });
+
+        Correo.addEventListener('input', function() {
+            if (!validarCorreo(Correo.value.trim())) {
+                mostrarError(Correo, 'Ingrese un correo electrónico válido');
+            } else {
+                limpiarError(Correo);
+            }
+        });
+
+        passwClien.addEventListener('input', function() {
+            if (!validarContrasena(passwClien.value.trim())) {
+                mostrarError(passwClien, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un carácter especial y un número');
+            } else {
+                limpiarError(passwClien);
+            }
+        });
+
+        confirmPassword.addEventListener('input', function() {
+            const passwordValue = passwClien.value.trim();
+            const confirmPasswordValue = confirmPassword.value.trim();
+            if (passwordValue !== confirmPasswordValue) {
+                mostrarError(confirmPassword, 'Las contraseñas no coinciden');
+            } else {
+                limpiarError(confirmPassword);
+            }
+        });
+
+        document.getElementById('add-card').addEventListener('click', abrirModal);
+
+        document.getElementById('cancel-button').addEventListener('click', function() {
+            cerrarModal();
+        });
+
+        closeButton.addEventListener('click', cerrarModal);
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
                 cerrarModal();
-            });
+            }
+        });
 
-            closeButton.addEventListener('click', cerrarModal);
+        saveButton.addEventListener('click', function(event) {
+            event.preventDefault();
 
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
+            if (!validarNombres(NombreClien.value.trim()) ||
+                !validarNombres(ApellidoP.value.trim()) ||
+                !validarNombres(ApellidoM.value.trim()) ||
+                !validarTelefono(Telefono.value.trim()) ||
+                !validarCorreo(Correo.value.trim()) ||
+                !validarContrasena(passwClien.value.trim()) ||
+                passwClien.value.trim() !== confirmPassword.value.trim()) {
+                alert('Por favor corrija los campos antes de guardar.');
+                return;
+            }
+
+            const form = document.getElementById('addForm');
+            const data = {
+                NombreClien: form.elements['NombreClien'].value,
+                ApellidoP: form.elements['ApellidoP'].value,
+                ApellidoM: form.elements['ApellidoM'].value,
+                Telefono: form.elements['Telefono'].value,
+                Correo: form.elements['Correo'].value,
+                passwClien: form.elements['passwClien'].value
+            };
+
+            fetch('../FSP-main-2/controller/cliente_controller.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    alert('Cliente creado exitosamente');
+                    form.reset();
+                    fetchClientes();
                     cerrarModal();
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error: ' + error.message);
             });
+        });
 
-            saveButton.addEventListener('click', function(event) {
-                event.preventDefault();
+        fetchClientes();
 
-                if (!validarNombres(NombreClien.value.trim()) ||
-                    !validarNombres(ApellidoP.value.trim()) ||
-                    !validarNombres(ApellidoM.value.trim()) ||
-                    !validarTelefono(Telefono.value.trim()) ||
-                    !validarCorreo(Correo.value.trim()) ||
-                    !validarContrasena(passwClien.value.trim()) ||
-                    passwClien.value.trim() !== confirmPassword.value.trim()) {
-                    alert('Por favor corrija los campos antes de guardar.');
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('select-checkbox')) {
+                updateButtonState();
+            }
+        });
+
+        function abrirModalEliminar(ids) {
+            const modal = document.getElementById('delete-modal');
+            const form = document.getElementById('deleteForm');
+            form.elements['ids'].value = JSON.stringify(ids);
+            modal.style.display = 'block';
+        }
+
+        document.querySelector('.edit-button').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                const selectedId = document.querySelector('.select-checkbox:checked').value;
+                console.log('Abrir modal para editar la tarjeta con ID:', selectedId);
+                abrirModalEdicion(selectedId);
+            }
+        });
+
+        document.getElementById('cancelEdit-button').addEventListener('click', function() {
+            cerrarModalEdicion();
+        });
+
+        document.querySelector('.delete-button').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
+                console.log('Eliminar tarjetas con IDs:', selectedIds);
+                abrirModalEliminar(selectedIds);
+            }
+        });
+
+        function abrirModalEdicion(id) {
+            const modal = document.getElementById('edit-modal');
+            const form = document.getElementById('editForm');
+
+            fetch(`../FSP-main-2/controller/cliente_controller.php?id=${id}`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(cliente => {
+                if (!cliente || cliente.error) {
+                    console.error('Error al obtener cliente:', cliente.error);
                     return;
                 }
+                form.elements['id'].value = cliente.idClien;
+                form.elements['NombreClien'].value = cliente.NombreClien;
+                form.elements['ApellidoP'].value = cliente.ApellidoP;
+                form.elements['ApellidoM'].value = cliente.ApellidoM;
+                form.elements['Telefono'].value = cliente.Telefono;
+                form.elements['Correo'].value = cliente.Correo;
 
-                const form = document.getElementById('addForm');
-                const data = {
-                    NombreClien: form.elements['NombreClien'].value,
-                    ApellidoP: form.elements['ApellidoP'].value,
-                    ApellidoM: form.elements['ApellidoM'].value,
-                    Telefono: form.elements['Telefono'].value,
-                    Correo: form.elements['Correo'].value,
-                    passwClien: form.elements['passwClien'].value
-                };
-
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
-                      method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            alert('Error: ' + data.error);
-                        } else {
-                            alert('Cliente creado exitosamente');
-                            form.reset();
-                            fetchClientes();
-                            cerrarModal();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error: ' + error.message);
-                    });
-            });
-
-
-            fetchClientes();
-
-            document.addEventListener('change', function(e) {
-                if (e.target.classList.contains('select-checkbox')) {
-                    updateButtonState();
-                }
-            });
-
-            function abrirModalEliminar(ids) {
-                const modal = document.getElementById('delete-modal');
-                const form = document.getElementById('deleteForm');
-                form.elements['ids'].value = JSON.stringify(ids);
                 modal.style.display = 'block';
-            }
+            })
+            .catch(error => console.error('Error:', error));
+        }
 
+        function cerrarModalEdicion() {
+            const modal = document.getElementById('edit-modal');
+            modal.style.display = 'none';
+        }
 
-            document.querySelector('.edit-button').addEventListener('click', function() {
-                if (!this.classList.contains('disabled')) {
-                    const selectedId = document.querySelector('.select-checkbox:checked').value;
-                    console.log('Abrir modal para editar la tarjeta con ID:', selectedId);
-                    abrirModalEdicion(selectedId);
-                }
-            });
+        function validarNombres(value) {
+            const regex = /^[a-zA-Z\s]+$/;
+            return regex.test(value);
+        }
 
-            document.getElementById('cancelEdit-button').addEventListener('click', function() {
-                cerrarModalEdicion();
-            });
+        function validarTelefono(value) {
+            const regex = /^\d{10}$/;
+            return regex.test(value);
+        }
 
-            document.querySelector('.delete-button').addEventListener('click', function() {
-                if (!this.classList.contains('disabled')) {
-                    const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
-                    console.log('Eliminar tarjetas con IDs:', selectedIds);
-                    abrirModalEliminar(selectedIds);
-                }
-            });
+        function validarCorreo(value) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(value);
+        }
 
-            function abrirModalEdicion(id) {
-                const modal = document.getElementById('edit-modal');
-                const form = document.getElementById('editForm');
+        function mostrarError(elemento, mensaje) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = mensaje;
+            errorElemento.style.color = 'red';
+        }
 
-                fetch(`../FSP-main-2/controller/cliente_controller.php?id=${id}`, {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(cliente => {
-                        if (!cliente || cliente.error) {
-                            console.error('Error al obtener cliente:', cliente.error);
-                            return;
-                        }
-                        form.elements['id'].value = cliente.idClien;
-                        form.elements['NombreClien'].value = cliente.NombreClien;
-                        form.elements['ApellidoP'].value = cliente.ApellidoP;
-                        form.elements['ApellidoM'].value = cliente.ApellidoM;
-                        form.elements['Telefono'].value = cliente.Telefono;
-                        form.elements['Correo'].value = cliente.Correo;
+        function limpiarError(elemento) {
+            const errorElemento = document.getElementById('error-' + elemento.id);
+            errorElemento.textContent = '';
+        }
 
-                        modal.style.display = 'block';
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
+        function validarCampoEnTiempoReal(event) {
+            const elemento = event.target;
+            const valor = elemento.value.trim();
 
-            function cerrarModalEdicion() {
-                const modal = document.getElementById('edit-modal');
-                modal.style.display = 'none';
-            }
-
-            function validarNombres(value) {
-                const regex = /^[a-zA-Z\s]+$/;
-                return regex.test(value);
-            }
-
-            function validarTelefono(value) {
-                const regex = /^\d{10}$/;
-                return regex.test(value);
-            }
-
-            function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(value);
-            }
-
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-
-            function validarCampoEnTiempoReal(event) {
-                const elemento = event.target;
-                const valor = elemento.value.trim();
-
-                if (elemento.id === 'NombreClien' || elemento.id === 'ApellidoP' || elemento.id === 'ApellidoM') {
-                    if (!validarNombres(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                } else if (elemento.id === 'Telefono') {
-                    if (!validarTelefono(valor)) {
-                        mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                } else if (elemento.id === 'Correo') {
-                    if (!validarCorreo(valor)) {
-                        mostrarError(elemento, 'Ingrese un correo electrónico válido');
-                    } else {
-                        limpiarError(elemento);
-                    }
-                }
-            }
-
-            document.getElementById('editSave').addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const form = document.getElementById('editForm');
-                const NombreClien = form.elements['NombreClien'];
-                const ApellidoP = form.elements['ApellidoP'];
-                const ApellidoM = form.elements['ApellidoM'];
-                const Telefono = form.elements['Telefono'];
-                const Correo = form.elements['Correo'];
-
-                if (!validarNombres(NombreClien.value.trim())) {
-                    mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
-                    return;
+            if (elemento.id === 'NombreClien' || elemento.id === 'ApellidoP' || elemento.id === 'ApellidoM') {
+                if (!validarNombres(valor)) {
+                    mostrarError(elemento, 'Ingrese un nombre/apellido válido (solo letras y espacios)');
                 } else {
-                    limpiarError(NombreClien);
+                    limpiarError(elemento);
                 }
-
-                if (!validarNombres(ApellidoP.value.trim())) {
-                    mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
-                    return;
+            } else if (elemento.id === 'Telefono') {
+                if (!validarTelefono(valor)) {
+                    mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
                 } else {
-                    limpiarError(ApellidoP);
+                    limpiarError(elemento);
                 }
-
-                if (!validarNombres(ApellidoM.value.trim())) {
-                    mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
-                    return;
+            } else if (elemento.id === 'Correo') {
+                if (!validarCorreo(valor)) {
+                    mostrarError(elemento, 'Ingrese un correo electrónico válido');
                 } else {
-                    limpiarError(ApellidoM);
+                    limpiarError(elemento);
                 }
+            }
+        }
 
-                if (!validarTelefono(Telefono.value.trim())) {
-                    mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
-                    return;
+        document.getElementById('editSave').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('editForm');
+            const NombreClien = form.elements['NombreClien'];
+            const ApellidoP = form.elements['ApellidoP'];
+            const ApellidoM = form.elements['ApellidoM'];
+            const Telefono = form.elements['Telefono'];
+            const Correo = form.elements['Correo'];
+
+            if (!validarNombres(NombreClien.value.trim())) {
+                mostrarError(NombreClien, 'Ingrese un nombre válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(NombreClien);
+            }
+
+            if (!validarNombres(ApellidoP.value.trim())) {
+                mostrarError(ApellidoP, 'Ingrese un apellido paterno válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(ApellidoP);
+            }
+
+            if (!validarNombres(ApellidoM.value.trim())) {
+                mostrarError(ApellidoM, 'Ingrese un apellido materno válido (solo letras y espacios)');
+                return;
+            } else {
+                limpiarError(ApellidoM);
+            }
+
+            if (!validarTelefono(Telefono.value.trim())) {
+                mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos numéricos)');
+                return;
+            } else {
+                limpiarError(Telefono);
+            }
+
+            if (!validarCorreo(Correo.value.trim())) {
+                mostrarError(Correo, 'Ingrese un correo electrónico válido');
+                return;
+            } else {
+                limpiarError(Correo);
+            }
+
+            const data = {
+                idClien: form.elements['id'].value,
+                NombreClien: NombreClien.value,
+                ApellidoP: ApellidoP.value,
+                ApellidoM: ApellidoM.value,
+                Telefono: Telefono.value,
+                Correo: Correo.value
+            };
+
+            fetch('../FSP-main-2/controller/cliente_controller.php', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
                 } else {
-                    limpiarError(Telefono);
-                }
-
-                if (!validarCorreo(Correo.value.trim())) {
-                    mostrarError(Correo, 'Ingrese un correo electrónico válido');
-                    return;
-                } else {
-                    limpiarError(Correo);
-                }
-
-                const data = {
-                    idClien: form.elements['id'].value,
-                    NombreClien: NombreClien.value,
-                    ApellidoP: ApellidoP.value,
-                    ApellidoM: ApellidoM.value,
-                    Telefono: Telefono.value,
-                    Correo: Correo.value
-                };
-
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            alert('Error: ' + data.error);
-                        } else {
-                            alert('Cliente actualizado exitosamente');
-                            fetchClientes(); // Actualizar la tabla
-                            cerrarModalEdicion();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error: ' + error.message);
-                    });
-            });
-
-
-
-            window.addEventListener('click', function(event) {
-                if (event.target === document.getElementById('edit-modal')) {
+                    alert('Cliente actualizado exitosamente');
+                    fetchClientes(); // Actualizar la tabla
                     cerrarModalEdicion();
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error: ' + error.message);
             });
+        });
 
-            document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
-            document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('edit-modal')) {
+                cerrarModalEdicion();
+            }
+        });
 
-            document.getElementById('deleteForm').addEventListener('submit', function(event) {
-                event.preventDefault();
+        document.getElementById('editForm').addEventListener('input', validarCampoEnTiempoReal);
+        document.getElementById('editForm').addEventListener('blur', validarCampoEnTiempoReal, true);
 
-                const ids = JSON.parse(event.target.elements['ids'].value);
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-                fetch('../FSP-main-2/controller/cliente_controller.php', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            ids: ids
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            alert('Error: ' + data.error);
-                        } else {
-                            alert('Cliente(s) eliminado(s) exitosamente');
-                            fetchClientes(); // Actualizar la tabla
-                            document.getElementById('delete-modal').style.display = 'none';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error: ' + error.message);
-                    });
-            });
+            const ids = JSON.parse(event.target.elements['ids'].value);
 
-            document.querySelector('#delete-modal .close').addEventListener('click', function() {
-                document.getElementById('delete-modal').style.display = 'none';
-            });
-
-            window.addEventListener('click', function(event) {
-                if (event.target === document.getElementById('delete-modal')) {
+            fetch('../FSP-main-2/controller/cliente_controller.php', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ids: ids })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    alert('Cliente(s) eliminado(s) exitosamente');
+                    fetchClientes(); // Actualizar la tabla
                     document.getElementById('delete-modal').style.display = 'none';
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error: ' + error.message);
             });
         });
 
-        $('#togglePassword').click(function() {
-            var passwordField = $('#passwClien');
-            var fieldType = passwordField.attr('type');
+        document.querySelector('#delete-modal .close').addEventListener('click', function() {
+            document.getElementById('delete-modal').style.display = 'none';
+        });
 
-            if (fieldType === 'password') {
-                passwordField.attr('type', 'text');
-                $('#eyeIcon').removeClass('fa-eye').addClass('fa-eye-slash');
-            } else {
-                passwordField.attr('type', 'password');
-                $('#eyeIcon').removeClass('fa-eye-slash').addClass('fa-eye');
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('delete-modal')) {
+                document.getElementById('delete-modal').style.display = 'none';
             }
         });
 
-        // Mostrar u ocultar confirmación de contraseña
-        $('#toggleConfirmPassword').click(function() {
-            var confirmPasswordField = $('#confirmpasswClien');
-            var fieldType = confirmPasswordField.attr('type');
+        document.getElementById('view-qr').addEventListener('click', function() {
+            const selectedCheckbox = document.querySelector('input.select-checkbox:checked');
+            if (!selectedCheckbox) {
+                alert('Por favor, seleccione un cliente.');
+                return;
+            }
+            const clientId = selectedCheckbox.value;
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
 
-            if (fieldType === 'password') {
-                confirmPasswordField.attr('type', 'text');
-                $('#eyeIconConfirm').removeClass('fa-eye').addClass('fa-eye-slash');
+            // Generar el QR
+            if (QRCode) {
+                console.log('QRCode is loaded:', QRCode); // Verificar si QRCode está definido
+                const qr = new QRCode(qrContainer, {
+                    text: clientId,
+                    width: 128,
+                    height: 128
+                });
+                $('#qrModal').modal('show');
             } else {
-                confirmPasswordField.attr('type', 'password');
-                $('#eyeIconConfirm').removeClass('fa-eye-slash').addClass('fa-eye');
+                console.error('QRCode is not defined');
             }
         });
-    </script>
 
+        document.getElementById('download-qr').addEventListener('click', function() {
+            const qrCanvas = document.querySelector('#qrcode canvas');
+            const url = qrCanvas.toDataURL("image/png");
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'QR_Code.png';
+            link.click();
+        });
+
+        document.getElementById('close-modal').addEventListener('click', function() {
+            $('#qrModal').modal('hide');
+        });
+
+    });
+
+    $('#togglePassword').click(function() {
+        var passwordField = $('#passwClien');
+        var fieldType = passwordField.attr('type');
+
+        if (fieldType === 'password') {
+            passwordField.attr('type', 'text');
+            $('#eyeIcon').removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordField.attr('type', 'password');
+            $('#eyeIcon').removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+
+    // Mostrar u ocultar confirmación de contraseña
+    $('#toggleConfirmPassword').click(function() {
+        var confirmPasswordField = $('#confirmpasswClien');
+        var fieldType = confirmPasswordField.attr('type');
+
+        if (fieldType === 'password') {
+            confirmPasswordField.attr('type', 'text');
+            $('#eyeIconConfirm').removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            confirmPasswordField.attr('type', 'password');
+            $('#eyeIconConfirm').removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+</script>
+
+<style>
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #qrcode {
+        margin: 0 auto;
+    }
+</style>
 </body>
-
 </html>

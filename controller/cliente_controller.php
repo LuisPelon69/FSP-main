@@ -8,7 +8,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 try {
     if ($method === 'POST') {
-        $data = json_decode(file_get_contents('php://input'), true);//uhnybyb
+        $data = json_decode(file_get_contents('php://input'), true);
 
         if (!isset($data['NombreClien'], $data['ApellidoP'], $data['ApellidoM'], $data['Telefono'], $data['Correo'], $data['passwClien'])) {
             echo json_encode(['error' => 'Datos incompletos para crear el cliente']);
