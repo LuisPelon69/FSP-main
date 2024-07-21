@@ -49,7 +49,8 @@ try {
 
     } elseif ($method === 'GET') {
         $cliente = new ClienteModel();
-
+        error_log('Datos recibidos (GET): ' . print_r($_GET, true)); // Registro de los datos recibidos por GET
+        
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $clienteData = $cliente->obtenerClientePorId($id);
