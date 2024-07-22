@@ -26,17 +26,37 @@ try {
             exit;
     }
 
-    if ($method === 'POST') {
+    if ($method === 'GET') {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $model->obtenerPorId($id);
+            echo json_encode($data);
+        } else {
+            $data = $model->obtenerTodos();
+            echo json_encode($data);
+        }
+    } elseif ($method === 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Verificación y asignación de valores en POST
         if (!isset($data['Nombre'], $data['PrecioUnitario'], $data['FechaUltimaModificacion'])) {
             echo json_encode(['error' => 'Datos incompletos para crear el registro']);
             exit;
         }
 
-        $model->setNombre($data['Nombre']);
-        $model->setPrecioUnitario($data['PrecioUnitario']);
-        $model->setFechaUltimaModificacion($data['FechaUltimaModificacion']);
+        if ($tipo === 'tamañoPapel') {
+            $model->setNombreTam($data['Nombre']);
+            $model->setPreciopUTaP($data['PrecioUnitario']);
+            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+        } elseif ($tipo === 'tipoPapel') {
+            $model->setNombreTipoP($data['Nombre']);
+            $model->setPreciopUTiP($data['PrecioUnitario']);
+            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+        } elseif ($tipo === 'tipoImpresion') {
+            $model->setNombreTipoI($data['Nombre']);
+            $model->setPreciopUTiI($data['PrecioUnitario']);
+            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+        }
 
         $response = [];
 
@@ -50,28 +70,32 @@ try {
 
         echo json_encode($response);
 
-    } elseif ($method === 'GET') {
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $data = $model->obtenerPorId($id);
-            echo json_encode($data);
-        } else {
-            $data = $model->obtenerTodos();
-            echo json_encode($data);
-        }
-
     } elseif ($method === 'PUT') {
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Verificación y asignación de valores en PUT
         if (!isset($data['id'], $data['Nombre'], $data['PrecioUnitario'], $data['FechaUltimaModificacion'])) {
             echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
             exit;
         }
 
-        $model->setId($data['id']);
-        $model->setNombre($data['Nombre']);
-        $model->setPrecioUnitario($data['PrecioUnitario']);
-        $model->setFechaUltimaModificacion($data['FechaUltimaModificacion']);
+        if ($tipo === 'tamañoPapel') {
+            $model->setideTamaño($data['id']);
+            $model->setNombreTam($data['Nombre']);
+            $model->setPreciopUTaP($data['PrecioUnitario']);
+            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+        } elseif ($tipo === 'tipoPapel') {
+            $model->setideTipoP($data['id']);
+            $model->setNombreTipoP($data['Nombre']);
+            $model->setPreciopUTiP($data['PrecioUnitario']);
+            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+
+        } elseif ($tipo === 'tipoImpresion') {
+            $model->setideTipoI($data['id']);
+            $model->setNombreTipoI($data['Nombre']);
+            $model->setPreciopUTiI($data['PrecioUnitario']);
+            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+        }
 
         $response = [];
 

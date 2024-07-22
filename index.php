@@ -21,7 +21,7 @@
                 <li><a href="#">Nosotros</a></li>
                 <li><a href="#">Opiniones</a></li>
                 <li><a href="#">Descubrir</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="Promos_sub.php">Contacto</a></li>
             </ul>
         </nav>
         <div class="actions">
@@ -72,7 +72,9 @@
         <div class="col-md-4">
             <div class="container-custom">
                 <div class="image-container" >
+                <a href="View\SaldoIndex.php">
                     <img src="img/4.png" alt="Usuarios" class="aside">
+                    </a>
                 </div>
                 <div class="text">
                     <p>Revisa tu saldo</p>
