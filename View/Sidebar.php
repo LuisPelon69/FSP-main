@@ -91,14 +91,14 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-    <a class="nav-link" href="charts.html">
+    <a class="nav-link" href="Graficas_sub.php">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Gráficas</span></a>
 </li>
 
 <!-- Nav Item - Tables -->
 <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="reportes_sub.php">
         <i class="fas fa-fw fa-table"></i>
         <span>Tablas de Datos</span></a>
 </li>
