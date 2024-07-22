@@ -72,7 +72,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="Empleados.php">Empleados</a>
-            <a class="collapse-item" href="Productos.php">Productos</a>
+            <a class="collapse-item" href="Agregar_Producto.php">Agregar Producto</a>
             <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
             <a class="collapse-item" href="Proveedores.php">Proovedores</a>
         </div>
@@ -91,14 +91,14 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-    <a class="nav-link" href="charts.html">
+    <a class="nav-link" href="Graficas_sub.php">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Gráficas</span></a>
 </li>
 
 <!-- Nav Item - Tables -->
 <li class="nav-item">
-    <a class="nav-link" href="tables.html">
+    <a class="nav-link" href="reportes_sub.php">
         <i class="fas fa-fw fa-table"></i>
         <span>Tablas de Datos</span></a>
 </li>
@@ -113,7 +113,7 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 
 <!-- Sidebar Message -->
 <div class="sidebar-card d-none d-lg-flex">
-    <img class="sidebar-card-illustration mb-2" src="img\Logo3.png" alt="...">
+    <img class="sidebar-card-illustration mb-2" src="img/Logo2.2.png" alt="...">
 </div>
 </li>
 </ul>
