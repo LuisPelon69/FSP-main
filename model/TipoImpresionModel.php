@@ -1,42 +1,57 @@
 <?php
 require_once '../bd/conex.php';
 
-class TipoImpresionModel {
+class TipoImpresionModel
+{
     private $conn;
     private $table_name = "tipoimpresion";
-    public $id;
-    public $nombre;
-    public $precioUnitario;
-    public $fechaUltimaModificacion;
 
-    public function __construct() {
+    public $ideTipoI;
+
+    public $NombreTipoI;
+    public $PreciopUTiI;
+    public $FechaUlModi;
+
+    public function __construct()
+    {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setideTipoI($ideTipoI)
+    {
+        $this->ideTipoI = $ideTipoI;
     }
 
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
+    public function setNombreTipoI($NombreTipoI)
+    {
+        $this->NombreTipoI = $NombreTipoI;
     }
 
-    public function setPrecioUnitario($precioUnitario) {
-        $this->precioUnitario = $precioUnitario;
+    public function setPreciopUTiI($PreciopUTiI)
+    {
+        $this->PreciopUTiI = $PreciopUTiI;
     }
 
-    public function setFechaUltimaModificacion($fechaUltimaModificacion) {
-        $this->fechaUltimaModificacion = $fechaUltimaModificacion;
+    public function setFechaUlModi($FechaUlModi)
+    {
+        $this->FechaUlModi = $FechaUlModi;
     }
 
-    public function save() {
-        $query = "INSERT INTO " . $this->table_name . " (NombreTipoI, PreciopUTiI, FechaUlModi) VALUES (:nombre, :precioUnitario, :fechaUltimaModificacion)";
+    public function save()
+    {
+        $query = "INSERT INTO " . $this->table_name . " (NombreTipoI, PreciopUTiI, FechaUlModi) VALUES (:NombreTipoI, :PreciopUTiI,'')";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':nombre', $this->nombre);
-        $stmt->bindParam(':precioUnitario', $this->precioUnitario);
-        $stmt->bindParam(':fechaUltimaModificacion', $this->fechaUltimaModificacion);
+        // Limpieza de datos
+        $this->NombreTipoI = htmlspecialchars(strip_tags($this->NombreTipoI));
+        $this->PreciopUTiI = htmlspecialchars(strip_tags($this->PreciopUTiI));
+        $this->FechaUlModi = '';
+
+        // Vinculación de parámetros
+        $stmt->bindParam(':NombreTipoI', $this->NombreTipoI);
+        $stmt->bindParam(':PreciopUTiI', $this->PreciopUTiI);
+        $stmt->bindParam(':FechaUlModi', $this->FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -45,8 +60,9 @@ class TipoImpresionModel {
         return false;
     }
 
-    public function obtenerTodos() {
-        $query = "SELECT ideTipoI AS id, NombreTipoI AS nombre, PreciopUTiI AS precioUnitario, FechaUlModi AS fechaUltimaModificacion FROM " . $this->table_name;
+    public function obtenerTodos()
+    {
+        $query = "SELECT ideTipoI, NombreTipoI, PreciopUTiI, FechaUlModi FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -59,22 +75,32 @@ class TipoImpresionModel {
         return $data;
     }
 
-    public function obtenerPorId($id) {
-        $query = "SELECT ideTipoI AS id, NombreTipoI AS nombre, PreciopUTiI AS precioUnitario, FechaUlModi AS fechaUltimaModificacion FROM " . $this->table_name . " WHERE ideTipoI = ?";
+    public function obtenerPorId($id)
+    {
+        $query = "SELECT ideTipoI, NombreTipoI, PreciopUTiI, FechaUlModi FROM " . $this->table_name . " WHERE ideTipoI = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update() {
-        $query = "UPDATE " . $this->table_name . " SET NombreTipoI = :nombre, PreciopUTiI = :precioUnitario, FechaUlModi = :fechaUltimaModificacion WHERE ideTipoI = :id";
+    public function update()
+    {
+        $query = "UPDATE " . $this->table_name . " SET NombreTipoI = :NombreTipoI, PreciopUTiI = :PreciopUTiI, FechaUlModi= :FechaUlModi WHERE ideTipoI = :id";
+
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':nombre', $this->nombre);
-        $stmt->bindParam(':precioUnitario', $this->precioUnitario);
-        $stmt->bindParam(':fechaUltimaModificacion', $this->fechaUltimaModificacion);
-        $stmt->bindParam(':id', $this->id);
+        // Limpieza de datos
+        $this->NombreTipoI = htmlspecialchars(strip_tags($this->NombreTipoI));
+        $this->PreciopUTiI = htmlspecialchars(strip_tags($this->PreciopUTiI));
+        $this->ideTipoI = htmlspecialchars(strip_tags($this->ideTipoI));
+        $FechaUlModi = '';
+
+        // Vinculación de parámetros
+        $stmt->bindParam(':NombreTipoI', $this->NombreTipoI);
+        $stmt->bindParam(':PreciopUTiI', $this->PreciopUTiI);
+        $stmt->bindParam(':id', $this->ideTipoI);
+        $stmt->bindParam(':FechaUlModi', $FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -83,7 +109,9 @@ class TipoImpresionModel {
         return false;
     }
 
-    public function delete($id) {
+
+    public function delete($id)
+    {
         $query = "DELETE FROM " . $this->table_name . " WHERE ideTipoI = ?";
         $stmt = $this->conn->prepare($query);
 
@@ -94,4 +122,3 @@ class TipoImpresionModel {
         return false;
     }
 }
-?>
