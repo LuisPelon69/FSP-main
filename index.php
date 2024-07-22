@@ -72,7 +72,9 @@
         <div class="col-md-4">
             <div class="container-custom">
                 <div class="image-container" >
-                    <img src="img/4.png" alt="Usuarios" class="aside" height="100%">
+                <a href="View\SaldoIndex.php">
+                    <img src="img/4.png" alt="Usuarios" class="aside">
+                    </a>
                 </div>
                 <div class="text">
                     <p>Revisa tu saldo</p>
