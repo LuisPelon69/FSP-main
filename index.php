@@ -21,7 +21,7 @@
                 <li><a href="#">Nosotros</a></li>
                 <li><a href="#">Opiniones</a></li>
                 <li><a href="#">Descubrir</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="Promos_sub.php">Contacto</a></li>
             </ul>
         </nav>
         <div class="actions">
