@@ -1,42 +1,57 @@
 <?php
 require_once '../bd/conex.php';
 
-class TamañoPapelModel {
+class TamañoPapelModel
+{
     private $conn;
     private $table_name = "tamañopapel";
-    public $id;
-    public $nombre;
-    public $precioUnitario;
-    public $fechaUltimaModificacion;
 
-    public function __construct() {
+    public $ideTamaño;
+
+    public $NombreTam;
+    public $PreciopUTaP;
+    public $FechaUlModi;
+
+    public function __construct()
+    {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setideTamaño($ideTamaño)
+    {
+        $this->ideTamaño = $ideTamaño;
     }
 
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
+    public function setNombreTam($NombreTam)
+    {
+        $this->NombreTam = $NombreTam;
     }
 
-    public function setPrecioUnitario($precioUnitario) {
-        $this->precioUnitario = $precioUnitario;
+    public function setPreciopUTaP($PreciopUTaP)
+    {
+        $this->PreciopUTaP = $PreciopUTaP;
     }
 
-    public function setFechaUltimaModificacion($fechaUltimaModificacion) {
-        $this->fechaUltimaModificacion = $fechaUltimaModificacion;
+    public function setFechaUlModi($FechaUlModi)
+    {
+        $this->FechaUlModi = $FechaUlModi;
     }
 
-    public function save() {
-        $query = "INSERT INTO " . $this->table_name . " (NombreTam, PreciopUTaP, FechaUlModi) VALUES (:nombre, :precioUnitario, :fechaUltimaModificacion)";
+    public function save()
+    {
+        $query = "INSERT INTO " . $this->table_name . " (NombreTam, PreciopUTaP, FechaUlModi) VALUES (:NombreTam, :PreciopUTaP,'')";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':nombre', $this->nombre);
-        $stmt->bindParam(':precioUnitario', $this->precioUnitario);
-        $stmt->bindParam(':fechaUltimaModificacion', $this->fechaUltimaModificacion);
+        // Limpieza de datos
+        $this->NombreTam = htmlspecialchars(strip_tags($this->NombreTam));
+        $this->PreciopUTaP = htmlspecialchars(strip_tags($this->PreciopUTaP));
+        $this->FechaUlModi = '';
+
+        // Vinculación de parámetros
+        $stmt->bindParam(':NombreTam', $this->NombreTam);
+        $stmt->bindParam(':PreciopUTaP', $this->PreciopUTaP);
+        $stmt->bindParam(':FechaUlModi', $this->FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -45,8 +60,9 @@ class TamañoPapelModel {
         return false;
     }
 
-    public function obtenerTodos() {
-        $query = "SELECT ideTamaño AS id, NombreTam AS nombre, PreciopUTaP AS precioUnitario, FechaUlModi AS fechaUltimaModificacion FROM " . $this->table_name;
+    public function obtenerTodos()
+    {
+        $query = "SELECT ideTamaño, NombreTam, PreciopUTaP, FechaUlModi FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -59,22 +75,32 @@ class TamañoPapelModel {
         return $data;
     }
 
-    public function obtenerPorId($id) {
-        $query = "SELECT ideTamaño AS id, NombreTam AS nombre, PreciopUTaP AS precioUnitario, FechaUlModi AS fechaUltimaModificacion FROM " . $this->table_name . " WHERE ideTamaño = ?";
+    public function obtenerPorId($id)
+    {
+        $query = "SELECT ideTamaño, NombreTam, PreciopUTaP, FechaUlModi FROM " . $this->table_name . " WHERE ideTamaño = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update() {
-        $query = "UPDATE " . $this->table_name . " SET NombreTam = :nombre, PreciopUTaP = :precioUnitario, FechaUlModi = :fechaUltimaModificacion WHERE ideTamaño = :id";
+    public function update()
+    {
+        $query = "UPDATE " . $this->table_name . " SET NombreTam = :NombreTam, PreciopUTaP = :PreciopUTaP, FechaUlModi= :FechaUlModi WHERE ideTamaño = :id";
+
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':nombre', $this->nombre);
-        $stmt->bindParam(':precioUnitario', $this->precioUnitario);
-        $stmt->bindParam(':fechaUltimaModificacion', $this->fechaUltimaModificacion);
-        $stmt->bindParam(':id', $this->id);
+        // Limpieza de datos
+        $this->NombreTam = htmlspecialchars(strip_tags($this->NombreTam));
+        $this->PreciopUTaP = htmlspecialchars(strip_tags($this->PreciopUTaP));
+        $this->ideTamaño = htmlspecialchars(strip_tags($this->ideTamaño));
+        $FechaUlModi = '';
+
+        // Vinculación de parámetros
+        $stmt->bindParam(':NombreTam', $this->NombreTam);
+        $stmt->bindParam(':PreciopUTaP', $this->PreciopUTaP);
+        $stmt->bindParam(':id', $this->ideTamaño);
+        $stmt->bindParam(':FechaUlModi', $FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -83,7 +109,9 @@ class TamañoPapelModel {
         return false;
     }
 
-    public function delete($id) {
+
+    public function delete($id)
+    {
         $query = "DELETE FROM " . $this->table_name . " WHERE ideTamaño = ?";
         $stmt = $this->conn->prepare($query);
 
@@ -94,4 +122,3 @@ class TamañoPapelModel {
         return false;
     }
 }
-?>
