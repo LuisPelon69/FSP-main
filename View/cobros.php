@@ -29,6 +29,15 @@
         .table tbody tr:hover .delete-row {
             display: block;
         }
+
+        /* Estilo para el modal de notificación */
+        .notification-modal {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050; /* Asegurarse de que esté por encima de otros elementos */
+            display: none;
+        }
     </style>
 </head>
 
@@ -61,11 +70,11 @@
                             <div class="input-row">
                                 <div class="input-container">
                                     <label>Cliente:</label>
-                                    <input type="text" id="cliente" value="ABC Corp" disabled>
+                                    <input type="text" id="cliente" placeholder="Ingrese ID del cliente">
                                 </div>
                                 <div class="input-container">
                                     <label>Saldo:</label>
-                                    <input type="text" id="saldo" value="$500.00" disabled>
+                                    <input type="text" id="saldo" disabled>
                                 </div>
                             </div>
                         </div>
@@ -86,36 +95,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>500</td>
-                                            <td>Sí</td>
-                                            <td>A4</td>
-                                            <td>Bond</td>
-                                            <td>Color</td>
-                                            <td>$200.00</td>
-                                            <td><button class="btn btn-danger delete-row"><i class="fas fa-trash-alt"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>1000</td>
-                                            <td>No</td>
-                                            <td>A3</td>
-                                            <td>Mate</td>
-                                            <td>Blanco y Negro</td>
-                                            <td>$150.00</td>
-                                            <td><button class="btn btn-danger delete-row"><i class="fas fa-trash-alt"></i></button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>750</td>
-                                            <td>Sí</td>
-                                            <td>Legal</td>
-                                            <td>Glossy</td>
-                                            <td>Color</td>
-                                            <td>$300.00</td>
-                                            <td><button class="btn btn-danger delete-row"><i class="fas fa-trash-alt"></i></button></td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -167,89 +146,225 @@
     </div>
 
     <!--Modal Propiedades de Papel-->
-<div class="modal fade" id="propiedadesPapelModal" tabindex="-1" aria-labelledby="propiedadesPapelModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title" id="propiedadesPapelModalLabel">Propiedades de papel</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="propiedadesPapelModal" tabindex="-1" aria-labelledby="propiedadesPapelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="propiedadesPapelModalLabel">Propiedades de papel</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="modal-form">
+                        <!-- Formulario -->
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="col text-center">
+                                    <img src="img/Logo3.png" alt="Icono de Papel" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <label for="clb_TamañoPapel">Tamaño de papel</label>
+                                    <select class="form-control" id="clb_TamañoPapel">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label for="clb_TipoPapel">Tipo de papel</label>
+                                    <select class="form-control" id="clb_TipoPapel">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label for="clb_TipoImpresion">Tipo de impresión</label>
+                                    <select class="form-control" id="clb_TipoImpresion">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col text-center">
+                                    <button type="button" id="save-properties" class="btn btn-primary">Guardar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer"></div>
             </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <form id="modal-form">
-                    <!-- Formulario -->
-                    <div class="container">
-                        <div class="row mb-3">
-                            <div class="col text-center">
-                                <img src="img\Logo3.png" alt="Icono de Papel" class="img-fluid">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                                <label for="clb_TamañoPapel">Tamaño de papel</label>
-                                <select class="form-control" id="clb_TamañoPapel">
-                                    <option value="">Selecciona</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <label for="clb_TipoPapel">Tipo de papel</label>
-                                <select class="form-control" id="clb_TipoPapel">
-                                    <option value="">Selecciona</option>
-                                    <option value="Mate"></option>
-                                    <option value="Brillante"></option>
-                                    <option value="Satinado"></option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <label for="clb_TipoImpresion">Tipo de impresión</label>
-                                <select class="form-control" id="clb_TipoImpresion">
-                                    <option value="">Selecciona</option>
-                                    <option value="Offset"></option>
-                                    <option value="Digital"></option>
-                                    <option value="Serigrafía"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col text-center">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer"></div>
         </div>
     </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-<script src="js/modalCobro.js"></script>
-<script>
-    $('#propiedadesPapelModal').on('show.bs.modal', function () {
-        $.ajax({
-            url: 'get_tamaños_papel.php',
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                var select = $('#clb_TamañoPapel');
-                select.empty();
-                select.append('<option value="">Selecciona</option>');
-                $.each(data, function (index, tamaño) {
-                    select.append('<option value="' + tamaño.NombreTam + '">' + tamaño.NombreTam + '</option>');
+    <!-- Modal de Notificación -->
+    <div id="notification-modal" class="modal fade notification-modal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span id="notification-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <script src="js/modalCobro.js"></script>
+    <script src="js/calculo_cobro.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Cargar las opciones al abrir el modal
+            $('#propiedadesPapelModal').on('show.bs.modal', function () {
+                $.ajax({
+                    url: 'Cobros_sub.php?action=getPaperProperties',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var tamañosPapel = response.tamañosPapel;
+                        var tiposPapel = response.tiposPapel;
+                        var tiposImpresion = response.tiposImpresion;
+
+                        var selectTamaño = $('#clb_TamañoPapel');
+                        var selectTipoPapel = $('#clb_TipoPapel');
+                        var selectTipoImpresion = $('#clb_TipoImpresion');
+
+                        selectTamaño.empty().append('<option value="">Selecciona</option>');
+                        selectTipoPapel.empty().append('<option value="">Selecciona</option>');
+                        selectTipoImpresion.empty().append('<option value="">Selecciona</option>');
+
+                        $.each(tamañosPapel, function(index, tamaño) {
+                            selectTamaño.append('<option value="' + tamaño.NombreTam + '">' + tamaño.NombreTam + '</option>');
+                        });
+
+                        $.each(tiposPapel, function(index, tipo) {
+                            selectTipoPapel.append('<option value="' + tipo.NombreTipoP + '">' + tipo.NombreTipoP + '</option>');
+                        });
+
+                        $.each(tiposImpresion, function(index, tipo) {
+                            selectTipoImpresion.append('<option value="' + tipo.NombreTipoI + '">' + tipo.NombreTipoI + '</option>');
+                        });
+
+                        // Cargar opciones guardadas
+                        var savedTamañoPapel = localStorage.getItem('tamañoPapel');
+                        var savedTipoPapel = localStorage.getItem('tipoPapel');
+                        var savedTipoImpresion = localStorage.getItem('tipoImpresion');
+
+                        if (savedTamañoPapel) selectTamaño.val(savedTamañoPapel);
+                        if (savedTipoPapel) selectTipoPapel.val(savedTipoPapel);
+                        if (savedTipoImpresion) selectTipoImpresion.val(savedTipoImpresion);
+                    },
+                    error: function () {
+                        alert('Error al cargar las propiedades del papel.');
+                    }
                 });
-            },
-            error: function () {
-                alert('Error al cargar los tamaños de papel.');
+            });
+
+            // Guardar propiedades al hacer clic en "Guardar"
+            $('#save-properties').click(function() {
+                var tamañoPapel = $('#clb_TamañoPapel').val();
+                var tipoPapel = $('#clb_TipoPapel').val();
+                var tipoImpresion = $('#clb_TipoImpresion').val();
+
+                // Guardar las propiedades seleccionadas en local storage
+                localStorage.setItem('tamañoPapel', tamañoPapel);
+                localStorage.setItem('tipoPapel', tipoPapel);
+                localStorage.setItem('tipoImpresion', tipoImpresion);
+
+                // Cerrar el modal
+                $('#propiedadesPapelModal').modal('hide');
+            });
+
+            // Reiniciar valores al presionar el botón "new-batch"
+            $('#new-batch').click(function() {
+                localStorage.removeItem('tamañoPapel');
+                localStorage.removeItem('tipoPapel');
+                localStorage.removeItem('tipoImpresion');
+            });
+
+            // Búsqueda de cliente
+            $('#cliente').on('keypress', function (e) {
+                if (e.which == 13) { // Enter key
+                    var idCliente = $(this).val();
+                    $.ajax({
+                        url: 'buscar_cliente.php',
+                        method: 'GET',
+                        data: { idClien: idCliente },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.found) {
+                                $('#saldo').val('$' + response.saldo);
+                                mostrarMensaje('Cliente encontrado exitosamente.', 'success');
+                            } else {
+                                $('#saldo').val('');
+                                mostrarMensaje('Cliente no encontrado.', 'error');
+                            }
+                        },
+                        error: function () {
+                            $('#saldo').val('');
+                            mostrarMensaje('Error al buscar el cliente.', 'error');
+                        }
+                    });
+                }
+            });
+
+            function mostrarMensaje(mensaje, tipo) {
+                var color = tipo === 'success' ? 'green' : 'red';
+                $('#mensajeModal').remove();
+                $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:'+color+';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
+                setTimeout(function() {
+                    $('#mensajeModal').remove();
+                }, 3000);
             }
+
+            // Realizar cobro al presionar el botón "Cobrar"
+            $('#charge').click(function() {
+                var cliente = $('#cliente').val();
+                var total = $('#amount').val();
+                var detalles = [];
+
+                $('.table tbody tr').each(function() {
+                    var lote = $(this).find('td').eq(0).text();
+                    var hojas = $(this).find('td').eq(1).text();
+                    var duplex = $(this).find('td').eq(2).text();
+                    var tamaño = $(this).find('td').eq(3).text();
+                    var tipoPapel = $(this).find('td').eq(4).text();
+                    var tipoImpresion = $(this).find('td').eq(5).text();
+                    var totalFila = $(this).find('td').eq(6).text();
+
+                    detalles.push({
+                        lote: lote,
+                        hojas: hojas,
+                        duplex: duplex,
+                        tamaño: tamaño,
+                        tipoPapel: tipoPapel,
+                        tipoImpresion: tipoImpresion,
+                        total: totalFila
+                    });
+                });
+
+                $.ajax({
+                    url: 'realizar_cobro.php',
+                    method: 'POST',
+                    data: {
+                        cliente: cliente,
+                        total: total,
+                        detalles: JSON.stringify(detalles)
+                    },
+                    success: function(response) {
+                        mostrarMensaje('Cobro realizado exitosamente.', 'success');
+                    },
+                    error: function() {
+                        mostrarMensaje('Error al realizar el cobro.', 'error');
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
-

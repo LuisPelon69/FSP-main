@@ -1,23 +1,33 @@
 <?php
-// File: Model/DashboardModel.php
+require_once 'bd/conex.php';
 
-class AutenticacionModel {
-    public function getMonthlyEarnings() {
-        return 40000;
+class CobroModel {
+    private $conn;
+
+    public function __construct() {
+        $database = new Database();
+        $this->conn = $database->getConnection();
     }
 
-    public function getAnnualEarnings() {
-        return 215000;
+    public function getTamañosPapel() {
+        $query = "SELECT NombreTam FROM tamañopapel";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getGoalsCompletion() {
-        return 50;
+    public function getTiposPapel() {
+        $query = "SELECT NombreTipoP FROM tipopapel";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getReceivedEmails() {
-        return 18;
+    public function getTiposImpresion() {
+        $query = "SELECT NombreTipoI FROM tipoimpresion";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Add other data retrieval methods as needed
 }
 ?>
