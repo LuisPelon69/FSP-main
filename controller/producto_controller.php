@@ -27,54 +27,55 @@ try {
     }
 
     if ($method === 'GET') {
+
+        error_log('Datos recibidos (GET): ' . print_r($_GET, true)); // Registro de los datos recibidos por GET
+
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $data = $model->obtenerPorId($id);
             echo json_encode($data);
+            var_dump($data); // Agrega esta línea para depurar
         } else {
             $data = $model->obtenerTodos();
             echo json_encode($data);
         }
-    } elseif ($method === 'POST') {
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // Verificación y asignación de valores en POST
-        if (!isset($data['Nombre'], $data['PrecioUnitario'], $data['FechaUltimaModificacion'])) {
-            echo json_encode(['error' => 'Datos incompletos para crear el registro']);
-            exit;
-        }
-
         if ($tipo === 'tamañoPapel') {
-            $model->setNombreTam($data['Nombre']);
-            $model->setPreciopUTaP($data['PrecioUnitario']);
-            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+            if (!isset($data['NombreTam']) || !isset($data['PreciopUTaP'])) {
+                echo json_encode(['error' => 'Datos incompletos para crear el registro']);
+                exit;
+            }
+            $model->setNombreTam($data['NombreTam']);
+            $model->setPreciopUTaP($data['PreciopUTaP']);
         } elseif ($tipo === 'tipoPapel') {
-            $model->setNombreTipoP($data['Nombre']);
-            $model->setPreciopUTiP($data['PrecioUnitario']);
-            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+            if (!isset($data['NombreTipoP']) || !isset($data['PreciopUTiP'])) {
+                echo json_encode(['error' => 'Datos incompletos para crear el registro']);
+                exit;
+            }
+            $model->setNombreTipoP($data['NombreTipoP']);
+            $model->setPreciopUTiP($data['PreciopUTiP']);
         } elseif ($tipo === 'tipoImpresion') {
-            $model->setNombreTipoI($data['Nombre']);
-            $model->setPreciopUTiI($data['PrecioUnitario']);
-            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
+            if (!isset($data['NombreTipoI']) || !isset($data['PreciopUTiI'])) {
+                echo json_encode(['error' => 'Datos incompletos para crear el registro']);
+                exit;
+            }
+            $model->setNombreTipoI($data['NombreTipoI']);
+            $model->setPreciopUTiI($data['PreciopUTiI']);
         }
 
-        $response = [];
-
+        // Guardar el modelo en la base de datos
         if ($model->save()) {
-            $response['success'] = true;
-            $response['message'] = 'Registro creado exitosamente';
+            echo json_encode(['success' => 'Registro creado exitosamente']);
         } else {
-            $response['success'] = false;
-            $response['message'] = 'Error al crear el registro. Por favor, verifica los datos e intenta nuevamente.';
+            echo json_encode(['error' => 'Error al crear el registro']);
         }
-
-        echo json_encode($response);
-
     } elseif ($method === 'PUT') {
         $data = json_decode(file_get_contents('php://input'), true);
 
         // Verificación y asignación de valores en PUT
-        if (!isset($data['id'], $data['Nombre'], $data['PrecioUnitario'], $data['FechaUltimaModificacion'])) {
+        if (!isset($data['id'], $data['Nombre'], $data['PrecioUnitario'])) {
             echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
             exit;
         }
@@ -108,7 +109,6 @@ try {
         }
 
         echo json_encode($response);
-
     } elseif ($method === 'DELETE') {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -136,12 +136,9 @@ try {
         }
 
         echo json_encode($response);
-
     } else {
         echo json_encode(['error' => 'Método no permitido']);
     }
-
 } catch (Exception $e) {
     echo json_encode(['error' => 'Error del servidor: ' . $e->getMessage()]);
 }
-?>

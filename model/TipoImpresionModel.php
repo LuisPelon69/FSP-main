@@ -7,10 +7,8 @@ class TipoImpresionModel
     private $table_name = "tipoimpresion";
 
     public $ideTipoI;
-
     public $NombreTipoI;
     public $PreciopUTiI;
-    public $FechaUlModi;
 
     public function __construct()
     {
@@ -33,25 +31,18 @@ class TipoImpresionModel
         $this->PreciopUTiI = $PreciopUTiI;
     }
 
-    public function setFechaUlModi($FechaUlModi)
-    {
-        $this->FechaUlModi = $FechaUlModi;
-    }
-
     public function save()
     {
-        $query = "INSERT INTO " . $this->table_name . " (NombreTipoI, PreciopUTiI, FechaUlModi) VALUES (:NombreTipoI, :PreciopUTiI,'')";
+        $query = "INSERT INTO " . $this->table_name . " (NombreTipoI, PreciopUTiI) VALUES (:NombreTipoI, :PreciopUTiI)";
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
         $this->NombreTipoI = htmlspecialchars(strip_tags($this->NombreTipoI));
         $this->PreciopUTiI = htmlspecialchars(strip_tags($this->PreciopUTiI));
-        $this->FechaUlModi = '';
 
         // Vinculación de parámetros
         $stmt->bindParam(':NombreTipoI', $this->NombreTipoI);
         $stmt->bindParam(':PreciopUTiI', $this->PreciopUTiI);
-        $stmt->bindParam(':FechaUlModi', $this->FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -86,7 +77,7 @@ class TipoImpresionModel
 
     public function update()
     {
-        $query = "UPDATE " . $this->table_name . " SET NombreTipoI = :NombreTipoI, PreciopUTiI = :PreciopUTiI, FechaUlModi= :FechaUlModi WHERE ideTipoI = :id";
+        $query = "UPDATE " . $this->table_name . " SET NombreTipoI = :NombreTipoI, PreciopUTiI = :PreciopUTiI WHERE ideTipoI = :id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -94,13 +85,11 @@ class TipoImpresionModel
         $this->NombreTipoI = htmlspecialchars(strip_tags($this->NombreTipoI));
         $this->PreciopUTiI = htmlspecialchars(strip_tags($this->PreciopUTiI));
         $this->ideTipoI = htmlspecialchars(strip_tags($this->ideTipoI));
-        $FechaUlModi = '';
 
         // Vinculación de parámetros
         $stmt->bindParam(':NombreTipoI', $this->NombreTipoI);
         $stmt->bindParam(':PreciopUTiI', $this->PreciopUTiI);
         $stmt->bindParam(':id', $this->ideTipoI);
-        $stmt->bindParam(':FechaUlModi', $FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -108,7 +97,6 @@ class TipoImpresionModel
 
         return false;
     }
-
 
     public function delete($id)
     {
@@ -122,3 +110,4 @@ class TipoImpresionModel
         return false;
     }
 }
+?>
