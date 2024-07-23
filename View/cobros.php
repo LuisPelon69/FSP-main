@@ -91,33 +91,19 @@
                                             <th>Tipo de Papel</th>
                                             <th>Tipo de Impresión</th>
                                             <th>Total</th>
-                                            <th>Acción</th> <!-- Nueva columna para la acción -->
+                                            <th>Acción</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="productos">
                                     </tbody>
                                 </table>
                             </div>
                             <div class="right-pane">
                                 <!-- Botón de Propiedades -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propiedadesPapelModal">
-                                    Ver Propiedades
+                                    Agregar Productos
                                 </button>
-                                <!-- Opciones de Duplex y Número de hojas -->
-                                <div class="mt-3">
-                                    <div class="input-container">
-                                        <label for="duplex">Duplex:</label>
-                                        <select id="duplex">
-                                            <option value="si">Sí</option>
-                                            <option value="no">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-container">
-                                        <label for="hojas">Cantidad de hojas:</label>
-                                        <input type="number" id="hojas" min="1" max="999" step="1" pattern="\d{1,3}" title="Debe ser un número entre 1 y 999 con hasta 3 dígitos" required>
-                                    </div>
-                                    
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="footer">
@@ -134,9 +120,7 @@
                                 <input type="text" id="amount" readonly>
                             </div>
                             <button id="charge" class="btn btn-primary">Cobrar</button>
-                            <button id="new-batch" class="btn btn-primary">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
+                            
                             <div class="cart-icon"></div>
                         </div>
                     </div>
@@ -145,59 +129,75 @@
         </div>
     </div>
 
-    <!--Modal Propiedades de Papel-->
-    <div class="modal fade" id="propiedadesPapelModal" tabindex="-1" aria-labelledby="propiedadesPapelModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title" id="propiedadesPapelModalLabel">Propiedades de papel</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <form id="modal-form">
-                        <!-- Formulario -->
-                        <div class="container">
-                            <div class="row mb-3">
-                                <div class="col text-center">
-                                    <img src="img/Logo3.png" alt="Icono de Papel" class="img-fluid">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 text-center">
-                                    <label for="clb_TamañoPapel">Tamaño de papel</label>
-                                    <select class="form-control" id="clb_TamañoPapel">
-                                        <option value="">Selecciona</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <label for="clb_TipoPapel">Tipo de papel</label>
-                                    <select class="form-control" id="clb_TipoPapel">
-                                        <option value="">Selecciona</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <label for="clb_TipoImpresion">Tipo de impresión</label>
-                                    <select class="form-control" id="clb_TipoImpresion">
-                                        <option value="">Selecciona</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mt-4">
-                                <div class="col text-center">
-                                    <button type="button" id="save-properties" class="btn btn-primary">Guardar</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
+   <!-- Modal Propiedades de Papel -->
+<div class="modal fade" id="propiedadesPapelModal" tabindex="-1" aria-labelledby="propiedadesPapelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="propiedadesPapelModalLabel">Propiedades de papel</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="modal-form">
+                    <!-- Formulario -->
+                    <div class="container">
+                        <div class="row mb-3">
+                            <div class="col text-center">
+                                <img src="img/Logo3.png" alt="Icono de Papel" class="img-fluid">
                             </div>
                         </div>
-                    </form>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer"></div>
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <label for="clb_TamañoPapel">Tamaño de papel</label>
+                                <select class="form-control" id="clb_TamañoPapel">
+                                    <option value="">Selecciona</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <label for="clb_TipoPapel">Tipo de papel</label>
+                                <select class="form-control" id="clb_TipoPapel">
+                                    <option value="">Selecciona</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <label for="clb_TipoImpresion">Tipo de impresión</label>
+                                <select class="form-control" id="clb_TipoImpresion">
+                                    <option value="">Selecciona</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6 text-center">
+                                <label for="duplex">Duplex:</label>
+                                <select class="form-control" id="duplex">
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <label for="hojas">Cantidad de hojas:</label>
+                                <input type="number" class="form-control" id="hojas" min="1" max="999" step="1" pattern="\d{1,3}" title="Debe ser un número entre 1 y 999 con hasta 3 dígitos" required>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col text-center">
+                            <button id="new-batch" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>añadir
+                            </button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer"></div>
         </div>
     </div>
+</div>
+
 
     <!-- Modal de Notificación -->
     <div id="notification-modal" class="modal fade notification-modal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
@@ -217,154 +217,213 @@
     <script src="js/calculo_cobro.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Cargar las opciones al abrir el modal
-            $('#propiedadesPapelModal').on('show.bs.modal', function () {
-                $.ajax({
-                    url: 'Cobros_sub.php?action=getPaperProperties',
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (response) {
-                        var tamañosPapel = response.tamañosPapel;
-                        var tiposPapel = response.tiposPapel;
-                        var tiposImpresion = response.tiposImpresion;
+    $(document).ready(function() {
+        // Cargar las opciones al abrir el modal
+        $('#propiedadesPapelModal').on('show.bs.modal', function () {
+            $.ajax({
+                url: 'Cobros_sub.php?action=getPaperProperties',
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var tamañosPapel = response.tamañosPapel;
+                    var tiposPapel = response.tiposPapel;
+                    var tiposImpresion = response.tiposImpresion;
 
-                        var selectTamaño = $('#clb_TamañoPapel');
-                        var selectTipoPapel = $('#clb_TipoPapel');
-                        var selectTipoImpresion = $('#clb_TipoImpresion');
+                    var selectTamaño = $('#clb_TamañoPapel');
+                    var selectTipoPapel = $('#clb_TipoPapel');
+                    var selectTipoImpresion = $('#clb_TipoImpresion');
 
-                        selectTamaño.empty().append('<option value="">Selecciona</option>');
-                        selectTipoPapel.empty().append('<option value="">Selecciona</option>');
-                        selectTipoImpresion.empty().append('<option value="">Selecciona</option>');
+                    selectTamaño.empty().append('<option value="">Selecciona</option>');
+                    selectTipoPapel.empty().append('<option value="">Selecciona</option>');
+                    selectTipoImpresion.empty().append('<option value="">Selecciona</option>');
 
-                        $.each(tamañosPapel, function(index, tamaño) {
-                            selectTamaño.append('<option value="' + tamaño.NombreTam + '">' + tamaño.NombreTam + '</option>');
-                        });
-
-                        $.each(tiposPapel, function(index, tipo) {
-                            selectTipoPapel.append('<option value="' + tipo.NombreTipoP + '">' + tipo.NombreTipoP + '</option>');
-                        });
-
-                        $.each(tiposImpresion, function(index, tipo) {
-                            selectTipoImpresion.append('<option value="' + tipo.NombreTipoI + '">' + tipo.NombreTipoI + '</option>');
-                        });
-
-                        // Cargar opciones guardadas
-                        var savedTamañoPapel = localStorage.getItem('tamañoPapel');
-                        var savedTipoPapel = localStorage.getItem('tipoPapel');
-                        var savedTipoImpresion = localStorage.getItem('tipoImpresion');
-
-                        if (savedTamañoPapel) selectTamaño.val(savedTamañoPapel);
-                        if (savedTipoPapel) selectTipoPapel.val(savedTipoPapel);
-                        if (savedTipoImpresion) selectTipoImpresion.val(savedTipoImpresion);
-                    },
-                    error: function () {
-                        alert('Error al cargar las propiedades del papel.');
-                    }
-                });
-            });
-
-            // Guardar propiedades al hacer clic en "Guardar"
-            $('#save-properties').click(function() {
-                var tamañoPapel = $('#clb_TamañoPapel').val();
-                var tipoPapel = $('#clb_TipoPapel').val();
-                var tipoImpresion = $('#clb_TipoImpresion').val();
-
-                // Guardar las propiedades seleccionadas en local storage
-                localStorage.setItem('tamañoPapel', tamañoPapel);
-                localStorage.setItem('tipoPapel', tipoPapel);
-                localStorage.setItem('tipoImpresion', tipoImpresion);
-
-                // Cerrar el modal
-                $('#propiedadesPapelModal').modal('hide');
-            });
-
-            // Reiniciar valores al presionar el botón "new-batch"
-            $('#new-batch').click(function() {
-                localStorage.removeItem('tamañoPapel');
-                localStorage.removeItem('tipoPapel');
-                localStorage.removeItem('tipoImpresion');
-            });
-
-            // Búsqueda de cliente
-            $('#cliente').on('keypress', function (e) {
-                if (e.which == 13) { // Enter key
-                    var idCliente = $(this).val();
-                    $.ajax({
-                        url: 'buscar_cliente.php',
-                        method: 'GET',
-                        data: { idClien: idCliente },
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response.found) {
-                                $('#saldo').val('$' + response.saldo);
-                                mostrarMensaje('Cliente encontrado exitosamente.', 'success');
-                            } else {
-                                $('#saldo').val('');
-                                mostrarMensaje('Cliente no encontrado.', 'error');
-                            }
-                        },
-                        error: function () {
-                            $('#saldo').val('');
-                            mostrarMensaje('Error al buscar el cliente.', 'error');
-                        }
+                    $.each(tamañosPapel, function(index, tamaño) {
+                        selectTamaño.append('<option value="' + tamaño.NombreTam + '">' + tamaño.NombreTam + '</option>');
                     });
+
+                    $.each(tiposPapel, function(index, tipo) {
+                        selectTipoPapel.append('<option value="' + tipo.NombreTipoP + '">' + tipo.NombreTipoP + '</option>');
+                    });
+
+                    $.each(tiposImpresion, function(index, tipo) {
+                        selectTipoImpresion.append('<option value="' + tipo.NombreTipoI + '">' + tipo.NombreTipoI + '</option>');
+                    });
+
+                    // Cargar opciones guardadas
+                    var savedTamañoPapel = localStorage.getItem('tamañoPapel');
+                    var savedTipoPapel = localStorage.getItem('tipoPapel');
+                    var savedTipoImpresion = localStorage.getItem('tipoImpresion');
+
+                    if (savedTamañoPapel) selectTamaño.val(savedTamañoPapel);
+                    if (savedTipoPapel) selectTipoPapel.val(savedTipoPapel);
+                    if (savedTipoImpresion) selectTipoImpresion.val(savedTipoImpresion);
+                },
+                error: function () {
+                    alert('Error al cargar las propiedades del papel.');
                 }
             });
+        });
 
-            function mostrarMensaje(mensaje, tipo) {
-                var color = tipo === 'success' ? 'green' : 'red';
-                $('#mensajeModal').remove();
-                $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:'+color+';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
-                setTimeout(function() {
-                    $('#mensajeModal').remove();
-                }, 3000);
-            }
+        // Guardar propiedades al hacer clic en "Guardar"
+        $('#save-properties').click(function() {
+            var tamañoPapel = $('#clb_TamañoPapel').val();
+            var tipoPapel = $('#clb_TipoPapel').val();
+            var tipoImpresion = $('#clb_TipoImpresion').val();
 
-            // Realizar cobro al presionar el botón "Cobrar"
-            $('#charge').click(function() {
-                var cliente = $('#cliente').val();
-                var total = $('#amount').val();
-                var detalles = [];
+            // Guardar las propiedades seleccionadas en local storage
+            localStorage.setItem('tamañoPapel', tamañoPapel);
+            localStorage.setItem('tipoPapel', tipoPapel);
+            localStorage.setItem('tipoImpresion', tipoImpresion);
 
-                $('.table tbody tr').each(function() {
-                    var lote = $(this).find('td').eq(0).text();
-                    var hojas = $(this).find('td').eq(1).text();
-                    var duplex = $(this).find('td').eq(2).text();
-                    var tamaño = $(this).find('td').eq(3).text();
-                    var tipoPapel = $(this).find('td').eq(4).text();
-                    var tipoImpresion = $(this).find('td').eq(5).text();
-                    var totalFila = $(this).find('td').eq(6).text();
+            // Cerrar el modal
+            $('#propiedadesPapelModal').modal('hide');
+        });
 
-                    detalles.push({
-                        lote: lote,
-                        hojas: hojas,
-                        duplex: duplex,
-                        tamaño: tamaño,
-                        tipoPapel: tipoPapel,
-                        tipoImpresion: tipoImpresion,
-                        total: totalFila
-                    });
-                });
+        // Reiniciar valores al presionar el botón "new-batch"
+        $('#new-batch').click(function(e) {
+            e.preventDefault(); // Evitar el envío del formulario por defecto
+            localStorage.removeItem('tamañoPapel');
+            localStorage.removeItem('tipoPapel');
+            localStorage.removeItem('tipoImpresion');
 
+            // Aquí puedes añadir el código para crear el lote
+            // Ejemplo:
+            // var lote = {
+            //     tamañoPapel: $('#clb_TamañoPapel').val(),
+            //     tipoPapel: $('#clb_TipoPapel').val(),
+            //     tipoImpresion: $('#clb_TipoImpresion').val(),
+            //     duplex: $('#duplex').val(),
+            //     hojas: $('#hojas').val()
+            // };
+            // console.log(lote);
+
+            // Cerrar el modal después de añadir el lote
+            $('#propiedadesPapelModal').modal('hide');
+        });
+
+        // Búsqueda de cliente
+        $('#cliente').on('keypress', function (e) {
+            if (e.which == 13) { // Enter key
+                var idCliente = $(this).val();
                 $.ajax({
-                    url: 'realizar_cobro.php',
-                    method: 'POST',
-                    data: {
-                        cliente: cliente,
-                        total: total,
-                        detalles: JSON.stringify(detalles)
+                    url: 'buscar_cliente.php',
+                    method: 'GET',
+                    data: { idClien: idCliente },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.found) {
+                            $('#saldo').val('$' + response.saldo);
+                            mostrarMensaje('Cliente encontrado exitosamente.', 'success');
+                        } else {
+                            $('#saldo').val('');
+                            mostrarMensaje('Cliente no encontrado.', 'error');
+                        }
                     },
-                    success: function(response) {
-                        mostrarMensaje('Cobro realizado exitosamente.', 'success');
-                    },
-                    error: function() {
-                        mostrarMensaje('Error al realizar el cobro.', 'error');
+                    error: function () {
+                        $('#saldo').val('');
+                        mostrarMensaje('Error al buscar el cliente.', 'error');
                     }
                 });
+            }
+        });
+
+        function mostrarMensaje(mensaje, tipo) {
+            var color = tipo === 'success' ? 'green' : 'red';
+            $('#mensajeModal').remove();
+            $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:'+color+';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
+            setTimeout(function() {
+                $('#mensajeModal').remove();
+            }, 3000);
+        }
+
+        // Realizar cobro al presionar el botón "Cobrar"
+        $('#charge').click(function() {
+            var cliente = $('#cliente').val();
+            var total = $('#amount').val();
+            var detalles = [];
+
+            $('.table tbody tr').each(function() {
+                var lote = $(this).find('td').eq(0).text();
+                var hojas = $(this).find('td').eq(1).text();
+                var duplex = $(this).find('td').eq(2).text();
+                var tamaño = $(this).find('td').eq(3).text();
+                var tipoPapel = $(this).find('td').eq(4).text();
+                var tipoImpresion = $(this).find('td').eq(5).text();
+                var totalFila = $(this).find('td').eq(6).text();
+
+                detalles.push({
+                    lote: lote,
+                    hojas: hojas,
+                    duplex: duplex,
+                    tamaño: tamaño,
+                    tipoPapel: tipoPapel,
+                    tipoImpresion: tipoImpresion,
+                    total: totalFila
+                });
+            });
+
+            $.ajax({
+                url: 'realizar_cobro.php',
+                method: 'POST',
+                data: {
+                    cliente: cliente,
+                    total: total,
+                    detalles: JSON.stringify(detalles)
+                },
+                success: function(response) {
+                    mostrarMensaje('Cobro realizado exitosamente.', 'success');
+                },
+                error: function() {
+                    mostrarMensaje('Error al realizar el cobro.', 'error');
+                }
             });
         });
-    </script>
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Agregar producto y calcular el total
+        $('#new-batch').click(function(e) {
+            e.preventDefault();
+            var cantidad_hojas = $('#hojas').val();
+            var duplex = $('#duplex').val();
+            var tamaño_papel = $('#clb_TamañoPapel').val();
+            var tipo_papel = $('#clb_TipoPapel').val();
+            var tipo_impresion = $('#clb_TipoImpresion').val();
+
+            $.ajax({
+                url: 'index.php?action=calculateTotal',
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                    cantidad_hojas: cantidad_hojas,
+                    duplex: duplex,
+                    tamaño_papel: tamaño_papel,
+                    tipo_papel: tipo_papel,
+                    tipo_impresion: tipo_impresion
+                },
+                success: function(response) {
+                    var total = response.total;
+                    var row = `<tr>
+                        <td>Nuevo Lote</td>
+                        <td>${cantidad_hojas}</td>
+                        <td>${duplex}</td>
+                        <td>${tamaño_papel}</td>
+                        <td>${tipo_papel}</td>
+                        <td>${tipo_impresion}</td>
+                        <td>${total.toFixed(2)}</td>
+                        <td><button class="delete-row">Eliminar</button></td>
+                    </tr>`;
+                    $('#productos').append(row);
+                },
+                error: function() {
+                    alert('Error al calcular el total.');
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
