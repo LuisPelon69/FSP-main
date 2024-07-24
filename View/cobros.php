@@ -382,48 +382,53 @@
 </script>
 
 <script>
-    $(document).ready(function() {
-        // Agregar producto y calcular el total
-        $('#new-batch').click(function(e) {
-            e.preventDefault();
-            var cantidad_hojas = $('#hojas').val();
-            var duplex = $('#duplex').val();
-            var tamaño_papel = $('#clb_TamañoPapel').val();
-            var tipo_papel = $('#clb_TipoPapel').val();
-            var tipo_impresion = $('#clb_TipoImpresion').val();
+        $(document).ready(function() {
+            function updateTotal() {
+                var cantidad_hojas = $("#hojas").val();
+                var duplex = $("#duplex").val();
+                var tamaño_papel = $("#clb_TamañoPapel").val();
+                var tipo_papel = $("#clb_TipoPapel").val();
+                var tipo_impresion = $("#clb_TipoImpresion").val();
 
-            $.ajax({
-                url: 'index.php?action=calculateTotal',
-                method: 'GET',
-                dataType: 'json',
-                data: {
-                    cantidad_hojas: cantidad_hojas,
-                    duplex: duplex,
-                    tamaño_papel: tamaño_papel,
-                    tipo_papel: tipo_papel,
-                    tipo_impresion: tipo_impresion
-                },
-                success: function(response) {
-                    var total = response.total;
-                    var row = `<tr>
-                        <td>Nuevo Lote</td>
-                        <td>${cantidad_hojas}</td>
-                        <td>${duplex}</td>
-                        <td>${tamaño_papel}</td>
-                        <td>${tipo_papel}</td>
-                        <td>${tipo_impresion}</td>
-                        <td>${total.toFixed(2)}</td>
-                        <td><button class="delete-row">Eliminar</button></td>
-                    </tr>`;
-                    $('#productos').append(row);
-                },
-                error: function() {
-                    alert('Error al calcular el total.');
-                }
+                $.ajax({
+                    url: 'index.php?action=calculateTotal',
+                    type: 'GET',
+                    data: {
+                        cantidad_hojas: cantidad_hojas,
+                        duplex: duplex,
+                        tamaño_papel: tamaño_papel,
+                        tipo_papel: tipo_papel,
+                        tipo_impresion: tipo_impresion
+                    },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        var total = data.total;
+                        $("#productos").append(`
+                            <tr>
+                                <td>Lote</td>
+                                <td>${cantidad_hojas}</td>
+                                <td>${duplex}</td>
+                                <td>${tamaño_papel}</td>
+                                <td>${tipo_papel}</td>
+                                <td>${tipo_impresion}</td>
+                                <td>${total}</td>
+                                <td><button class="delete-row">Eliminar</button></td>
+                            </tr>
+                        `);
+                    }
+                });
+            }
+
+            $("#new-batch").click(function(e) {
+                e.preventDefault();
+                updateTotal();
+            });
+
+            $("#productos").on("click", ".delete-row", function() {
+                $(this).closest("tr").remove();
             });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
