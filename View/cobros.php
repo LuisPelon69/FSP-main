@@ -249,9 +249,8 @@
                     },
                     qrCodeMessage => {
                         console.log("QR Code detected: ", qrCodeMessage);
-                        html5QrCode.stop().then(ignore => {
+                        html5QrCode.stop().then(() => {
                             $('#scanQRModal').modal('hide');
-
                             let clienteId = qrCodeMessage;
                             if (clienteId) {
                                 $.post('controller/CobrosQRController.php', { clienteId: clienteId }, function(response) {
@@ -267,8 +266,9 @@
                                 });
                             }
                         }).catch(err => {
-                            console.log(err);
+                            console.log("Error al detener el escaneo: ", err);
                         });
+
                     },
                     errorMessage => {
                         console.log("QR Code no match: ", errorMessage);
