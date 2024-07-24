@@ -13,6 +13,7 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/tarjeta.css">
     <link href="css/stylesCobro.css" rel="stylesheet">
+    <link href="css/botonscan.css" rel="stylesheet">
 
     <style>
         /* Estilo para el botón de eliminar */
@@ -113,8 +114,8 @@
                                 </button>
                             </div>
                             <div class="amount-container">
-                                <button id="paper-plane-button" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane"></i> Enviar Comprobante
+                                <button id="paper-plane-button" class="futuristic-button" data-bs-toggle="modal" data-bs-target="#scanQRModal">
+                                    <i class="fas"></i> Scan QR code
                                 </button>
                                 <label for="amount">$</label>
                                 <input type="text" id="amount" readonly>
@@ -129,74 +130,74 @@
         </div>
     </div>
 
-   <!-- Modal Propiedades de Papel -->
-<div class="modal fade" id="propiedadesPapelModal" tabindex="-1" aria-labelledby="propiedadesPapelModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title" id="propiedadesPapelModalLabel">Propiedades de papel</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Modal Propiedades de Papel -->
+    <div class="modal fade" id="propiedadesPapelModal" tabindex="-1" aria-labelledby="propiedadesPapelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="propiedadesPapelModalLabel">Propiedades de papel</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="modal-form">
+                        <!-- Formulario -->
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="col text-center">
+                                    <img src="img/Logo3.png" alt="Icono de Papel" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <label for="clb_TamañoPapel">Tamaño de papel</label>
+                                    <select class="form-control" id="clb_TamañoPapel">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label for="clb_TipoPapel">Tipo de papel</label>
+                                    <select class="form-control" id="clb_TipoPapel">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <label for="clb_TipoImpresion">Tipo de impresión</label>
+                                    <select class="form-control" id="clb_TipoImpresion">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6 text-center">
+                                    <label for="duplex">Duplex:</label>
+                                    <select class="form-control" id="duplex">
+                                        <option value="si">Sí</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <label for="hojas">Cantidad de hojas:</label>
+                                    <input type="number" class="form-control" id="hojas" min="1" max="999" step="1" pattern="\d{1,3}" title="Debe ser un número entre 1 y 999 con hasta 3 dígitos" required>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col text-center">
+                                    <button id="new-batch" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>añadir
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer"></div>
             </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <form id="modal-form">
-                    <!-- Formulario -->
-                    <div class="container">
-                        <div class="row mb-3">
-                            <div class="col text-center">
-                                <img src="img/Logo3.png" alt="Icono de Papel" class="img-fluid">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                                <label for="clb_TamañoPapel">Tamaño de papel</label>
-                                <select class="form-control" id="clb_TamañoPapel">
-                                    <option value="">Selecciona</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <label for="clb_TipoPapel">Tipo de papel</label>
-                                <select class="form-control" id="clb_TipoPapel">
-                                    <option value="">Selecciona</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <label for="clb_TipoImpresion">Tipo de impresión</label>
-                                <select class="form-control" id="clb_TipoImpresion">
-                                    <option value="">Selecciona</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6 text-center">
-                                <label for="duplex">Duplex:</label>
-                                <select class="form-control" id="duplex">
-                                    <option value="si">Sí</option>
-                                    <option value="no">No</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 text-center">
-                                <label for="hojas">Cantidad de hojas:</label>
-                                <input type="number" class="form-control" id="hojas" min="1" max="999" step="1" pattern="\d{1,3}" title="Debe ser un número entre 1 y 999 con hasta 3 dígitos" required>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col text-center">
-                            <button id="new-batch" class="btn btn-primary">
-                                <i class="fas fa-shopping-cart"></i>añadir
-                            </button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer"></div>
         </div>
     </div>
-</div>
 
 
     <!-- Modal de Notificación -->
@@ -210,12 +211,89 @@
         </div>
     </div>
 
+    <!-- Modal para el escáner QR -->
+    <div class="modal fade" id="scanQRModal" tabindex="-1" aria-labelledby="scanQRModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scanQRModalLabel">Escanear Código QR</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="reader" style="width: 100%; height: 400px;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-    <script src="js/modalCobro.js"></script>
-    <script src="js/calculo_cobro.js"></script>
+    <script src="js/lib/html5-qrcode.min.js"></script>
 
+
+    <script>
+        $(document).ready(function() {
+            $('#paper-plane-button').click(function() {
+                $('#scanQRModal').modal('show');
+                const html5QrCode = new Html5Qrcode("reader");
+
+                html5QrCode.start(
+                    { facingMode: "environment" },
+                    {
+                        fps: 10,
+                        qrbox: 250
+                    },
+                    qrCodeMessage => {
+                        console.log("QR Code detected: ", qrCodeMessage);
+                        html5QrCode.stop().then(ignore => {
+                            $('#scanQRModal').modal('hide');
+
+                            let clienteId = qrCodeMessage;
+                            if (clienteId) {
+                                $.post('controller/CobrosQRController.php', { clienteId: clienteId }, function(response) {
+                                    if (response.status === 'success') {
+                                        $('#cliente').val(clienteId);
+                                        $('#saldo').val(response.saldo);
+                                        mostrarMensaje('Cliente encontrado exitosamente.', 'success');
+                                    } else {
+                                        mostrarMensaje(response.message, 'error');
+                                    }
+                                }, 'json').fail(function() {
+                                    mostrarMensaje('Error al obtener los datos del cliente.', 'error');
+                                });
+                            }
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    },
+                    errorMessage => {
+                        console.log("QR Code no match: ", errorMessage);
+                    }
+                ).catch(err => {
+                    console.log("Unable to start scanning.", err);
+                });
+            });
+
+            // Función para mostrar mensajes
+            function mostrarMensaje(mensaje, tipo) {
+                var color = tipo === 'success' ? 'green' : 'red';
+                $('#mensajeModal').remove();
+                $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:'+color+';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
+                setTimeout(function() {
+                    $('#mensajeModal').remove();
+                }, 3000);
+            }
+
+            // Función para reiniciar el formulario y recargar la página
+            $('#reset-payment').click(function() {
+                location.reload(); // Recargar la página
+            });
+        });
+    </script>
     <script>
     $(document).ready(function() {
         // Cargar las opciones al abrir el modal
