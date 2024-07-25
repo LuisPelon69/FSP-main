@@ -54,9 +54,7 @@
             <div class="carousel-item" data-bs-interval="3000">
                 <img src="img/2.1.png" class="d-block w-100" alt="..." height="640px">
             </div>
-            <div class="carousel-item" data-bs-interval="3000">
-                <img src="img/3.png" class="d-block w-100" alt="..." height="640px">
-            </div>
+
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -104,7 +102,7 @@
 <!-- Contenedor 3 (Misión) -->
 <div class="container main-container" id="mision">
     <div class="custom-container">
-        <div class="custom-image-container" style="background-image: url('../FSP-main-2/img/WhatsApp Image 2024-07-22 at 11.05.37 AM.jpeg');">
+        <div class="custom-image-container" style="background-image: url('../FSP-main-2/img/mision.png');">
         </div>
         <div class="custom-text-container">
             <h2>Misión</h2>
@@ -117,7 +115,7 @@
 <!-- Contenedor 4 (Visión) -->
 <div class="container main-container align-right" id="vision">
     <div class="custom-container custom-container-reverse">
-        <div class="custom-image-container" style="background-image: url('../FSP-main-2/img/WhatsApp Image 2024-07-22 at 11.05.37 AM (1).jpeg');">
+        <div class="custom-image-container" style="background-image: url('../FSP-main-2/img/Logo2.2.png');">
         </div>
         <div class="custom-text-container">
             <h2>Visión</h2>

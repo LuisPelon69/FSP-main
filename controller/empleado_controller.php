@@ -19,7 +19,7 @@ try {
         $empleado = new EmpleadoModel();
         $empleado->setNombreEmp($data['NombreEmp']);
         $empleado->setIdstatus($data['Idstatus']);
-        $empleado->setPasswordE(password_hash($data['PasswordE'], PASSWORD_BCRYPT));
+        $empleado->setPasswordE($data['PasswordE']);
         $empleado->setCURPemp($data['CURPemp']);
         $empleado->setRFC($data['RFC']);
         $empleado->setCP($data['CP']);

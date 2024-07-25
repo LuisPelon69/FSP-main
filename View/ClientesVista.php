@@ -602,7 +602,7 @@
             }
 
             function validarContrasena(value) {
-                const regex = /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
+                const regex =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?~\-]).{8,}$/;
                 return regex.test(value);
             }
 

@@ -58,11 +58,11 @@
                             </div>
                             <div class="input-container">
                                 <label>Nombre:</label>
-                                <input type="text" value="Juan Pérez" disabled>
+                                <input type="text" value="Alfredo Olivas Jímenez" disabled>
                             </div>
                             <div class="input-container">
                                 <label>ID:</label>
-                                <input type="text" value="12345" disabled>
+                                <input type="text" value="1000001" disabled>
                             </div>
                         </div>
                         <div class="header">
