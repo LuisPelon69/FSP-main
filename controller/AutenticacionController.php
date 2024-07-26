@@ -50,7 +50,7 @@ class AutenticacionController
                     if (strpos($idEmple, '10') === 0) {
                         header("Location: ../Admin.php");
                     } elseif (strpos($idEmple, '20') === 0) {
-                        header("Location: ../EmpleadosVista.php");
+                        header("Location: ../NuevoCobro_Empleado.php");
                     } else {
                         // Redirigir a una página por defecto o mostrar un error
                         header("Location: ../Admin.php");

@@ -7,10 +7,8 @@ class TipoPapelModel
     private $table_name = "tipopapel";
 
     public $ideTipoP;
-
-    public $NombreTipoP;
-    public $PreciopUTiP;
-    public $FechaUlModi;
+    public $Nombre;
+    public $Precio;
 
     public function __construct()
     {
@@ -25,33 +23,26 @@ class TipoPapelModel
 
     public function setNombreTipoP($NombreTipoP)
     {
-        $this->NombreTipoP = $NombreTipoP;
+        $this->Nombre = $NombreTipoP;
     }
 
     public function setPreciopUTiP($PreciopUTiP)
     {
-        $this->PreciopUTiP = $PreciopUTiP;
-    }
-
-    public function setFechaUlModi($FechaUlModi)
-    {
-        $this->FechaUlModi = $FechaUlModi;
+        $this->Precio = $PreciopUTiP;
     }
 
     public function save()
     {
-        $query = "INSERT INTO " . $this->table_name . " (NombreTipoP, PreciopUTiP, FechaUlModi) VALUES (:NombreTipoP, :PreciopUTiP,'')";
+        $query = "INSERT INTO " . $this->table_name . " (NombreTipoP, PreciopUTiP) VALUES (:NombreTipoP, :PreciopUTiP)";
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
-        $this->NombreTipoP = htmlspecialchars(strip_tags($this->NombreTipoP));
-        $this->PreciopUTiP = htmlspecialchars(strip_tags($this->PreciopUTiP));
-        $this->FechaUlModi = '';
+        $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
+        $this->Precio = htmlspecialchars(strip_tags($this->Precio));
 
         // Vinculación de parámetros
-        $stmt->bindParam(':NombreTipoP', $this->NombreTipoP);
-        $stmt->bindParam(':PreciopUTiP', $this->PreciopUTiP);
-        $stmt->bindParam(':FechaUlModi', $this->FechaUlModi);
+        $stmt->bindParam(':NombreTipoP', $this->Nombre);
+        $stmt->bindParam(':PreciopUTiP', $this->Precio);
 
         if ($stmt->execute()) {
             return true;
@@ -86,21 +77,19 @@ class TipoPapelModel
 
     public function update()
     {
-        $query = "UPDATE " . $this->table_name . " SET NombreTipoP = :NombreTipoP, PreciopUTiP = :PreciopUTiP, FechaUlModi= :FechaUlModi WHERE ideTipoP = :id";
+        $query = "UPDATE " . $this->table_name . " SET NombreTipoP = :NombreTipoP, PreciopUTiP = :PreciopUTiP WHERE ideTipoP = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
-        $this->NombreTipoP = htmlspecialchars(strip_tags($this->NombreTipoP));
-        $this->PreciopUTiP = htmlspecialchars(strip_tags($this->PreciopUTiP));
+        $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
+        $this->Precio = htmlspecialchars(strip_tags($this->Precio));
         $this->ideTipoP = htmlspecialchars(strip_tags($this->ideTipoP));
-        $FechaUlModi = '';
 
         // Vinculación de parámetros
-        $stmt->bindParam(':NombreTipoP', $this->NombreTipoP);
-        $stmt->bindParam(':PreciopUTiP', $this->PreciopUTiP);
+        $stmt->bindParam(':NombreTipoP', $this->Nombre);
+        $stmt->bindParam(':PreciopUTiP', $this->Precio);
         $stmt->bindParam(':id', $this->ideTipoP);
-        $stmt->bindParam(':FechaUlModi', $FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
@@ -108,7 +97,6 @@ class TipoPapelModel
 
         return false;
     }
-
 
     public function delete($id)
     {
@@ -122,3 +110,4 @@ class TipoPapelModel
         return false;
     }
 }
+?>

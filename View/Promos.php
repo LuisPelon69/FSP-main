@@ -79,7 +79,7 @@
                 <li>Ofertas exclusivas de FSP y nuestros coolaboradores</li>
             </ul>
             <button>Comprar ahora</button>
-            <p class="subtext">O comprar a MXN$129.99/mes</p>
+            <p class="subtext" href="View/AutenticacionVista.php">O comprar a MXN$129.99/mes</p>
         </div>
         <div class="plan">
             <h2>FSP Empresas</h2>
@@ -93,7 +93,7 @@
                 <li>Acceso a nuestros coolaboradores</li>
                 <li>Información exclusiva para iniciar con su empresa en caso de ser nueva</li>
             </ul>
-            <button>Comprar ahora</button>
+            <button href="View\AutenticacionVista.php">Comprar ahora</button>
             <p class="subtext">O comprar a MXN$169.99/mes</p>
         </div>
     </div>

@@ -72,10 +72,16 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Menú de Administración:</h6>
             <a class="collapse-item" href="Empleados.php">Empleados</a>
+<<<<<<< HEAD
             <a class="collapse-item" href="Productos.php">Agregar Producto</a>
             <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
             <a class="collapse-item" href="Cotizacion.php">Cotización</a>
             <a class="collapse-item" href="Proveedores.php">Proveedores</a>
+=======
+            <a class="collapse-item" href="Productos.php">Productos</a>
+            <a class="collapse-item" href="Gestionar.php">Gestionar elementos</a> <!--Esta referencia tenía: ?controller=MenuGestionar&action=index-->
+            <!--<a class="collapse-item" href="Proveedores.php">Proovedores</a>-->
+>>>>>>> 8d8fdf804c2906a67c52a86995ac7ba994f98bfa
         </div>
     </div>
 </li>
