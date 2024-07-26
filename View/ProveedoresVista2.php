@@ -220,10 +220,8 @@
                                     <th>SELECCIONAR</th>
                                     <th>ID</th>
                                     <th>Nombre</th>
-                                    <th>Puesto</th>
+                                    <th>Teléfono</th>
                                     <th>Correo</th>
-                                    <th>Recargas Realizadas</th>
-                                    <th>Cobro Realizados</th>
                                     <th>Dirección</th>
                                 </tr>
                             </thead>
@@ -246,15 +244,9 @@
                 </div>
                 <form class="form-container" id="addForm">
                     <div class="form-group">
-                        <label for="NombreEmp">Nombre Completo</label>
-                        <input type="text" id="NombreEmp" name="NombreEmp">
-                        <span id="error-NombreEmp"></span><br>
-                    </div>
-                    <div class="form-group">
-                        <label id="tipoProveedor">Tipo de Proveedor:</label>
-                        <select id="Idstatus" name="Idstatus">
-                            <option value="">Seleccione un tipo de Proveedor</option>
-                        </select>
+                        <label for="NombreProveedor">Nombre Completo</label>
+                        <input type="text" id="NombreProveedor" name="NombreProveedor">
+                        <span id="error-NombreProveedor"></span><br>
                     </div>
 
                     <div class="form-group">
@@ -270,9 +262,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="CP">Código Postal:</label>
-                        <input type="text" id="CP" name="CP">
-                        <span id="error-CP"></span>
+                        <label for="CodigoPostal">Código Postal:</label>
+                        <input type="text" id="CodigoPostal" name="CodigoPostal">
+                        <span id="error-CodigoPostal"></span>
                     </div>
 
                     <div class="form-group">
@@ -326,9 +318,9 @@
                     <input type="hidden" id="editId" name="idProveedor">
 
                     <div class="form-group">
-                        <label for="NombreEmpE">Nombre Completo:</label>
-                        <input type="text" id="NombreEmpE" name="NombreEmpE">
-                        <span id="error-NombreEmpE"></span><br>
+                        <label for="NombreProveedorE">Nombre Completo:</label>
+                        <input type="text" id="NombreProveedorE" name="NombreProveedorE">
+                        <span id="error-NombreProveedorE"></span><br>
                     </div>
 
                     <div class="form-group">
@@ -344,9 +336,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="CPE">Código Postal:</label>
-                        <input type="text" id="CPE" name="CPE">
-                        <span id="error-CPE"></span>
+                        <label for="CodigoPostalE">Código Postal:</label>
+                        <input type="text" id="CodigoPostalE" name="CodigoPostalE">
+                        <span id="error-CodigoPostalE"></span>
                     </div>
 
                     <div class="form-group">
@@ -402,24 +394,15 @@
             </div>
         </div>
 
-
-
-
-
         <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
 
-
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>
@@ -442,80 +425,51 @@
                 abrirModal();
             });
 
-            // Fetch and display employees
-            fetch('../FSP-main-2/controller/Proveedor_Controller.php?type=tiposProveedor', {
-                    method: 'GET'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const tipoProveedoresSelect = document.getElementById('Idstatus');
-                    tipoProveedoresSelect.innerHTML =
-                        '<option value="">Seleccione un tipo</option>'; // Resetea las opciones antes de agregar las nuevas
-
-                    data.forEach(tipo => {
-                        const option = document.createElement('option');
-                        option.value = tipo
-                            .Idstatus; // Asume que 'id' es el campo que quieres usar como valor
-                        option.textContent = tipo
-                            .NombreStatus; // Asume que 'nombre' es el campo que quieres mostrar como texto
-                        tipoProveedoresSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-
-
-                function fetchProveedores() {
+            // Fetch and display suppliers
+            function fetchProveedores() {
                 fetch('../FSP-main-2/controller/Proveedor_Controller.php', {
                         method: 'GET'
                     })
                     .then(response => response.json())
                     .then(data => {
                         if (!data || data.error) {
-                            console.error('Error al obtener Proveedores:', data.error);
+                            console.error('Error al obtener proveedores:', data.error);
                             return;
                         }
                         let table = document.querySelector("table tbody");
                         table.innerHTML = ''; // Limpiar la tabla antes de llenarla
-                        data.forEach(Proveedor => {
+                        data.forEach(proveedor => {
                             let row = table.insertRow();
-                            row.setAttribute('data-id', Proveedor.idProveedor);
+                            row.setAttribute('data-id', proveedor.idProveedor);
 
-                            // Checkbox con la ID del Proveedor como valor
+                            // Checkbox con la ID del proveedor como valor
                             let cellCheckbox = row.insertCell(0);
                             let checkbox = document.createElement('input');
                             checkbox.type = 'checkbox';
                             checkbox.classList.add('select-checkbox');
-                            checkbox.value = Proveedor.idProveedor;
+                            checkbox.value = proveedor.idProveedor;
                             cellCheckbox.appendChild(checkbox);
 
-                            // Id del Proveedor
+                            // Id del proveedor
                             let cellidProveedor = row.insertCell(1);
-                            cellidProveedor.textContent = Proveedor.idProveedor;
+                            cellidProveedor.textContent = proveedor.idProveedor;
 
-                            // Nombre del Proveedor
-                            let cellNombreEmp = row.insertCell(2);
-                            cellNombreEmp.textContent = Proveedor.NombreEmp;
+                            // Nombre del proveedor
+                            let cellNombreProveedor = row.insertCell(2);
+                            cellNombreProveedor.textContent = proveedor.NombreProveedor;
 
-                            // Puesto
-                            let cellNombreStatus = row.insertCell(3);
-                            cellNombreStatus.textContent = Proveedor.NombreStatus;
+                            // Teléfono
+                            let cellTelefono = row.insertCell(3);
+                            cellTelefono.textContent = proveedor.Telefono;
 
                             // Correo
                             let cellCorreo = row.insertCell(4);
-                            cellCorreo.textContent = Proveedor.Correo;
-
-                            // Recargas realizadas
-                            let cellRecargas = row.insertCell(5);
-                            cellRecargas.textContent = Proveedor.Recargas;
-
-                            // Cobros realizados
-                            let cellCobros = row.insertCell(6);
-                            cellCobros.textContent = Proveedor.Cobros;
+                            cellCorreo.textContent = proveedor.Correo;
 
                             // Dirección
-                            let cellDireccion = row.insertCell(7);
+                            let cellDireccion = row.insertCell(5);
                             cellDireccion.textContent =
-                                `${Proveedor.Calle} ${Proveedor.NoExt} ${Proveedor.NoInterior} ${Proveedor.Colonia} ${Proveedor.Cruzamiento}`;
+                                `${proveedor.Calle} ${proveedor.NoExt} ${proveedor.NoInterior} ${proveedor.Colonia} ${proveedor.Cruzamiento}`;
                         });
                         updateButtonState();
                     })
@@ -560,11 +514,10 @@
                 }
             }
 
-            const NombreEmp = document.getElementById('NombreEmp');
-            const Idstatus = document.getElementById('Idstatus');
+            const NombreProveedor = document.getElementById('NombreProveedor');
             const Telefono = document.getElementById('Telefono');
             const Correo = document.getElementById('Correo');
-            const CP = document.getElementById('CP');
+            const CodigoPostal = document.getElementById('CodigoPostal');
             const Calle = document.getElementById('Calle');
             const NoInterior = document.getElementById('NoInterior');
             const NoExt = document.getElementById('NoExt');
@@ -575,7 +528,7 @@
             const closeButton = document.querySelector('.close');
             const tableBody = document.querySelector('table tbody');
 
-            function validarNombreEmp(value) {
+            function validarNombreProveedor(value) {
                 const regex = /^[a-zA-Z\s]+$/;
                 return regex.test(value);
             }
@@ -586,11 +539,11 @@
             }
 
             function validarCorreo(value) {
-                const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return regex.test(value);
             }
 
-            function validarCP(value) {
+            function validarCodigoPostal(value) {
                 const regex = /^\d{5}$/;
                 return regex.test(value);
             }
@@ -639,17 +592,17 @@
                 modal.style.display = 'none';
             }
 
-            NombreEmp.addEventListener('input', function() {
-                if (!validarNombreEmp(NombreEmp.value.trim())) {
-                    mostrarError(NombreEmp, 'Ingrese un nombre válido (solo letras y espacios)');
+            NombreProveedor.addEventListener('input', function() {
+                if (!validarNombreProveedor(NombreProveedor.value.trim())) {
+                    mostrarError(NombreProveedor, 'Ingrese un nombre válido (solo letras y espacios)');
                 } else {
-                    limpiarError(NombreEmp);
+                    limpiarError(NombreProveedor);
                 }
             });
 
             Telefono.addEventListener('input', function() {
                 if (!validarTelefono(Telefono.value.trim())) {
-                    mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos)');
+                    mostrarError(Telefono, 'Ingrese un teléfono válido (10 dígitos numéricos)');
                 } else {
                     limpiarError(Telefono);
                 }
@@ -663,11 +616,11 @@
                 }
             });
 
-            CP.addEventListener('input', function() {
-                if (!validarCP(CP.value.trim())) {
-                    mostrarError(CP, 'Ingrese un Código Postal válido');
+            CodigoPostal.addEventListener('input', function() {
+                if (!validarCodigoPostal(CodigoPostal.value.trim())) {
+                    mostrarError(CodigoPostal, 'Ingrese un Código Postal válido');
                 } else {
-                    limpiarError(CP);
+                    limpiarError(CodigoPostal);
                 }
             });
 
@@ -691,15 +644,7 @@
                 if (!validarNoExt(NoExt.value.trim())) {
                     mostrarError(NoExt, 'Ingrese un número exterior de domicilio válido');
                 } else {
-                    limpiarError(Calle);
-                }
-            });
-
-            Colonia.addEventListener('input', function() {
-                if (!validarColonia(Colonia.value.trim())) {
-                    mostrarError(Colonia, 'Ingrese un nombre de colonia válido');
-                } else {
-                    limpiarError(Colonia);
+                    limpiarError(NoExt);
                 }
             });
 
@@ -736,10 +681,10 @@
             saveButton.addEventListener('click', function(event) {
                 event.preventDefault();
 
-                if (!validarNombreEmp(NombreEmp.value.trim()) ||
+                if (!validarNombreProveedor(NombreProveedor.value.trim()) ||
                     !validarTelefono(Telefono.value.trim()) ||
                     !validarCorreo(Correo.value.trim()) ||
-                    !validarCP(CP.value.trim()) ||
+                    !validarCodigoPostal(CodigoPostal.value.trim()) ||
                     !validarCalle(Calle.value.trim()) ||
                     !validarNoInterior(NoInterior.value.trim()) ||
                     !validarNoExt(NoExt.value.trim()) ||
@@ -751,16 +696,15 @@
 
                 const form = document.getElementById('addForm');
                 const data = {
-                    NombreEmp: form.elements['NombreEmp'].value,
-                    Idstatus: form.elements['Idstatus'].value,
+                    NombreProveedor: form.elements['NombreProveedor'].value,
                     Telefono: form.elements['Telefono'].value,
                     Correo: form.elements['Correo'].value,
-                    CP: form.elements['CP'].value,
+                    CodigoPostal: form.elements['CodigoPostal'].value,
                     Calle: form.elements['Calle'].value,
                     NoInterior: form.elements['NoInterior'].value,
                     NoExt: form.elements['NoExt'].value,
                     Colonia: form.elements['Colonia'].value,
-                    Cruzamiento: form.elements['Cruzamiento'].value
+                    Cruzamiento: form.elements['Cruzamiento'].value,
                 };
 
                 fetch('../FSP-main-2/controller/Proveedor_Controller.php', {
@@ -792,8 +736,6 @@
                     });
             });
 
-            fetchProveedores();
-
             document.addEventListener('change', function(e) {
                 if (e.target.classList.contains('select-checkbox')) {
                     updateButtonState();
@@ -823,7 +765,7 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked'))
                         .map(cb => cb.value);
-                    console.log('Eliminar Proveedor con IDs:', selectedIds);
+                    console.log('Eliminar Proveedores con IDs:', selectedIds);
                     abrirModalEliminar(selectedIds);
                 }
             });
@@ -836,21 +778,21 @@
                         method: 'GET'
                     })
                     .then(response => response.json())
-                    .then(proveedorz => {
-                        if (!proveedorz || proveedorz.error) {
-                            console.error('Error al obtener empleado:', proveedorz.error);
+                    .then(proveedor => {
+                        if (!proveedor || proveedor.error) {
+                            console.error('Error al obtener proveedor:', proveedor.error);
                             return;
                         }
-                        form.elements['editId'].value = proveedorz.idProveedor || '';
-                        form.elements['NombreEmpE'].value = proveedorz.NombreEmp || '';
-                        form.elements['TelefonoE'].value = proveedorz.Telefono || '';
-                        form.elements['CorreoE'].value = proveedorz.Correo || '';
-                        form.elements['CalleE'].value = proveedorz.Calle || '';
-                        form.elements['NoInteriorE'].value = proveedorz.NoInterior || '';
-                        form.elements['NoExtE'].value = proveedorz.NoExt || '';
-                        form.elements['ColoniaE'].value = proveedorz.Colonia || '';
-                        form.elements['CruzamientoE'].value = proveedorz.Cruzamiento || '';
-                        form.elements['CPE'].value = proveedorz.CP || '';
+                        form.elements['editId'].value = proveedor.idProveedor || '';
+                        form.elements['NombreProveedorE'].value = proveedor.NombreProveedor || '';
+                        form.elements['TelefonoE'].value = proveedor.Telefono || '';
+                        form.elements['CorreoE'].value = proveedor.Correo || '';
+                        form.elements['CalleE'].value = proveedor.Calle || '';
+                        form.elements['NoInteriorE'].value = proveedor.NoInterior || '';
+                        form.elements['NoExtE'].value = proveedor.NoExt || '';
+                        form.elements['ColoniaE'].value = proveedor.Colonia || '';
+                        form.elements['CruzamientoE'].value = proveedor.Cruzamiento || '';
+                        form.elements['CodigoPostalE'].value = proveedor.CodigoPostal || '';
 
                         modal.style.display = 'block';
                     })
@@ -867,75 +809,19 @@
                 modal.style.display = 'none';
             }
 
-            function validarNombreEmp(value) {
-                const regex = /^[a-zA-Z\s]+$/;
-                return regex.test(value);
-            }
-
-            function validarTelefono(value) {
-                const regex = /^[0-9]{10}$/;
-                return regex.test(value);
-            }
-
-            function validarCorreo(value) {
-                const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-                return regex.test(value);
-            }
-
-            function validarCP(value) {
-                const regex = /^\d{5}$/;
-                return regex.test(value);
-            }
-
-            function validarCalle(value) {
-                const regex = /^[a-zA-Z0-9\s]+$/;
-                return regex.test(value);
-            }
-
-            function validarNoInterior(value) {
-                const regex = /^[a-zA-Z0-9\s]*$/; // Puede ser alfanumérico o vacío
-                return regex.test(value);
-            }
-
-            function validarNoExt(value) {
-                const regex = /^[a-zA-Z0-9\s]+$/; // Debe ser alfanumérico y no vacío
-                return regex.test(value);
-            }
-
-            function validarColonia(value) {
-                const regex = /^[a-zA-Z0-9\s]+$/;
-                return regex.test(value);
-            }
-
-            function validarCruzamiento(value) {
-                const regex = /^[a-zA-Z0-9\s]*$/; // Puede ser alfanumérico o vacío
-                return regex.test(value);
-            }
-
-            function mostrarError(elemento, mensaje) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = mensaje;
-                errorElemento.style.color = 'red';
-            }
-
-            function limpiarError(elemento) {
-                const errorElemento = document.getElementById('error-' + elemento.id);
-                errorElemento.textContent = '';
-            }
-
             function validarCampoEnTiempoReal(event) {
                 const elemento = event.target;
                 const valor = elemento.value.trim();
 
-                if (elemento.id === 'NombreEmpE') {
-                    if (!validarNombreEmp(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre y apellido válido (solo letras y espacios)');
+                if (elemento.id === 'NombreProveedorE') {
+                    if (!validarNombreProveedor(valor)) {
+                        mostrarError(elemento, 'Ingrese un nombre válido (solo letras y espacios)');
                     } else {
                         limpiarError(elemento);
                     }
                 } else if (elemento.id === 'TelefonoE') {
                     if (!validarTelefono(valor)) {
-                        mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos)');
+                        mostrarError(elemento, 'Ingrese un teléfono válido (10 dígitos numéricos)');
                     } else {
                         limpiarError(elemento);
                     }
@@ -945,8 +831,8 @@
                     } else {
                         limpiarError(elemento);
                     }
-                } else if (elemento.id === 'CPE') {
-                    if (!validarCP(valor)) {
+                } else if (elemento.id === 'CodigoPostalE') {
+                    if (!validarCodigoPostal(valor)) {
                         mostrarError(elemento, 'Ingrese un código postal válido (5 dígitos numéricos)');
                     } else {
                         limpiarError(elemento);
@@ -992,10 +878,10 @@
                 const form = document.getElementById('editForm');
                 const data = {
                     idProveedor: form.elements['idProveedor'].value,
-                    NombreEmp: form.elements['NombreEmpE'].value,
+                    NombreProveedor: form.elements['NombreProveedorE'].value,
                     Telefono: form.elements['TelefonoE'].value,
                     Correo: form.elements['CorreoE'].value,
-                    CP: form.elements['CPE'].value,
+                    CodigoPostal: form.elements['CodigoPostalE'].value,
                     Calle: form.elements['CalleE'].value,
                     NoInterior: form.elements['NoInteriorE'].value,
                     NoExt: form.elements['NoExtE'].value,
@@ -1020,7 +906,7 @@
                         if (data.error) {
                             alert('Error: ' + data.error);
                         } else {
-                            alert('Empleado actualizado exitosamente');
+                            alert('Proveedor actualizado exitosamente');
                             fetchProveedores(); // Actualizar la tabla
                             cerrarModalEdicion();
                         }
@@ -1061,7 +947,7 @@
                         if (data.error) {
                             alert('Error: ' + data.error);
                         } else {
-                            alert('Empleado(s) eliminado(s) exitosamente');
+                            alert('Proveedores eliminados exitosamente');
                             fetchProveedores(); // Actualizar la tabla
                             document.getElementById('delete-modal').style.display = 'none';
                         }

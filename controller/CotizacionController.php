@@ -1,22 +1,19 @@
 <?php
-require_once 'model/ProveedoresModel.php';
+require_once 'model/CotizacionModel.php';
 
-class ProveedoresController
-{
+class CotizacionController {
     private $model;
 
-    public function __construct()
-    {
-        $this->model = new EmpleadosModel();
+    public function __construct() {
+        $this->model = new CotizacionModel();
     }
 
-    public function index()
-    {
+    public function index() {
         $monthlyEarnings = $this->model->getMonthlyEarnings();
         $annualEarnings = $this->model->getAnnualEarnings();
         $goalsCompletion = $this->model->getGoalsCompletion();
         $receivedEmails = $this->model->getReceivedEmails();
-
+        
         include 'View/Header.php';
 ?>
 
@@ -34,8 +31,8 @@ class ProveedoresController
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'View/ProveedoresVista2.php'; ?>
-
+                    <?php include 'View/CotizacionVista.php'; ?>
+                    
                 </div>
                 <!-- End of Content -->
 
@@ -43,15 +40,17 @@ class ProveedoresController
                 <?php include 'View/Footer.php'; ?>
             </div>
             <!-- End of Content Wrapper -->
-            
+
         </div>
         <!-- End of Wrapper -->
-        
+
 <?php
         include 'View/Scripts.php';
     }
 }
 
-$controller = new ProveedoresController();
+$controller = new CotizacionController();
 $controller->index();
 ?>
+
+

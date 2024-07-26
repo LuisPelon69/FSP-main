@@ -1,7 +1,7 @@
 <?php
 // File: Model/DashboardModel.php
 
-class EmpleadosModel {
+class CotizacionModel {
     public function getMonthlyEarnings() {
         return 40000;
     }
