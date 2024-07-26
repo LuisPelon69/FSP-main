@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>FSP Administrador</title>
-
     <!-- Custom fonts for this template-->
     <link href="../FSP-main-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../FSP-main-2/css/tarjeta.css">
-
     <!-- Custom styles for this template-->
     <link href="../FSP-main-2/css/sb-admin-2.min.css" rel="stylesheet">
-
-
     <!--TABLA DE CLIENTES-->
     <style>
         /* Ocultar la columna de ID */
@@ -97,43 +90,35 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
-
-
         .error {
             color: red;
             font-size: 11px;
             font-family: Arial, sans-serif;
         }
-
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
-
         /* Estilos para el formulario */
         .form-container {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
-
         .form-group {
             display: flex;
             flex-direction: column;
             width: calc(50% - 10px);
             /* Dos columnas con un espacio entre ellas */
         }
-
         .form-group label {
             font-weight: bold;
             margin-bottom: 5px;
@@ -435,7 +420,6 @@
 
             </div>
         </div>
-
         <!-- Modal de Eliminación -->
         <div id="delete-modal" class="modal">
             <div class="modal-content">
@@ -448,26 +432,15 @@
                 </form>
             </div>
         </div>
-
-
-
-
-
         <!-- /.container-fluid -->
 
     </div>
     <!-- End of Main Content -->
-
-
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
-
-
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>
     <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -568,9 +541,7 @@
                     })
                     .catch(error => console.error('Error:', error));
             }
-
             fetchEmpleados();
-
             function updateButtonState() {
                 const checkboxes = document.querySelectorAll('.select-checkbox:checked');
                 const addButton = document.getElementById('add-card');
@@ -630,8 +601,7 @@
             }
 
             function validarCURP(value) {
-                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}[A-Z0-9][0-9]$/;
-
+                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}\d{2}$/;
                 return regex.test(value);
             }
 
@@ -953,7 +923,7 @@
             }
 
             function validarCURP(value) {
-                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}[A-Z0-9][0-9]$/;
+                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}\d{2}$/;
                 return regex.test(value);
             }
 
@@ -1166,25 +1136,7 @@
                 }
             });
         });
-
-
         //---------------------------------------------------
-
-
-
-
-
-
-
-
-        //document.getElementById('closeDelete').addEventListener('click', function() {
-        //cerrarModalEliminar();
-        //});
-
-
-
-
-
         $('#togglePassword').click(function() {
             var passwordField = $('#PasswordE');
             var fieldType = passwordField.attr('type');
@@ -1212,9 +1164,6 @@
             }
         });
     </script>
-
-
-
 </body>
 
 </html>

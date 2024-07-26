@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -11,14 +11,13 @@
 
     <title>FSP Administrador</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Fuentes personalizadas para esta plantilla-->
     <link href="../FSP-main-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../FSP-main-2/css/tarjeta.css">
 
-    <!-- Custom styles for this template-->
+    <!-- Estilos personalizados para esta plantilla-->
     <link href="../FSP-main-2/css/sb-admin-2.min.css" rel="stylesheet">
-
 
     <!--TABLA DE CLIENTES-->
     <style>
@@ -64,7 +63,7 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-75%, -50%);
+            transform: translate(-50%, -50%);
             height: auto;
             overflow-y: auto;
         }
@@ -100,13 +99,6 @@
             color: red;
             font-size: 11px;
             font-family: Arial, sans-serif;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
         }
 
         .close:hover,
@@ -178,12 +170,12 @@
 
         /* Añadir espacio entre los botones */
         .form-buttons .cancel+.submit {
-            margin-left: 580px;
+            margin-left: 10px;
             /* Ajustar el margen entre los botones */
         }
 
         .form-buttons .cancel+.submitchanges {
-            margin-left: 615px;
+            margin-left: 10px;
             /* Ajustar el margen entre los botones */
         }
 
@@ -247,6 +239,12 @@
                         <label for="NombreProveedor">Nombre Completo</label>
                         <input type="text" id="NombreProveedor" name="NombreProveedor">
                         <span id="error-NombreProveedor"></span><br>
+                    </div>
+                    <div class="form-group">
+                        <label id="tipoProveedor">Tipo de Proveedor:</label>
+                        <select id="IdTipo" name="IdTipo">
+                            <option value="">Seleccione un tipo de Proveedor</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -376,8 +374,6 @@
                         <button type="submit" class="submitchanges" id="editSave">Guardar Cambios</button>
                     </div>
                 </form>
-
-
             </div>
         </div>
 
@@ -416,16 +412,33 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-
-            document.getElementById('cancel-button').addEventListener('click', function() {
-                cerrarModalEliminar();
-            });
-
             document.getElementById('add-card').addEventListener('click', function() {
                 abrirModal();
             });
 
-            // Fetch and display suppliers
+            document.getElementById('cancel-button').addEventListener('click', function() {
+                cerrarModal();
+            });
+
+            // Fetch and display supplier types
+            fetch('../FSP-main-2/controller/Proveedor_Controller.php?tipos=true', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const tipoProveedoresSelect = document.getElementById('IdTipo');
+                    tipoProveedoresSelect.innerHTML =
+                        '<option value="">Seleccione un tipo de Proveedor</option>'; // Resetea las opciones antes de agregar las nuevas
+
+                    data.forEach(tipo => {
+                        const option = document.createElement('option');
+                        option.value = tipo.IdTipo;
+                        option.textContent = tipo.Descripcion;
+                        tipoProveedoresSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+
             function fetchProveedores() {
                 fetch('../FSP-main-2/controller/Proveedor_Controller.php', {
                         method: 'GET'
@@ -433,7 +446,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (!data || data.error) {
-                            console.error('Error al obtener proveedores:', data.error);
+                            console.error('Error al obtener Proveedores:', data.error);
                             return;
                         }
                         let table = document.querySelector("table tbody");
@@ -515,6 +528,7 @@
             }
 
             const NombreProveedor = document.getElementById('NombreProveedor');
+            const IdTipo = document.getElementById('IdTipo');
             const Telefono = document.getElementById('Telefono');
             const Correo = document.getElementById('Correo');
             const CodigoPostal = document.getElementById('CodigoPostal');
@@ -539,7 +553,7 @@
             }
 
             function validarCorreo(value) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                 return regex.test(value);
             }
 
@@ -602,7 +616,7 @@
 
             Telefono.addEventListener('input', function() {
                 if (!validarTelefono(Telefono.value.trim())) {
-                    mostrarError(Telefono, 'Ingrese un teléfono válido (10 dígitos numéricos)');
+                    mostrarError(Telefono, 'Ingrese un número de teléfono válido (10 dígitos)');
                 } else {
                     limpiarError(Telefono);
                 }
@@ -697,6 +711,7 @@
                 const form = document.getElementById('addForm');
                 const data = {
                     NombreProveedor: form.elements['NombreProveedor'].value,
+                    IdTipo: form.elements['IdTipo'].value, // Asegurarse de incluir el tipo de proveedor
                     Telefono: form.elements['Telefono'].value,
                     Correo: form.elements['Correo'].value,
                     CodigoPostal: form.elements['CodigoPostal'].value,
@@ -704,7 +719,7 @@
                     NoInterior: form.elements['NoInterior'].value,
                     NoExt: form.elements['NoExt'].value,
                     Colonia: form.elements['Colonia'].value,
-                    Cruzamiento: form.elements['Cruzamiento'].value,
+                    Cruzamiento: form.elements['Cruzamiento'].value
                 };
 
                 fetch('../FSP-main-2/controller/Proveedor_Controller.php', {
@@ -736,6 +751,8 @@
                     });
             });
 
+            fetchProveedores();
+
             document.addEventListener('change', function(e) {
                 if (e.target.classList.contains('select-checkbox')) {
                     updateButtonState();
@@ -765,7 +782,7 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked'))
                         .map(cb => cb.value);
-                    console.log('Eliminar Proveedores con IDs:', selectedIds);
+                    console.log('Eliminar Proveedor con IDs:', selectedIds);
                     abrirModalEliminar(selectedIds);
                 }
             });
@@ -774,7 +791,7 @@
                 const modal = document.getElementById('edit-modal');
                 const form = document.getElementById('editForm');
 
-                fetch(`../FSP-main-2/controller/Proveedor_Controller.php?id=${id}`, {
+                fetch(`../FSP-main-2/controller/Proveedor_Controller.php?idProveedor=${id}`, {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -815,13 +832,13 @@
 
                 if (elemento.id === 'NombreProveedorE') {
                     if (!validarNombreProveedor(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre válido (solo letras y espacios)');
+                        mostrarError(elemento, 'Ingrese un nombre y apellido válido (solo letras y espacios)');
                     } else {
                         limpiarError(elemento);
                     }
                 } else if (elemento.id === 'TelefonoE') {
                     if (!validarTelefono(valor)) {
-                        mostrarError(elemento, 'Ingrese un teléfono válido (10 dígitos numéricos)');
+                        mostrarError(elemento, 'Ingrese un número de teléfono válido (10 dígitos)');
                     } else {
                         limpiarError(elemento);
                     }
@@ -947,7 +964,7 @@
                         if (data.error) {
                             alert('Error: ' + data.error);
                         } else {
-                            alert('Proveedores eliminados exitosamente');
+                            alert('Proveedor(es) eliminado(s) exitosamente');
                             fetchProveedores(); // Actualizar la tabla
                             document.getElementById('delete-modal').style.display = 'none';
                         }
