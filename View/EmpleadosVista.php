@@ -630,7 +630,8 @@
             }
 
             function validarCURP(value) {
-                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}\d{2}$/;
+                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}[A-Z0-9][0-9]$/;
+
                 return regex.test(value);
             }
 
@@ -952,7 +953,7 @@
             }
 
             function validarCURP(value) {
-                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}\d{2}$/;
+                const regex = /^[A-Z]{4}\d{6}[H|M][A-Z]{5}[A-Z0-9][0-9]$/;
                 return regex.test(value);
             }
 
