@@ -27,19 +27,17 @@ try {
     }
 
     if ($method === 'GET') {
-
-        error_log('Datos recibidos (GET): ' . print_r($_GET, true)); // Registro de los datos recibidos por GET
+        error_log('Datos recibidos (GET): ' . print_r($_GET, true));
 
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $data = $model->obtenerPorId($id);
             echo json_encode($data);
-            var_dump($data); // Agrega esta línea para depurar
         } else {
             $data = $model->obtenerTodos();
             echo json_encode($data);
         }
-    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    } elseif ($method === 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if ($tipo === 'tamañoPapel') {
@@ -65,7 +63,6 @@ try {
             $model->setPreciopUTiI($data['PreciopUTiI']);
         }
 
-        // Guardar el modelo en la base de datos
         if ($model->save()) {
             echo json_encode(['success' => 'Registro creado exitosamente']);
         } else {
@@ -74,8 +71,7 @@ try {
     } elseif ($method === 'PUT') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // Verificación y asignación de valores en PUT
-        if (!isset($data['id'], $data['Nombre'], $data['PrecioUnitario'])) {
+        if (!isset($data['id']) || !isset($data['Nombre']) || !isset($data['PrecioUnitario'])) {
             echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
             exit;
         }
@@ -84,18 +80,14 @@ try {
             $model->setideTamaño($data['id']);
             $model->setNombreTam($data['Nombre']);
             $model->setPreciopUTaP($data['PrecioUnitario']);
-            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
         } elseif ($tipo === 'tipoPapel') {
             $model->setideTipoP($data['id']);
             $model->setNombreTipoP($data['Nombre']);
             $model->setPreciopUTiP($data['PrecioUnitario']);
-            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
-
         } elseif ($tipo === 'tipoImpresion') {
             $model->setideTipoI($data['id']);
             $model->setNombreTipoI($data['Nombre']);
             $model->setPreciopUTiI($data['PrecioUnitario']);
-            //$model->setFechaUlModi($data['FechaUltimaModificacion']);
         }
 
         $response = [];
@@ -142,3 +134,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(['error' => 'Error del servidor: ' . $e->getMessage()]);
 }
+?>

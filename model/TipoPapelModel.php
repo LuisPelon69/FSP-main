@@ -7,8 +7,9 @@ class TipoPapelModel
     private $table_name = "tipopapel";
 
     public $ideTipoP;
-    public $Nombre;
-    public $Precio;
+    public $NombreTipoP;
+    public $PreciopUTiP;
+    public $FechaUlModi;
 
     public function __construct()
     {
@@ -23,12 +24,17 @@ class TipoPapelModel
 
     public function setNombreTipoP($NombreTipoP)
     {
-        $this->Nombre = $NombreTipoP;
+        $this->NombreTipoP = $NombreTipoP;
     }
 
     public function setPreciopUTiP($PreciopUTiP)
     {
-        $this->Precio = $PreciopUTiP;
+        $this->PreciopUTiP = $PreciopUTiP;
+    }
+
+    public function setFechaUlModi($FechaUlModi)
+    {
+        $this->FechaUlModi = $FechaUlModi;
     }
 
     public function save()
@@ -37,12 +43,12 @@ class TipoPapelModel
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
-        $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
-        $this->Precio = htmlspecialchars(strip_tags($this->Precio));
+        $this->NombreTipoP = htmlspecialchars(strip_tags($this->NombreTipoP));
+        $this->PreciopUTiP = htmlspecialchars(strip_tags($this->PreciopUTiP));
 
         // Vinculación de parámetros
-        $stmt->bindParam(':NombreTipoP', $this->Nombre);
-        $stmt->bindParam(':PreciopUTiP', $this->Precio);
+        $stmt->bindParam(':NombreTipoP', $this->NombreTipoP);
+        $stmt->bindParam(':PreciopUTiP', $this->PreciopUTiP);
 
         if ($stmt->execute()) {
             return true;
@@ -77,19 +83,21 @@ class TipoPapelModel
 
     public function update()
     {
-        $query = "UPDATE " . $this->table_name . " SET NombreTipoP = :NombreTipoP, PreciopUTiP = :PreciopUTiP WHERE ideTipoP = :id";
+        $query = "UPDATE " . $this->table_name . " SET NombreTipoP = :NombreTipoP, PreciopUTiP = :PreciopUTiP, FechaUlModi = :FechaUlModi WHERE ideTipoP = :id";
 
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
-        $this->Nombre = htmlspecialchars(strip_tags($this->Nombre));
-        $this->Precio = htmlspecialchars(strip_tags($this->Precio));
+        $this->NombreTipoP = htmlspecialchars(strip_tags($this->NombreTipoP));
+        $this->PreciopUTiP = htmlspecialchars(strip_tags($this->PreciopUTiP));
         $this->ideTipoP = htmlspecialchars(strip_tags($this->ideTipoP));
+        $this->FechaUlModi = date('Y-m-d H:i:s'); // Establecer la fecha actual
 
         // Vinculación de parámetros
-        $stmt->bindParam(':NombreTipoP', $this->Nombre);
-        $stmt->bindParam(':PreciopUTiP', $this->Precio);
+        $stmt->bindParam(':NombreTipoP', $this->NombreTipoP);
+        $stmt->bindParam(':PreciopUTiP', $this->PreciopUTiP);
         $stmt->bindParam(':id', $this->ideTipoP);
+        $stmt->bindParam(':FechaUlModi', $this->FechaUlModi);
 
         if ($stmt->execute()) {
             return true;

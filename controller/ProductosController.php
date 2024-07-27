@@ -34,7 +34,7 @@ class ProductosController
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'View/ProductosVista.php'; ?>
+                    <?php include 'View/ProductosVista2.php'; ?>
 
                     <!-- Footer -->
                     <?php include 'View/Footer.php'; ?>

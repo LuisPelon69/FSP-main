@@ -9,6 +9,7 @@ class TipoImpresionModel
     public $ideTipoI;
     public $NombreTipoI;
     public $PreciopUTiI;
+    public $FechaUlModi;
 
     public function __construct()
     {
@@ -29,6 +30,11 @@ class TipoImpresionModel
     public function setPreciopUTiI($PreciopUTiI)
     {
         $this->PreciopUTiI = $PreciopUTiI;
+    }
+
+    public function setFechaUlModi($FechaUlModi)
+    {
+        $this->FechaUlModi = $FechaUlModi;
     }
 
     public function save()
@@ -77,7 +83,7 @@ class TipoImpresionModel
 
     public function update()
     {
-        $query = "UPDATE " . $this->table_name . " SET NombreTipoI = :NombreTipoI, PreciopUTiI = :PreciopUTiI WHERE ideTipoI = :id";
+        $query = "UPDATE " . $this->table_name . " SET NombreTipoI = :NombreTipoI, PreciopUTiI = :PreciopUTiI, FechaUlModi = :FechaUlModi WHERE ideTipoI = :id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -85,11 +91,13 @@ class TipoImpresionModel
         $this->NombreTipoI = htmlspecialchars(strip_tags($this->NombreTipoI));
         $this->PreciopUTiI = htmlspecialchars(strip_tags($this->PreciopUTiI));
         $this->ideTipoI = htmlspecialchars(strip_tags($this->ideTipoI));
+        $this->FechaUlModi = date('Y-m-d H:i:s'); // Establecer la fecha actual
 
         // Vinculación de parámetros
         $stmt->bindParam(':NombreTipoI', $this->NombreTipoI);
         $stmt->bindParam(':PreciopUTiI', $this->PreciopUTiI);
         $stmt->bindParam(':id', $this->ideTipoI);
+        $stmt->bindParam(':FechaUlModi', $this->FechaUlModi);
 
         if ($stmt->execute()) {
             return true;
