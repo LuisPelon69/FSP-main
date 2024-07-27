@@ -71,36 +71,42 @@ try {
     } elseif ($method === 'PUT') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($data['id']) || !isset($data['Nombre']) || !isset($data['PrecioUnitario'])) {
-            echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
+        if (!isset($data['id'])) {
+            echo json_encode(['error' => 'ID no proporcionado']);
             exit;
         }
 
         if ($tipo === 'tamañoPapel') {
+            if (!isset($data['NombreTam']) || !isset($data['PreciopUTaP'])) {
+                echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
+                exit;
+            }
             $model->setideTamaño($data['id']);
-            $model->setNombreTam($data['Nombre']);
-            $model->setPreciopUTaP($data['PrecioUnitario']);
+            $model->setNombreTam($data['NombreTam']);
+            $model->setPreciopUTaP($data['PreciopUTaP']);
         } elseif ($tipo === 'tipoPapel') {
+            if (!isset($data['NombreTipoP']) || !isset($data['PreciopUTiP'])) {
+                echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
+                exit;
+            }
             $model->setideTipoP($data['id']);
-            $model->setNombreTipoP($data['Nombre']);
-            $model->setPreciopUTiP($data['PrecioUnitario']);
+            $model->setNombreTipoP($data['NombreTipoP']);
+            $model->setPreciopUTiP($data['PreciopUTiP']);
         } elseif ($tipo === 'tipoImpresion') {
+            if (!isset($data['NombreTipoI']) || !isset($data['PreciopUTiI'])) {
+                echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
+                exit;
+            }
             $model->setideTipoI($data['id']);
-            $model->setNombreTipoI($data['Nombre']);
-            $model->setPreciopUTiI($data['PrecioUnitario']);
+            $model->setNombreTipoI($data['NombreTipoI']);
+            $model->setPreciopUTiI($data['PreciopUTiI']);
         }
-
-        $response = [];
 
         if ($model->update()) {
-            $response['success'] = true;
-            $response['message'] = 'Registro actualizado exitosamente';
+            echo json_encode(['success' => 'Registro actualizado exitosamente']);
         } else {
-            $response['success'] = false;
-            $response['message'] = 'Error al actualizar el registro. Por favor, verifica los datos e intenta nuevamente.';
+            echo json_encode(['error' => 'Error al actualizar el registro']);
         }
-
-        echo json_encode($response);
     } elseif ($method === 'DELETE') {
         $data = json_decode(file_get_contents('php://input'), true);
 
