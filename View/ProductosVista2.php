@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="./css/sb-admin-2.min.css" rel="stylesheet">
+
 
     <!--TABLA DE CLIENTES-->
     <style>
@@ -438,20 +440,20 @@
                 </strong>
             </div>
             <form class="form-container" id="editFormTA">
-                <input type="hidden" id="editId" name="id">
+                <input type="hidden" id="editIdTA" name="id">
                 <div class="form-group">
-                    <label for="NombreTam">Nombre:</label>
-                    <input type="text" id="editNombreTam" name="NombreTam">
+                    <label for="editNombreTam">Nombre:</label>
+                    <input type="text" id="editNombreTam" name="Nombre">
                     <span id="error-editNombreTam"></span><br>
                 </div>
                 <div class="form-group">
-                    <label for="PreciopUTaP">Precio Unitario:</label>
-                    <input type="text" id="editPreciopUTaP" name="PreciopUTaP">
+                    <label for="editPreciopUTaP">Precio Unitario:</label>
+                    <input type="text" id="editPreciopUTaP" name="PrecioUnitario">
                     <span id="error-editPreciopUTaP"></span><br>
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonEditTA">Cancelar</button>
-                    <button type="submit" class="submit" id="saveEditTA">Guardar Cambios</button>
+                    <button type="submit" class="submitchanges" id="saveEditTA">Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -467,18 +469,18 @@
             <form class="form-container" id="editFormTP">
                 <input type="hidden" id="editIdTP" name="id">
                 <div class="form-group">
-                    <label for="NombreTipoP">Nombre:</label>
-                    <input type="text" id="editNombreTipoP" name="NombreTipoP">
+                    <label for="editNombreTipoP">Nombre:</label>
+                    <input type="text" id="editNombreTipoP" name="Nombre">
                     <span id="error-editNombreTipoP"></span><br>
                 </div>
                 <div class="form-group">
-                    <label for="PreciopUTiP">Precio Unitario:</label>
-                    <input type="text" id="editPreciopUTiP" name="PreciopUTiP">
+                    <label for="editPreciopUTiP">Precio Unitario:</label>
+                    <input type="text" id="editPreciopUTiP" name="PrecioUnitario">
                     <span id="error-editPreciopUTiP"></span><br>
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonEditTP">Cancelar</button>
-                    <button type="submit" class="submit" id="saveEditTP">Guardar Cambios</button>
+                    <button type="submit" class="submitchanges" id="saveEditTP">Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -494,18 +496,18 @@
             <form class="form-container" id="editFormTI">
                 <input type="hidden" id="editIdTI" name="id">
                 <div class="form-group">
-                    <label for="NombreTipoI">Nombre:</label>
-                    <input type="text" id="editNombreTipoI" name="NombreTipoI">
+                    <label for="editNombreTipoI">Nombre:</label>
+                    <input type="text" id="editNombreTipoI" name="Nombre">
                     <span id="error-editNombreTipoI"></span><br>
                 </div>
                 <div class="form-group">
-                    <label for="PreciopUTiI">Precio Unitario:</label>
-                    <input type="text" id="editPreciopUTiI" name="PreciopUTiI">
+                    <label for="editPreciopUTiI">Precio Unitario:</label>
+                    <input type="text" id="editPreciopUTiI" name="PrecioUnitario">
                     <span id="error-editPreciopUTiI"></span><br>
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonEditTI">Cancelar</button>
-                    <button type="submit" class="submit" id="saveEditTI">Guardar Cambios</button>
+                    <button type="submit" class="submitchanges" id="saveEditTI">Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -641,9 +643,9 @@
             const cancelButtonTP = document.getElementById('cancel-buttonTP');
             const cancelButtonTI = document.getElementById('cancel-buttonTI');
 
-            const saveButtonTA = document.getElementById('saveButtonTA');
-            const saveButtonTP = document.getElementById('saveButtonTP');
-            const saveButtonTI = document.getElementById('saveButtonTI');
+            const saveButtonTA = document.getElementById('saveTA');
+            const saveButtonTP = document.getElementById('saveTP');
+            const saveButtonTI = document.getElementById('saveTI');
 
             // Obtener referencias a los modales de edición
             const editModalTA = document.getElementById('edit-modalTA');
@@ -689,20 +691,20 @@
             // Mapeos de campos para cada formulario
             const fieldMappingTA = {
                 'ideTamaño': 'id',
-                'NombreTam': 'NombreTam',
-                'PreciopUTaP': 'PreciopUTaP'
+                'NombreTam': 'Nombre',
+                'PreciopUTaP': 'PrecioUnitario'
             };
 
             const fieldMappingTP = {
                 'ideTipoP': 'id',
-                'NombreTipoP': 'NombreTipoP',
-                'PreciopUTiP': 'PreciopUTiP'
+                'NombreTipoP': 'Nombre',
+                'PreciopUTiP': 'PrecioUnitario'
             };
 
             const fieldMappingTI = {
                 'ideTipoI': 'id',
-                'NombreTipoI': 'NombreTipoI',
-                'PreciopUTiI': 'PreciopUTiI'
+                'NombreTipoI': 'Nombre',
+                'PreciopUTiI': 'PrecioUnitario'
             };
 
             // Obtener referencias a los botones de edición
@@ -752,6 +754,20 @@
             const cancelButtonEditTP = document.getElementById('cancel-buttonEditTP');
             const cancelButtonEditTI = document.getElementById('cancel-buttonEditTI');
 
+            const deleteModalTA = document.getElementById('modalDeleteTA');
+            const deleteModalTP = document.getElementById('modalDeleteTP');
+            const deleteModalTI = document.getElementById('modalDeleteTI');
+
+            // Obtener referencias a los botones de eliminación
+            const deleteButtonTA = document.getElementById('delete-button-tamaño');
+            const deleteButtonTP = document.getElementById('delete-button-tipo');
+            const deleteButtonTI = document.getElementById('delete-button-impresion');
+
+            // Obtener referencias a los botones de cerrar en los modales de eliminación
+            const closeDeleteTA = document.getElementById('closeDeleteTA');
+            const closeDeleteTP = document.getElementById('closeDeleteTP');
+            const closeDeleteTI = document.getElementById('closeDeleteTI');
+
             // Funciones para abrir y cerrar modales
             function openModal(modal) {
                 modal.style.display = 'block';
@@ -760,6 +776,34 @@
             function closeModal(modal) {
                 modal.style.display = 'none';
             }
+
+            // Asociar eventos a los botones de agregar
+            addButtonTA.addEventListener('click', function() {
+                openModal(modalTA);
+            });
+
+            addButtonTP.addEventListener('click', function() {
+                openModal(modalTP);
+            });
+
+            addButtonTI.addEventListener('click', function() {
+                openModal(modalTI);
+            });
+
+            // Asociar eventos a los botones de cancelar
+            cancelButtonTA.addEventListener('click', function() {
+                closeModal(modalTA);
+            });
+
+            cancelButtonTP.addEventListener('click', function() {
+                closeModal(modalTP);
+            });
+
+            cancelButtonTI.addEventListener('click', function() {
+                closeModal(modalTI);
+            });
+
+            let selectedId = null;
 
             // Asociar eventos a los botones de cancelar en los modales de edición
             cancelButtonEditTA.addEventListener('click', function() {
@@ -774,113 +818,30 @@
                 closeModal(editModalTI);
             });
 
-            // Asociar eventos a los formularios de edición
-            formTA.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const data = {
-                    id: formTA.elements['id'].value,
-                    NombreTam: formTA.elements['NombreTam'].value,
-                    PreciopUTaP: formTA.elements['PreciopUTaP'].value
-                };
-
-                fetch('../FSP-main-2/controller/producto_controller.php?tipo=tamañoPapel', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            console.error('Error al actualizar tamaño de papel:', data.error);
-                        } else {
-                            console.log('Tamaño de papel actualizado con éxito');
-                            formTA.reset();
-                            fetchTamañoPapel();
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-
-                closeModal(editModalTA);
+            // Asociar eventos a los botones de eliminación
+            deleteButtonTA.addEventListener('click', function() {
+                openModal(deleteModalTA);
             });
 
-            formTP.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const data = {
-                    id: formTP.elements['id'].value,
-                    NombreTipoP: formTP.elements['NombreTipoP'].value,
-                    PreciopUTiP: formTP.elements['PreciopUTiP'].value
-                };
-
-                fetch('../FSP-main-2/controller/producto_controller.php?tipo=tipoPapel', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            console.error('Error al actualizar tipo de papel:', data.error);
-                        } else {
-                            console.log('Tipo de papel actualizado con éxito');
-                            formTP.reset();
-                            fetchTipoPapel();
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-
-                closeModal(editModalTP);
+            deleteButtonTP.addEventListener('click', function() {
+                openModal(deleteModalTP);
             });
 
-            formTI.addEventListener('submit', function(event) {
-                event.preventDefault();
+            deleteButtonTI.addEventListener('click', function() {
+                openModal(deleteModalTI);
+            });
 
-                const data = {
-                    id: formTI.elements['id'].value,
-                    NombreTipoI: formTI.elements['NombreTipoI'].value,
-                    PreciopUTiI: formTI.elements['PreciopUTiI'].value
-                };
+            // Asociar eventos a los botones de cerrar en los modales de eliminación
+            closeDeleteTA.addEventListener('click', function() {
+                closeModal(deleteModalTA);
+            });
 
-                fetch('../FSP-main-2/controller/producto_controller.php?tipo=tipoImpresion', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.error) {
-                            console.error('Error al actualizar tipo de impresión:', data.error);
-                        } else {
-                            console.log('Tipo de impresión actualizado con éxito');
-                            formTI.reset();
-                            fetchTipoImpresion();
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+            closeDeleteTP.addEventListener('click', function() {
+                closeModal(deleteModalTP);
+            });
 
-                closeModal(editModalTI);
+            closeDeleteTI.addEventListener('click', function() {
+                closeModal(deleteModalTI);
             });
 
             function fetchTamañoPapel() {
@@ -1165,15 +1126,14 @@
 
             document.getElementById('add-tamaño').addEventListener('click', function() {
                 console.log('Abrir modal para agregar tamaño de papel');
-                openModal(modalTA);
+                // Lógica para abrir el modal de agregar tamaño de papel
             });
 
             document.querySelector('#edit-button-tamaño').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
                     console.log('Abrir modal para editar tamaño de papel con ID:', selectedId);
-                    openModal(editModalTA);
-                    fetchAndPopulateForm(`../FSP-main-2/controller/producto_controller.php?tipo=tamañoPapel&id=${selectedId}`, formTA, fieldMappingTA);
+                    // Lógica para abrir el modal de edición para tamaño de papel
                 }
             });
 
@@ -1181,22 +1141,20 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
                     console.log('Eliminar tamaños de papel con IDs:', selectedIds);
-                    document.getElementById('deleteIdsTA').value = JSON.stringify(selectedIds);
-                    openModal(deleteModalTA);
+                    // Lógica para abrir el modal de confirmación de eliminación para tamaño de papel
                 }
             });
 
             document.getElementById('add-tipo').addEventListener('click', function() {
                 console.log('Abrir modal para agregar tipo de papel');
-                openModal(modalTP);
+                // Lógica para abrir el modal de agregar tipo de papel
             });
 
             document.querySelector('#edit-button-tipo').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
                     console.log('Abrir modal para editar tipo de papel con ID:', selectedId);
-                    openModal(editModalTP);
-                    fetchAndPopulateForm(`../FSP-main-2/controller/producto_controller.php?tipo=tipoPapel&id=${selectedId}`, formTP, fieldMappingTP);
+                    // Lógica para abrir el modal de edición para tipo de papel
                 }
             });
 
@@ -1204,22 +1162,20 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
                     console.log('Eliminar tipos de papel con IDs:', selectedIds);
-                    document.getElementById('deleteIdsTP').value = JSON.stringify(selectedIds);
-                    openModal(deleteModalTP);
+                    // Lógica para abrir el modal de confirmación de eliminación para tipo de papel
                 }
             });
 
             document.getElementById('add-impresion').addEventListener('click', function() {
                 console.log('Abrir modal para agregar tipo de impresión');
-                openModal(modalTI);
+                // Lógica para abrir el modal de agregar tipo de impresión
             });
 
             document.querySelector('#edit-button-impresion').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
                     console.log('Abrir modal para editar tipo de impresión con ID:', selectedId);
-                    openModal(editModalTI);
-                    fetchAndPopulateForm(`../FSP-main-2/controller/producto_controller.php?tipo=tipoImpresion&id=${selectedId}`, formTI, fieldMappingTI);
+                    // Lógica para abrir el modal de edición para tipo de impresión
                 }
             });
 
@@ -1227,8 +1183,7 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked')).map(cb => cb.value);
                     console.log('Eliminar tipos de impresión con IDs:', selectedIds);
-                    document.getElementById('deleteIdsTI').value = JSON.stringify(selectedIds);
-                    openModal(deleteModalTI);
+                    // Lógica para abrir el modal de confirmación de eliminación para tipo de impresión
                 }
             });
 
@@ -1309,7 +1264,7 @@
             });
 
             // Asociar eventos a los formularios de guardado
-            saveButtonTA.addEventListener('click', function(event) {
+            document.getElementById('saveButtonTA').addEventListener('click', function(event) {
                 event.preventDefault();
 
                 const form = document.getElementById('addFormTA');
@@ -1346,10 +1301,10 @@
                         alert('Ocurrió un error: ' + error.message);
                     });
 
-                closeModal(modalTA);
+                closeModal(document.getElementById('modalTA'));
             });
 
-            saveButtonTP.addEventListener('click', function(event) {
+            document.getElementById('saveButtonTP').addEventListener('click', function(event) {
                 event.preventDefault();
 
                 const form = document.getElementById('addFormTP');
@@ -1386,10 +1341,10 @@
                         alert('Ocurrió un error: ' + error.message);
                     });
 
-                closeModal(modalTP);
+                closeModal(document.getElementById('modalTP'));
             });
 
-            saveButtonTI.addEventListener('click', function(event) {
+            document.getElementById('saveButtonTI').addEventListener('click', function(event) {
                 event.preventDefault();
 
                 const form = document.getElementById('addFormTI');
@@ -1426,7 +1381,7 @@
                         alert('Ocurrió un error: ' + error.message);
                     });
 
-                closeModal(modalTI);
+                closeModal(document.getElementById('modalTI'));
             });
 
             // Función para manejar el envío del formulario de eliminación
@@ -1473,17 +1428,88 @@
             handleDeleteFormSubmit('deleteFormTI', 'modalDeleteTI', 'tipoImpresion', fetchTipoImpresion);
 
             // Asignar eventos de clic a los botones de cerrar los modales
-            closeDeleteTA.addEventListener('click', function() {
-                modalDeleteTA.style.display = 'none';
+            document.getElementById('closeDeleteTA').addEventListener('click', function() {
+                document.getElementById('modalDeleteTA').style.display = 'none';
             });
 
-            closeDeleteTP.addEventListener('click', function() {
-                modalDeleteTP.style.display = 'none';
+            document.getElementById('closeDeleteTP').addEventListener('click', function() {
+                document.getElementById('modalDeleteTP').style.display = 'none';
             });
 
-            closeDeleteTI.addEventListener('click', function() {
-                modalDeleteTI.style.display = 'none';
+            document.getElementById('closeDeleteTI').addEventListener('click', function() {
+                document.getElementById('modalDeleteTI').style.display = 'none';
             });
+
+            // Función para abrir el modal de eliminación y asignar el ID del elemento a eliminar
+            function openDeleteModal(modalId, formId, selectedIds) {
+                document.getElementById(modalId).style.display = 'block';
+                document.getElementById(formId).elements['ids'].value = JSON.stringify(selectedIds);
+            }
+
+            // Asignar eventos de clic a los botones de eliminación para abrir los modales
+            document.getElementById('deleteTA').addEventListener('click', function() {
+                const selectedIds = Array.from(document.querySelectorAll('#tamaño-table .select-checkbox:checked')).map(cb => cb.value);
+                if (selectedIds.length > 0) {
+                    openDeleteModal('modalDeleteTA', 'deleteFormTA', selectedIds);
+                }
+            });
+
+            document.getElementById('deleteTP').addEventListener('click', function() {
+                const selectedIds = Array.from(document.querySelectorAll('#tipo-table .select-checkbox:checked')).map(cb => cb.value);
+                if (selectedIds.length > 0) {
+                    openDeleteModal('modalDeleteTP', 'deleteFormTP', selectedIds);
+                }
+            });
+
+            document.getElementById('deleteTI').addEventListener('click', function() {
+                const selectedIds = Array.from(document.querySelectorAll('#impresion-table .select-checkbox:checked')).map(cb => cb.value);
+                if (selectedIds.length > 0) {
+                    openDeleteModal('modalDeleteTI', 'deleteFormTI', selectedIds);
+                }
+            });
+
+            // Función para manejar el envío del formulario de edición
+            function handleEditFormSubmit(formId, modalId, tipo, fetchFunction) {
+                document.getElementById(formId).addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(event.target);
+                    const data = Object.fromEntries(formData.entries());
+                    const id = data.id;
+
+                    fetch(`../FSP-main-2/controller/producto_controller.php?tipo=${tipo}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                alert(`${tipo} actualizado exitosamente`);
+                                fetchFunction(); // Actualizar la tabla
+                                document.getElementById(modalId).style.display = 'none';
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Ocurrió un error: ' + error.message);
+                        });
+                });
+            }
+
+            // Asignar eventos de submit a los formularios de edición
+            handleEditFormSubmit('editFormTA', 'edit-modalTA', 'tamañoPapel', fetchTamañoPapel);
+            handleEditFormSubmit('editFormTP', 'edit-modalTP', 'tipoPapel', fetchTipoPapel);
+            handleEditFormSubmit('editFormTI', 'edit-modalTI', 'tipoImpresion', fetchTipoImpresion);
         });
     </script>
 

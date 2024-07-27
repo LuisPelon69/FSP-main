@@ -4,13 +4,14 @@ require_once '../model/TamañoPapelModel.php';
 require_once '../model/TipoPapelModel.php';
 require_once '../model/TipoImpresionModel.php';
 
-$method = $_SERVER['REQUEST_METHOD'];
+$method = $_SERVER['REQUEST_METHOD']; // Obtener el método HTTP de la solicitud
 
-header('Content-Type: application/json; charset=UTF-8');
+header('Content-Type: application/json; charset=UTF-8'); // Establecer el tipo de contenido de la respuesta como JSON
 
 try {
-    $tipo = $_GET['tipo'] ?? '';
+    $tipo = $_GET['tipo'] ?? ''; // Obtener el tipo de entidad a manipular (tamañoPapel, tipoPapel, tipoImpresion)
 
+    // Seleccionar el modelo correspondiente según el tipo de entidad
     switch ($tipo) {
         case 'tamañoPapel':
             $model = new TamañoPapelModel();
@@ -26,20 +27,26 @@ try {
             exit;
     }
 
+    // Manejar las solicitudes GET
     if ($method === 'GET') {
         error_log('Datos recibidos (GET): ' . print_r($_GET, true));
 
         if (isset($_GET['id'])) {
+            // Obtener un registro específico por ID
             $id = $_GET['id'];
             $data = $model->obtenerPorId($id);
             echo json_encode($data);
         } else {
+            // Obtener todos los registros
             $data = $model->obtenerTodos();
             echo json_encode($data);
         }
-    } elseif ($method === 'POST') {
-        $data = json_decode(file_get_contents('php://input'), true);
+    }
+    // Manejar las solicitudes POST
+    elseif ($method === 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true); // Decodificar el JSON recibido en el cuerpo de la solicitud
 
+        // Validar y asignar datos para cada tipo de entidad
         if ($tipo === 'tamañoPapel') {
             if (!isset($data['NombreTam']) || !isset($data['PreciopUTaP'])) {
                 echo json_encode(['error' => 'Datos incompletos para crear el registro']);
@@ -63,61 +70,56 @@ try {
             $model->setPreciopUTiI($data['PreciopUTiI']);
         }
 
+        // Guardar el nuevo registro en la base de datos
         if ($model->save()) {
             echo json_encode(['success' => 'Registro creado exitosamente']);
         } else {
             echo json_encode(['error' => 'Error al crear el registro']);
         }
-    } elseif ($method === 'PUT') {
-        $data = json_decode(file_get_contents('php://input'), true);
+    }
+    // Manejar las solicitudes PUT
+    elseif ($method === 'PUT') {
+        $data = json_decode(file_get_contents('php://input'), true); // Decodificar el JSON recibido en el cuerpo de la solicitud
 
-        if (!isset($data['id'])) {
-            echo json_encode(['error' => 'ID no proporcionado']);
+        // Validar y asignar datos para cada tipo de entidad
+        if (!isset($data['id']) || !isset($data['Nombre']) || !isset($data['PrecioUnitario'])) {
+            echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
             exit;
         }
 
         if ($tipo === 'tamañoPapel') {
-            if (!isset($data['NombreTam']) || !isset($data['PreciopUTaP'])) {
-                echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
-                exit;
-            }
             $model->setideTamaño($data['id']);
-            $model->setNombreTam($data['NombreTam']);
-            $model->setPreciopUTaP($data['PreciopUTaP']);
+            $model->setNombreTam($data['Nombre']);
+            $model->setPreciopUTaP($data['PrecioUnitario']);
         } elseif ($tipo === 'tipoPapel') {
-            if (!isset($data['NombreTipoP']) || !isset($data['PreciopUTiP'])) {
-                echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
-                exit;
-            }
             $model->setideTipoP($data['id']);
-            $model->setNombreTipoP($data['NombreTipoP']);
-            $model->setPreciopUTiP($data['PreciopUTiP']);
+            $model->setNombreTipoP($data['Nombre']);
+            $model->setPreciopUTiP($data['PrecioUnitario']);
         } elseif ($tipo === 'tipoImpresion') {
-            if (!isset($data['NombreTipoI']) || !isset($data['PreciopUTiI'])) {
-                echo json_encode(['error' => 'Datos incompletos para actualizar el registro']);
-                exit;
-            }
             $model->setideTipoI($data['id']);
-            $model->setNombreTipoI($data['NombreTipoI']);
-            $model->setPreciopUTiI($data['PreciopUTiI']);
+            $model->setNombreTipoI($data['Nombre']);
+            $model->setPreciopUTiI($data['PrecioUnitario']);
         }
 
+        // Actualizar el registro en la base de datos
         if ($model->update()) {
             echo json_encode(['success' => 'Registro actualizado exitosamente']);
         } else {
             echo json_encode(['error' => 'Error al actualizar el registro']);
         }
-    } elseif ($method === 'DELETE') {
-        $data = json_decode(file_get_contents('php://input'), true);
+    }
+    // Manejar las solicitudes DELETE
+    elseif ($method === 'DELETE') {
+        $data = json_decode(file_get_contents('php://input'), true); // Decodificar el JSON recibido en el cuerpo de la solicitud
 
         if (!isset($data['ids'])) {
             echo json_encode(['error' => 'IDs no proporcionados']);
             exit;
         }
 
-        $response = [];
         $success = true;
 
+        // Eliminar cada registro especificado por ID
         foreach ($data['ids'] as $id) {
             if (!$model->delete($id)) {
                 $success = false;
@@ -126,15 +128,13 @@ try {
         }
 
         if ($success) {
-            $response['success'] = true;
-            $response['message'] = 'Registros eliminados exitosamente';
+            echo json_encode(['success' => 'Registros eliminados exitosamente']);
         } else {
-            $response['success'] = false;
-            $response['message'] = 'Error al eliminar los registros. Por favor, intenta nuevamente.';
+            echo json_encode(['error' => 'Error al eliminar los registros. Por favor, intenta nuevamente.']);
         }
-
-        echo json_encode($response);
-    } else {
+    }
+    // Manejar otros métodos HTTP no permitidos
+    else {
         echo json_encode(['error' => 'Método no permitido']);
     }
 } catch (Exception $e) {
