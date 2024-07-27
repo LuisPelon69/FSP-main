@@ -40,8 +40,6 @@
             font-weight: bold;
         }
 
-
-
         /* Estilos para el fondo del modal */
         .modal {
             display: none;
@@ -99,19 +97,10 @@
             border-radius: 4px;
         }
 
-
-
         .error {
             color: red;
             font-size: 11px;
             font-family: Arial, sans-serif;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
         }
 
         .close:hover,
@@ -191,7 +180,6 @@
             margin-left: 615px;
             /* Ajustar el margen entre los botones */
         }
-
 
         .error {
             color: red;
@@ -364,7 +352,6 @@
         </div>
     </div>
 
-
     <!-- Modales -->
     <div id="modalTA" class="modal">
         <div class="modal-content">
@@ -392,7 +379,6 @@
         </div>
     </div>
 
-
     <div id="modalTP" class="modal">
         <div class="modal-content">
             <div class="card">
@@ -418,7 +404,6 @@
             </form>
         </div>
     </div>
-
 
     <div id="modalTI" class="modal">
         <div class="modal-content">
@@ -446,7 +431,6 @@
         </div>
     </div>
 
-
     <!-- Modal de Edición -->
     <div id="edit-modalTA" class="modal">
         <div class="modal-content">
@@ -472,10 +456,8 @@
                     <button type="submit" class="submit" id="saveEditTA">Guardar Cambios</button>
                 </div>
             </form>
-
         </div>
     </div>
-
 
     <div id="edit-modalTP" class="modal">
         <div class="modal-content">
@@ -485,15 +467,16 @@
                 </strong>
             </div>
             <form class="form-container" id="editFormTP">
+                <input type="hidden" id="editIdTP" name="id">
                 <div class="form-group">
-                    <label for="editNombreTipoP">Nombre:</label>
-                    <input type="text" id="editNombreTipoP" name="editNombreTipoP">
-                    <span id="error-editNombreTipoP"></span><br>
+                    <label for="NombreTipoP">Nombre:</label>
+                    <input type="text" id="NombreTipoP" name="NombreTipoP">
+                    <span id="error-NombreTipoP"></span><br>
                 </div>
                 <div class="form-group">
-                    <label for="editPreciopUTiP">Precio Unitario:</label>
-                    <input type="text" id="editPreciopUTiP" name="editPreciopUTiP">
-                    <span id="error-editPreciopUTiP"></span><br>
+                    <label for="PreciopUTiP">Precio Unitario:</label>
+                    <input type="text" id="PreciopUTiP" name="PreciopUTiP">
+                    <span id="error-PreciopUTiP"></span><br>
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonEditTP">Cancelar</button>
@@ -503,8 +486,7 @@
         </div>
     </div>
 
-
-    <div id="edit-modalTP" class="modal">
+    <div id="edit-modalTI" class="modal">
         <div class="modal-content">
             <div class="card">
                 <strong>
@@ -512,15 +494,16 @@
                 </strong>
             </div>
             <form class="form-container" id="editFormTI">
+                <input type="hidden" id="editIdTI" name="id">
                 <div class="form-group">
-                    <label for="editNombreTipoI">Nombre:</label>
-                    <input type="text" id="editNombreTipoI" name="editNombreTipoI">
-                    <span id="error-editNombreTipoI"></span><br>
+                    <label for="NombreTipoI">Nombre:</label>
+                    <input type="text" id="NombreTipoI" name="NombreTipoI">
+                    <span id="error-NombreTipoI"></span><br>
                 </div>
                 <div class="form-group">
-                    <label for="editPreciopUTiI">Precio Unitario:</label>
-                    <input type="text" id="editPreciopUTiI" name="editPreciopUTiI">
-                    <span id="error-editPreciopUTiI"></span><br>
+                    <label for="PreciopUTiI">Precio Unitario:</label>
+                    <input type="text" id="PreciopUTiI" name="PreciopUTiI">
+                    <span id="error-PreciopUTiI"></span><br>
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="cancel" id="cancel-buttonEditTI">Cancelar</button>
@@ -529,7 +512,6 @@
             </form>
         </div>
     </div>
-
 
     <!-- Modal de Eliminación -->
     <div id="modalDeleteTA" class="modal">
@@ -592,7 +574,6 @@
         </div>
     </div>
 
-
     </div>
     <!-- End of Main Content -->
 
@@ -600,8 +581,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
 
     <script src="js\qrcode.min.js"></script>
     <!-- Bootstrap core JavaScript-->
@@ -616,16 +595,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
             fetchTamañoPapel();
 
             const tamañoPapelContainer = document.getElementById('tamañoPapelContainer');
             const tipoPapelContainer = document.getElementById('tipoPapelContainer');
             const tipoImpresionContainer = document.getElementById('tipoImpresionContainer');
             const productTypeSelect = document.getElementById('productTypeSelect');
-
-
-
 
             // Función para mostrar y ocultar contenedores basados en la selección
             function showContainer(container) {
@@ -652,6 +627,7 @@
                         break;
                 }
             });
+
             // Inicializar la vista con el contenedor correspondiente
             showContainer(tamañoPapelContainer);
 
@@ -731,12 +707,10 @@
                 'PreciopUTiI': 'PreciopUTiI'
             };
 
-
             // Obtener referencias a los botones de edición
             const editButtonTA = document.getElementById('edit-button-tamaño');
             const editButtonTP = document.getElementById('edit-button-tipo');
             const editButtonTI = document.getElementById('edit-button-impresion');
-
 
             // Función para obtener la ID seleccionada
             function getSelectedId() {
@@ -752,7 +726,7 @@
                     return;
                 }
                 openModal(editModalTA);
-                fetchAndPopulateForm(`../FSP-main-2/controller/cliente_controller.php?tipo=tamañoPapel&id=${id}`, formTA, fieldMappingTA);
+                fetchAndPopulateForm(`../FSP-main-2/controller/producto_controller.php?tipo=tamañoPapel&id=${id}`, formTA, fieldMappingTA);
             });
 
             editButtonTP.addEventListener('click', function() {
@@ -762,7 +736,7 @@
                     return;
                 }
                 openModal(editModalTP);
-                fetchAndPopulateForm(`../FSP-main-2/controller/cliente_controller.php?tipo=tipoPapel&id=${id}`, formTP, fieldMappingTP);
+                fetchAndPopulateForm(`../FSP-main-2/controller/producto_controller.php?tipo=tipoPapel&id=${id}`, formTP, fieldMappingTP);
             });
 
             editButtonTI.addEventListener('click', function() {
@@ -772,12 +746,8 @@
                     return;
                 }
                 openModal(editModalTI);
-                fetchAndPopulateForm(`../FSP-main-2/controller/cliente_controller.php?tipo=tipoImpresion&id=${id}`, formTI, fieldMappingTI);
+                fetchAndPopulateForm(`../FSP-main-2/controller/producto_controller.php?tipo=tipoImpresion&id=${id}`, formTI, fieldMappingTI);
             });
-
-
-
-
 
             // Obtener referencias a los botones de cancelar en los modales de edición
             const cancelButtonEditTA = document.getElementById('cancel-buttonEditTA');
@@ -797,8 +767,6 @@
             const closeDeleteTA = document.getElementById('closeDeleteTA');
             const closeDeleteTP = document.getElementById('closeDeleteTP');
             const closeDeleteTI = document.getElementById('closeDeleteTI');
-
-
 
             // Funciones para abrir y cerrar modales
             function openModal(modal) {
@@ -835,10 +803,7 @@
                 closeModal(modalTI);
             });
 
-
             let selectedId = null;
-
-
 
             // Asociar eventos a los botones de cancelar en los modales de edición
             cancelButtonEditTA.addEventListener('click', function() {
@@ -852,7 +817,6 @@
             cancelButtonEditTI.addEventListener('click', function() {
                 closeModal(editModalTI);
             });
-
 
             // Asociar eventos a los botones de eliminación
             deleteButtonTA.addEventListener('click', function() {
@@ -880,9 +844,6 @@
                 closeModal(deleteModalTI);
             });
 
-
-
-
             function fetchTamañoPapel() {
                 fetch('../FSP-main-2/controller/producto_controller.php?tipo=tamañoPapel')
                     .then(response => response.json())
@@ -895,7 +856,6 @@
                     })
                     .catch(error => console.error('Error:', error));
             }
-
 
             function fetchTipoPapel() {
                 fetch('../FSP-main-2/controller/producto_controller.php?tipo=tipoPapel')
@@ -922,10 +882,6 @@
                     })
                     .catch(error => console.error('Error:', error));
             }
-
-
-
-
 
             function populateTableTamañoPapel(data) {
                 let table = document.querySelector("table tbody");
@@ -955,7 +911,6 @@
                     cellFecha.textContent = tamañoPapel.FechaUlModi;
                 });
 
-
                 // Añadir event listeners a las casillas de verificación
                 document.querySelectorAll('.select-checkbox').forEach(checkbox => {
                     checkbox.addEventListener('change', function() {
@@ -965,7 +920,6 @@
 
                 // Actualizar el estado de los botones al llenar la tabla
                 updateButtonState('tamaño');
-
             }
 
             function populateTableTipoPapel(data) {
@@ -1005,7 +959,6 @@
 
                 // Actualizar el estado de los botones al llenar la tabla
                 updateButtonState('tipo');
-
             }
 
             function populateTableTipoImpresion(data) {
@@ -1057,7 +1010,6 @@
                 deleteButton.disabled = !anyChecked;
             }
 
-
             document.getElementById('productTypeSelect').addEventListener('change', function() {
                 const selectedType = this.value;
 
@@ -1082,15 +1034,6 @@
                         break;
                 }
             });
-
-
-
-
-
-
-
-
-
 
             function updateButtonState(tipo) {
                 const checkboxes = document.querySelectorAll(`#${tipo}-table .select-checkbox:checked`);
@@ -1135,7 +1078,6 @@
                     updateButtonState(tipo);
                 });
             });
-
 
             // Funciones de filtrado
             function filterTableTA() {
@@ -1182,7 +1124,6 @@
             searchInputTP.addEventListener('input', filterTableTP);
             searchInputTI.addEventListener('input', filterTableTI);
 
-
             document.getElementById('add-tamaño').addEventListener('click', function() {
                 console.log('Abrir modal para agregar tamaño de papel');
                 // Lógica para abrir el modal de agregar tamaño de papel
@@ -1203,8 +1144,6 @@
                     // Lógica para abrir el modal de confirmación de eliminación para tamaño de papel
                 }
             });
-
-
 
             document.getElementById('add-tipo').addEventListener('click', function() {
                 console.log('Abrir modal para agregar tipo de papel');
@@ -1227,9 +1166,6 @@
                 }
             });
 
-
-
-
             document.getElementById('add-impresion').addEventListener('click', function() {
                 console.log('Abrir modal para agregar tipo de impresión');
                 // Lógica para abrir el modal de agregar tipo de impresión
@@ -1251,15 +1187,12 @@
                 }
             });
 
-
             const NombreTam = document.getElementById('NombreTam');
             const PreciopUTaP = document.getElementById('PreciopUTaP');
             const NombreTipoP = document.getElementById('NombreTipoP');
             const PreciopUTiP = document.getElementById('PreciopUTiP');
             const NombreTipoI = document.getElementById('NombreTipoI');
             const PreciopUTiI = document.getElementById('PreciopUTiI');
-
-
 
             function validarNombres(value) {
                 const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1])[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
@@ -1271,19 +1204,16 @@
                 return regex.test(value);
             }
 
-
             function mostrarError(elemento, mensaje) {
                 const errorElemento = document.getElementById('error-' + elemento.id);
                 errorElemento.textContent = mensaje;
                 errorElemento.style.color = 'red';
             }
 
-
             function limpiarError(elemento) {
                 const errorElemento = document.getElementById('error-' + elemento.id);
                 errorElemento.textContent = '';
             }
-
 
             NombreTam.addEventListener('input', function() {
                 if (!validarNombres(NombreTam.value.trim())) {
@@ -1333,10 +1263,7 @@
                 }
             });
 
-
             // Asociar eventos a los formularios de guardado
-            // Función para manejar el guardado de Tamaño de Papel
-            // Código para manejar el formulario de agregar Tamaño de Papel
             document.getElementById('saveButtonTA').addEventListener('click', function(event) {
                 event.preventDefault();
 
@@ -1377,7 +1304,6 @@
                 closeModal(document.getElementById('modalTA'));
             });
 
-            // Código para manejar el formulario de agregar Tipo de Papel
             document.getElementById('saveButtonTP').addEventListener('click', function(event) {
                 event.preventDefault();
 
@@ -1418,7 +1344,6 @@
                 closeModal(document.getElementById('modalTP'));
             });
 
-            // Código para manejar el formulario de agregar Tipo de Impresión
             document.getElementById('saveButtonTI').addEventListener('click', function(event) {
                 event.preventDefault();
 
@@ -1459,7 +1384,6 @@
                 closeModal(document.getElementById('modalTI'));
             });
 
-            // Función para manejar el envío del formulario de eliminación
             // Función para manejar el envío del formulario de eliminación
             function handleDeleteFormSubmit(formId, modalId, tipo, fetchFunction) {
                 document.getElementById(formId).addEventListener('submit', function(event) {
@@ -1543,10 +1467,6 @@
                     openDeleteModal('modalDeleteTI', 'deleteFormTI', selectedId);
                 }
             });
-
-
-
-
         });
     </script>
 
