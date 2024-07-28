@@ -21,7 +21,6 @@
 
     <!--TABLA DE CLIENTES-->
     <style>
-        /* Ocultar la columna de ID */
         .hidden {
             display: none;
         }
@@ -38,7 +37,6 @@
             font-weight: bold;
         }
 
-        /* Estilos para el fondo del modal */
         .modal {
             display: none;
             position: fixed;
@@ -51,7 +49,6 @@
             background-color: rgba(0, 0, 0, 0.4);
         }
 
-        /* Estilos para el contenido del modal */
         .modal-content {
             background-color: #fefefe;
             margin: auto;
@@ -68,7 +65,6 @@
             overflow-y: auto;
         }
 
-        /* Estilos para el formulario */
         .form-container {
             display: flex;
             flex-wrap: wrap;
@@ -79,7 +75,6 @@
             display: flex;
             flex-direction: column;
             width: calc(50% - 10px);
-            /* Dos columnas con un espacio entre ellas */
         }
 
         .form-group label {
@@ -108,33 +103,6 @@
             cursor: pointer;
         }
 
-        /* Estilos para el formulario */
-        .form-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            width: calc(50% - 10px);
-            /* Dos columnas con un espacio entre ellas */
-        }
-
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Estilos para el botón */
         .form-buttons {
             display: flex;
             justify-content: flex-end;
@@ -153,30 +121,23 @@
 
         .form-buttons .submit {
             background-color: #28a745;
-            /* Color de fondo para el botón de enviar */
         }
 
         .form-buttons .submitchanges {
             background-color: #007bff;
-            /* Color de fondo para el botón de enviar */
         }
 
         .form-buttons .cancel {
             background-color: #dc3545;
-            /* Color de fondo para el botón de cancelar */
             margin-left: 0;
-            /* Eliminar el margen izquierdo para alinear con el borde izquierdo */
         }
 
-        /* Añadir espacio entre los botones */
         .form-buttons .cancel+.submit {
             margin-left: 10px;
-            /* Ajustar el margen entre los botones */
         }
 
         .form-buttons .cancel+.submitchanges {
             margin-left: 10px;
-            /* Ajustar el margen entre los botones */
         }
 
         .error {
@@ -194,12 +155,11 @@
 <body id="page-top">
 
 
-    <!-- Page Heading -->
     <div class="main-container">
         <div class="table-container">
             <button id="add-card">Agregar Nuevo Proveedor</button>
-            <button class="edit-button">Editar</button>
-            <button class="delete-button">Eliminar</button>
+            <button class="edit-button disabled">Editar</button>
+            <button class="delete-button disabled">Eliminar</button>
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Proveedores</h6>
@@ -218,7 +178,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Las filas se añadirán dinámicamente con JavaScript -->
                             </tbody>
                         </table>
                     </div>
@@ -226,7 +185,6 @@
             </div>
         </div>
 
-        <!-- Modal de Altas -->
         <div id="modal" class="modal">
             <div class="modal-content">
                 <div class="card">
@@ -303,7 +261,6 @@
             </div>
         </div>
 
-        <!-- Modal de Edición -->
         <div id="edit-modal" class="modal">
             <div class="modal-content">
 
@@ -319,6 +276,13 @@
                         <label for="NombreProveedorE">Nombre Completo:</label>
                         <input type="text" id="NombreProveedorE" name="NombreProveedorE">
                         <span id="error-NombreProveedorE"></span><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdTipoE">Tipo de Proveedor:</label>
+                        <select id="IdTipoE" name="IdTipoE">
+                            <option value="">Seleccione un tipo de Proveedor</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -377,12 +341,11 @@
             </div>
         </div>
 
-        <!-- Modal de Eliminación -->
         <div id="delete-modal" class="modal">
             <div class="modal-content">
                 <span class="close" id="closeDelete">&times;</span>
                 <h2>Confirmar Eliminación</h2>
-                <p>¿Estás seguro de que deseas eliminar <span idProveedor="delete-count"></span> registros seleccionados?</p>
+                <p>¿Estás seguro de que deseas eliminar <span id="delete-count"></span> registros seleccionados?</p>
                 <form id="deleteForm">
                     <input type="hidden" name="ids" id="delete-ids">
                     <button id="deleteConfirm" type="submit">Confirmar</button>
@@ -390,24 +353,16 @@
             </div>
         </div>
 
-        <!-- /.container-fluid -->
-
     </div>
-    <!-- End of Main Content -->
-
-    <!-- Scroll to Top Button-->
+    
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>
     <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
     <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom scripts for all pages-->
     <script src="./js/sb-admin-2.min.js"></script>
-    <!-- Incluye tus scripts al final del body -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script>
@@ -420,21 +375,27 @@
                 cerrarModal();
             });
 
-            // Fetch and display supplier types
             fetch('../FSP-main-2/controller/Proveedor_Controller.php?tipos=true', {
                     method: 'GET'
                 })
                 .then(response => response.json())
                 .then(data => {
                     const tipoProveedoresSelect = document.getElementById('IdTipo');
-                    tipoProveedoresSelect.innerHTML =
-                        '<option value="">Seleccione un tipo de Proveedor</option>'; // Resetea las opciones antes de agregar las nuevas
-
+                    tipoProveedoresSelect.innerHTML = '<option value="">Seleccione un tipo de Proveedor</option>';
                     data.forEach(tipo => {
                         const option = document.createElement('option');
                         option.value = tipo.IdTipo;
                         option.textContent = tipo.Descripcion;
                         tipoProveedoresSelect.appendChild(option);
+                    });
+
+                    const tipoProveedoresEditSelect = document.getElementById('IdTipoE');
+                    tipoProveedoresEditSelect.innerHTML = '<option value="">Seleccione un tipo de Proveedor</option>';
+                    data.forEach(tipo => {
+                        const option = document.createElement('option');
+                        option.value = tipo.IdTipo;
+                        option.textContent = tipo.Descripcion;
+                        tipoProveedoresEditSelect.appendChild(option);
                     });
                 })
                 .catch(error => console.error('Error:', error));
@@ -450,12 +411,11 @@
                             return;
                         }
                         let table = document.querySelector("table tbody");
-                        table.innerHTML = ''; // Limpiar la tabla antes de llenarla
+                        table.innerHTML = '';
                         data.forEach(proveedor => {
                             let row = table.insertRow();
                             row.setAttribute('data-id', proveedor.idProveedor);
 
-                            // Checkbox con la ID del proveedor como valor
                             let cellCheckbox = row.insertCell(0);
                             let checkbox = document.createElement('input');
                             checkbox.type = 'checkbox';
@@ -463,26 +423,20 @@
                             checkbox.value = proveedor.idProveedor;
                             cellCheckbox.appendChild(checkbox);
 
-                            // Id del proveedor
                             let cellidProveedor = row.insertCell(1);
                             cellidProveedor.textContent = proveedor.idProveedor;
 
-                            // Nombre del proveedor
                             let cellNombreProveedor = row.insertCell(2);
                             cellNombreProveedor.textContent = proveedor.NombreProveedor;
 
-                            // Teléfono
                             let cellTelefono = row.insertCell(3);
                             cellTelefono.textContent = proveedor.Telefono;
 
-                            // Correo
                             let cellCorreo = row.insertCell(4);
                             cellCorreo.textContent = proveedor.Correo;
 
-                            // Dirección
                             let cellDireccion = row.insertCell(5);
-                            cellDireccion.textContent =
-                                `${proveedor.Calle} ${proveedor.NoExt} ${proveedor.NoInterior} ${proveedor.Colonia} ${proveedor.Cruzamiento}`;
+                            cellDireccion.textContent = `${proveedor.Calle} ${proveedor.NoExt} ${proveedor.NoInterior} ${proveedor.Colonia} ${proveedor.Cruzamiento}`;
                         });
                         updateButtonState();
                     })
@@ -568,12 +522,12 @@
             }
 
             function validarNoInterior(value) {
-                const regex = /^[a-zA-Z0-9\s]*$/; // Puede ser alfanumérico o vacío
+                const regex = /^[a-zA-Z0-9\s]*$/;
                 return regex.test(value);
             }
 
             function validarNoExt(value) {
-                const regex = /^[a-zA-Z0-9\s]+$/; // Debe ser alfanumérico y no vacío
+                const regex = /^[a-zA-Z0-9\s]+$/;
                 return regex.test(value);
             }
 
@@ -583,7 +537,7 @@
             }
 
             function validarCruzamiento(value) {
-                const regex = /^[a-zA-Z0-9\s]*$/; // Puede ser alfanumérico o vacío
+                const regex = /^[a-zA-Z0-9\s]*$/;
                 return regex.test(value);
             }
 
@@ -711,7 +665,7 @@
                 const form = document.getElementById('addForm');
                 const data = {
                     NombreProveedor: form.elements['NombreProveedor'].value,
-                    IdTipo: form.elements['IdTipo'].value, // Asegurarse de incluir el tipo de proveedor
+                    IdTipo: form.elements['IdTipo'].value,
                     Telefono: form.elements['Telefono'].value,
                     Correo: form.elements['Correo'].value,
                     CodigoPostal: form.elements['CodigoPostal'].value,
@@ -769,7 +723,6 @@
             document.querySelector('.edit-button').addEventListener('click', function() {
                 if (!this.classList.contains('disabled')) {
                     const selectedId = document.querySelector('.select-checkbox:checked').value;
-                    console.log('Editar Proveedor con ID:', selectedId);
                     abrirModalEdicion(selectedId);
                 }
             });
@@ -782,7 +735,6 @@
                 if (!this.classList.contains('disabled')) {
                     const selectedIds = Array.from(document.querySelectorAll('.select-checkbox:checked'))
                         .map(cb => cb.value);
-                    console.log('Eliminar Proveedor con IDs:', selectedIds);
                     abrirModalEliminar(selectedIds);
                 }
             });
@@ -800,16 +752,17 @@
                             console.error('Error al obtener proveedor:', proveedor.error);
                             return;
                         }
-                        form.elements['editId'].value = proveedor.idProveedor || '';
+                        form.elements['idProveedor'].value = proveedor.idProveedor || '';
                         form.elements['NombreProveedorE'].value = proveedor.NombreProveedor || '';
+                        form.elements['IdTipoE'].value = proveedor.IdTipo || '';
                         form.elements['TelefonoE'].value = proveedor.Telefono || '';
                         form.elements['CorreoE'].value = proveedor.Correo || '';
+                        form.elements['CodigoPostalE'].value = proveedor.CodigoPostal || '';
                         form.elements['CalleE'].value = proveedor.Calle || '';
                         form.elements['NoInteriorE'].value = proveedor.NoInterior || '';
                         form.elements['NoExtE'].value = proveedor.NoExt || '';
                         form.elements['ColoniaE'].value = proveedor.Colonia || '';
                         form.elements['CruzamientoE'].value = proveedor.Cruzamiento || '';
-                        form.elements['CodigoPostalE'].value = proveedor.CodigoPostal || '';
 
                         modal.style.display = 'block';
                     })
@@ -832,7 +785,7 @@
 
                 if (elemento.id === 'NombreProveedorE') {
                     if (!validarNombreProveedor(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre y apellido válido (solo letras y espacios)');
+                        mostrarError(elemento, 'Ingrese un nombre válido (solo letras y espacios)');
                     } else {
                         limpiarError(elemento);
                     }
@@ -850,13 +803,13 @@
                     }
                 } else if (elemento.id === 'CodigoPostalE') {
                     if (!validarCodigoPostal(valor)) {
-                        mostrarError(elemento, 'Ingrese un código postal válido (5 dígitos numéricos)');
+                        mostrarError(elemento, 'Ingrese un Código Postal válido (5 dígitos numéricos)');
                     } else {
                         limpiarError(elemento);
                     }
                 } else if (elemento.id === 'CalleE') {
                     if (!validarCalle(valor)) {
-                        mostrarError(elemento, 'Ingrese un nombre de calle válido');
+                        mostrarError(elemento, 'Ingrese un nombre o número de calle válido');
                     } else {
                         limpiarError(elemento);
                     }
@@ -896,6 +849,7 @@
                 const data = {
                     idProveedor: form.elements['idProveedor'].value,
                     NombreProveedor: form.elements['NombreProveedorE'].value,
+                    IdTipo: form.elements['IdTipoE'].value,
                     Telefono: form.elements['TelefonoE'].value,
                     Correo: form.elements['CorreoE'].value,
                     CodigoPostal: form.elements['CodigoPostalE'].value,
@@ -924,7 +878,7 @@
                             alert('Error: ' + data.error);
                         } else {
                             alert('Proveedor actualizado exitosamente');
-                            fetchProveedores(); // Actualizar la tabla
+                            fetchProveedores();
                             cerrarModalEdicion();
                         }
                     })
@@ -965,7 +919,7 @@
                             alert('Error: ' + data.error);
                         } else {
                             alert('Proveedor(es) eliminado(s) exitosamente');
-                            fetchProveedores(); // Actualizar la tabla
+                            fetchProveedores();
                             document.getElementById('delete-modal').style.display = 'none';
                         }
                     })
