@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Reportes de Cobros, Lote de Impresión y Recargas</title>
+    <title>Reportes de Cobros, Lote de Impresión, Recargas y Logins</title>
 
     <!-- Fuentes personalizadas para esta plantilla-->
     <link href="../FSP-main-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -46,8 +46,8 @@
                         <thead>
                             <tr>
                                 <th>ID Cobro</th>
-                                <th>ID Cliente</th>
-                                <th>ID Empleado</th>
+                                <th>Nombre del Cliente</th>
+                                <th>Nombre del Empleado</th>
                                 <th>Fecha y Hora</th>
                                 <th>Total Cobro</th>
                             </tr>
@@ -99,10 +99,32 @@
                         <thead>
                             <tr>
                                 <th>ID Recarga</th>
-                                <th>ID Cliente</th>
-                                <th>ID Empleado</th>
+                                <th>Nombre del Cliente</th>
+                                <th>Nombre del Empleado</th>
                                 <th>Fecha y Hora</th>
                                 <th>Valor Recarga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- DataTales Example for Logins -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Reportes de Logins</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTableLogins" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID Empleado</th>
+                                <th>Fecha y Hora de Login</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,11 +164,11 @@
                             let cellIdCobro = row.insertCell(0);
                             cellIdCobro.textContent = cobro.idCobro;
 
-                            let cellIdCliente = row.insertCell(1);
-                            cellIdCliente.textContent = cobro.idCliente;
+                            let cellNombreCliente = row.insertCell(1);
+                            cellNombreCliente.textContent = cobro.NombreCliente;
 
-                            let cellIdEmpleado = row.insertCell(2);
-                            cellIdEmpleado.textContent = cobro.idEmpleado;
+                            let cellNombreEmpleado = row.insertCell(2);
+                            cellNombreEmpleado.textContent = cobro.NombreEmpleado;
 
                             let cellFechaHoraC = row.insertCell(3);
                             cellFechaHoraC.textContent = cobro.FechaHoraC;
@@ -219,11 +241,11 @@
                             let cellIdRecarga = row.insertCell(0);
                             cellIdRecarga.textContent = recarga.FoRecarga;
 
-                            let cellIdCliente = row.insertCell(1);
-                            cellIdCliente.textContent = recarga.idCliente;
+                            let cellNombreCliente = row.insertCell(1);
+                            cellNombreCliente.textContent = recarga.NombreCliente;
 
-                            let cellIdEmpleado = row.insertCell(2);
-                            cellIdEmpleado.textContent = recarga.idEmpleado;
+                            let cellNombreEmpleado = row.insertCell(2);
+                            cellNombreEmpleado.textContent = recarga.NombreEmpleado;
 
                             let cellFechaHoraR = row.insertCell(3);
                             cellFechaHoraR.textContent = recarga.FechaHoraR;
@@ -235,9 +257,35 @@
                     .catch(error => console.error('Error:', error));
             }
 
+            function fetchLogins() {
+                fetch('../FSP-main-2/controller/RepLogin_controller.php', {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data || data.error) {
+                            console.error('Error al obtener logins:', data.error);
+                            return;
+                        }
+                        let table = document.querySelector("#dataTableLogins tbody");
+                        table.innerHTML = '';
+                        data.forEach(login => {
+                            let row = table.insertRow();
+
+                            let cellIdEmpleado = row.insertCell(0);
+                            cellIdEmpleado.textContent = login.idEmpleado;
+
+                            let cellFechaHoraLog = row.insertCell(1);
+                            cellFechaHoraLog.textContent = login.FechaHoraLog;
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
             fetchCobros();
             fetchLoteImpresiones();
             fetchRecargas();
+            fetchLogins();
         });
     </script>
 </body>
