@@ -1,6 +1,6 @@
 <?php
 require_once '../bd/conex.php';
-require_once '../model/CobroModel.php';
+require_once '../model/Cobro_Model2.php';
 
 header('Content-Type: application/json');
 
