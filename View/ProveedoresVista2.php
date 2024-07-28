@@ -51,16 +51,16 @@
 
         .modal-content {
             background-color: #fefefe;
-            margin: auto;
+            margin: 20px;
             padding: 20px;
             border: 1px solid #888;
-            width: 50%;
-            max-width: 900px;
-            max-height: 700px;
-            position: fixed;
+            width: 40%; /* Reduced width */
+            max-width: 700px; /* Reduced max-width */
+            max-height: 500px; /* Reduced max-height */
+            position: fixed; /* Use fixed positioning */
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            left: 20%; /* Adjusted left position */
+            transform: translateY(-50%);
             height: auto;
             overflow-y: auto;
         }
