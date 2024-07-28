@@ -33,7 +33,7 @@
 
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Reportes</h1>
-        <p class="mb-4">Selecciona el tipo de reporte y la fecha de inicio a fin</p>
+        <p class="mb-4">Reportes de Cobros, Lote de Impresión, Recargas y Logins</p>
 
         <!-- DataTales Example for Cobros -->
         <div class="card shadow mb-4">
@@ -46,8 +46,8 @@
                         <thead>
                             <tr>
                                 <th>ID Cobro</th>
-                                <th>Nombre del Cliente</th>
-                                <th>Nombre del Empleado</th>
+                                <th>ID Cliente</th>
+                                <th>ID Empleado</th>
                                 <th>Fecha y Hora</th>
                                 <th>Total Cobro</th>
                             </tr>
@@ -99,8 +99,8 @@
                         <thead>
                             <tr>
                                 <th>ID Recarga</th>
-                                <th>Nombre del Cliente</th>
-                                <th>Nombre del Empleado</th>
+                                <th>ID Cliente</th>
+                                <th>ID Empleado</th>
                                 <th>Fecha y Hora</th>
                                 <th>Valor Recarga</th>
                             </tr>
@@ -147,7 +147,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function fetchCobros() {
-                fetch('../FSP-main-2/controller/Cobro_Controller.php', {
+                fetch('../FSP-main-2/controller/Cobro_controller.php', {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -164,11 +164,11 @@
                             let cellIdCobro = row.insertCell(0);
                             cellIdCobro.textContent = cobro.idCobro;
 
-                            let cellNombreCliente = row.insertCell(1);
-                            cellNombreCliente.textContent = cobro.NombreCliente;
+                            let cellIdCliente = row.insertCell(1);
+                            cellIdCliente.textContent = cobro.idCliente;
 
-                            let cellNombreEmpleado = row.insertCell(2);
-                            cellNombreEmpleado.textContent = cobro.NombreEmpleado;
+                            let cellIdEmpleado = row.insertCell(2);
+                            cellIdEmpleado.textContent = cobro.idEmpleado;
 
                             let cellFechaHoraC = row.insertCell(3);
                             cellFechaHoraC.textContent = cobro.FechaHoraC;
@@ -181,7 +181,7 @@
             }
 
             function fetchLoteImpresiones() {
-                fetch('../FSP-main-2/controller/Loteimpresion_Controller.php', {
+                fetch('../FSP-main-2/controller/Loteimpresion_controller.php', {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -241,11 +241,11 @@
                             let cellIdRecarga = row.insertCell(0);
                             cellIdRecarga.textContent = recarga.FoRecarga;
 
-                            let cellNombreCliente = row.insertCell(1);
-                            cellNombreCliente.textContent = recarga.NombreCliente;
+                            let cellIdCliente = row.insertCell(1);
+                            cellIdCliente.textContent = recarga.idCliente;
 
-                            let cellNombreEmpleado = row.insertCell(2);
-                            cellNombreEmpleado.textContent = recarga.NombreEmpleado;
+                            let cellIdEmpleado = row.insertCell(2);
+                            cellIdEmpleado.textContent = recarga.idEmpleado;
 
                             let cellFechaHoraR = row.insertCell(3);
                             cellFechaHoraR.textContent = recarga.FechaHoraR;
