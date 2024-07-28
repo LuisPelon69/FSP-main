@@ -28,7 +28,7 @@ class ReportesController {
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Content -->
-                    <?php include 'View/tables.php'; ?>
+                    <?php include 'View/tables2.php'; ?>
                     
                 </div>
                 <!-- End of Content -->

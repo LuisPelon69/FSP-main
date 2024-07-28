@@ -1,23 +1,23 @@
 <?php
 require_once '../bd/conex.php';
 
-class CobroModel {
+class RecargasModel {
     private $conn;
-    private $table_name = "cobro";
+    private $table_name = "recarga";
 
-    public $idCobro;
+    public $FoRecarga;
     public $idCliente;
     public $idEmpleado;
-    public $FechaHoraC;
-    public $TotalCobro;
+    public $FechaHoraR;
+    public $ValorR;
 
     public function __construct() {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
 
-    public function setIdCobro($idCobro) {
-        $this->idCobro = $idCobro;
+    public function setFoRecarga($FoRecarga) {
+        $this->FoRecarga = $FoRecarga;
     }
 
     public function setIdCliente($idCliente) {
@@ -28,31 +28,31 @@ class CobroModel {
         $this->idEmpleado = $idEmpleado;
     }
 
-    public function setFechaHoraC($FechaHoraC) {
-        $this->FechaHoraC = $FechaHoraC;
+    public function setFechaHoraR($FechaHoraR) {
+        $this->FechaHoraR = $FechaHoraR;
     }
 
-    public function setTotalCobro($TotalCobro) {
-        $this->TotalCobro = $TotalCobro;
+    public function setValorR($ValorR) {
+        $this->ValorR = $ValorR;
     }
 
     public function save() {
-        $query = "INSERT INTO " . $this->table_name . " (idCliente, idEmpleado, FechaHoraC, TotalCobro) 
-                  VALUES (:idCliente, :idEmpleado, :FechaHoraC, :TotalCobro)";
+        $query = "INSERT INTO " . $this->table_name . " (idCliente, idEmpleado, FechaHoraR, ValorR) 
+                  VALUES (:idCliente, :idEmpleado, :FechaHoraR, :ValorR)";
         
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
         $this->idCliente = htmlspecialchars(strip_tags($this->idCliente));
         $this->idEmpleado = htmlspecialchars(strip_tags($this->idEmpleado));
-        $this->FechaHoraC = htmlspecialchars(strip_tags($this->FechaHoraC));
-        $this->TotalCobro = htmlspecialchars(strip_tags($this->TotalCobro));
+        $this->FechaHoraR = htmlspecialchars(strip_tags($this->FechaHoraR));
+        $this->ValorR = htmlspecialchars(strip_tags($this->ValorR));
 
         // Vinculación de parámetros
         $stmt->bindParam(':idCliente', $this->idCliente);
         $stmt->bindParam(':idEmpleado', $this->idEmpleado);
-        $stmt->bindParam(':FechaHoraC', $this->FechaHoraC);
-        $stmt->bindParam(':TotalCobro', $this->TotalCobro);
+        $stmt->bindParam(':FechaHoraR', $this->FechaHoraR);
+        $stmt->bindParam(':ValorR', $this->ValorR);
 
         if ($stmt->execute()) {
             return true;
@@ -61,22 +61,22 @@ class CobroModel {
         return false;
     }
 
-    public function obtenerCobros() {
-        $query = "SELECT idCobro, idCliente, idEmpleado, FechaHoraC, TotalCobro FROM " . $this->table_name;
+    public function obtenerRecargas() {
+        $query = "SELECT FoRecarga, idCliente, idEmpleado, FechaHoraR, ValorR FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        $cobros = [];
+        $recargas = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $cobros[] = $row;
+            $recargas[] = $row;
         }
 
-        return $cobros;
+        return $recargas;
     }
 
-    public function obtenerCobroPorId($id) {
-        $query = "SELECT idCobro, idCliente, idEmpleado, FechaHoraC, TotalCobro FROM " . $this->table_name . " WHERE idCobro = ?";
+    public function obtenerRecargaPorId($id) {
+        $query = "SELECT FoRecarga, idCliente, idEmpleado, FechaHoraR, ValorR FROM " . $this->table_name . " WHERE FoRecarga = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
 
@@ -87,25 +87,25 @@ class CobroModel {
         $query = "UPDATE " . $this->table_name . " 
                   SET idCliente = :idCliente, 
                       idEmpleado = :idEmpleado, 
-                      FechaHoraC = :FechaHoraC, 
-                      TotalCobro = :TotalCobro 
-                  WHERE idCobro = :idCobro";
+                      FechaHoraR = :FechaHoraR, 
+                      ValorR = :ValorR 
+                  WHERE FoRecarga = :FoRecarga";
         
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
         $this->idCliente = htmlspecialchars(strip_tags($this->idCliente));
         $this->idEmpleado = htmlspecialchars(strip_tags($this->idEmpleado));
-        $this->FechaHoraC = htmlspecialchars(strip_tags($this->FechaHoraC));
-        $this->TotalCobro = htmlspecialchars(strip_tags($this->TotalCobro));
-        $this->idCobro = htmlspecialchars(strip_tags($this->idCobro));
+        $this->FechaHoraR = htmlspecialchars(strip_tags($this->FechaHoraR));
+        $this->ValorR = htmlspecialchars(strip_tags($this->ValorR));
+        $this->FoRecarga = htmlspecialchars(strip_tags($this->FoRecarga));
 
         // Vinculación de parámetros
         $stmt->bindParam(':idCliente', $this->idCliente);
         $stmt->bindParam(':idEmpleado', $this->idEmpleado);
-        $stmt->bindParam(':FechaHoraC', $this->FechaHoraC);
-        $stmt->bindParam(':TotalCobro', $this->TotalCobro);
-        $stmt->bindParam(':idCobro', $this->idCobro);
+        $stmt->bindParam(':FechaHoraR', $this->FechaHoraR);
+        $stmt->bindParam(':ValorR', $this->ValorR);
+        $stmt->bindParam(':FoRecarga', $this->FoRecarga);
 
         if ($stmt->execute()) {
             return true;
@@ -115,7 +115,7 @@ class CobroModel {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE idCobro = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE FoRecarga = ?";
         $stmt = $this->conn->prepare($query);
 
         if ($stmt->execute([$id])) {
