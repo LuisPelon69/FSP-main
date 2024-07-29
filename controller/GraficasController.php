@@ -28,7 +28,7 @@ class GraficasController {
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Content -->
-                    <?php include 'View/charts.php'; ?>
+                    <?php include 'View/charts2.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
