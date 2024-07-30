@@ -31,7 +31,7 @@ class DashboardController {
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'View/Content.php'; ?>
+                    <?php include 'View/charts2.php'; ?>
                     
                 </div>
                 <!-- End of Content -->

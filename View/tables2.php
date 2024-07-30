@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Reportes de Cobros, Lote de Impresión y Recargas</title>
+    <title>Reportes de Cobros, Lote de Impresión, Recargas y Logins</title>
 
     <!-- Fuentes personalizadas para esta plantilla-->
     <link href="../FSP-main-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +33,7 @@
 
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Reportes</h1>
-        <p class="mb-4">Selecciona el tipo de reporte y la fecha de inicio a fin</p>
+        <p class="mb-4">Reportes de Cobros, Lote de Impresión, Recargas y Logins</p>
 
         <!-- DataTales Example for Cobros -->
         <div class="card shadow mb-4">
@@ -113,6 +113,28 @@
             </div>
         </div>
 
+        <!-- DataTales Example for Logins -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Reportes de Logins</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTableLogins" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID Empleado</th>
+                                <th>Fecha y Hora de Login</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- /.container-fluid -->
 
@@ -125,7 +147,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function fetchCobros() {
-                fetch('../FSP-main-2/controller/Cobro_Controller.php', {
+                fetch('../FSP-main-2/controller/Cobro_controller.php', {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -159,7 +181,7 @@
             }
 
             function fetchLoteImpresiones() {
-                fetch('../FSP-main-2/controller/Loteimpresion_Controller.php', {
+                fetch('../FSP-main-2/controller/Loteimpresion_controller.php', {
                         method: 'GET'
                     })
                     .then(response => response.json())
@@ -235,9 +257,35 @@
                     .catch(error => console.error('Error:', error));
             }
 
+            function fetchLogins() {
+                fetch('../FSP-main-2/controller/RepLogin_controller.php', {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data || data.error) {
+                            console.error('Error al obtener logins:', data.error);
+                            return;
+                        }
+                        let table = document.querySelector("#dataTableLogins tbody");
+                        table.innerHTML = '';
+                        data.forEach(login => {
+                            let row = table.insertRow();
+
+                            let cellIdEmpleado = row.insertCell(0);
+                            cellIdEmpleado.textContent = login.idEmpleado;
+
+                            let cellFechaHoraLog = row.insertCell(1);
+                            cellFechaHoraLog.textContent = login.FechaHoraLog;
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
             fetchCobros();
             fetchLoteImpresiones();
             fetchRecargas();
+            fetchLogins();
         });
     </script>
 </body>
