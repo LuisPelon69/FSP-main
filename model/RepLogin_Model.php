@@ -3,9 +3,9 @@ require_once '../bd/conex.php';
 
 class RepLoginModel {
     private $conn;
-    private $table_name = "registrologin";
+    private $table_name = "empleado"; // Cambiado para asegurarnos de que estamos trabajando con la tabla correcta
 
-    public $idEmpleado;
+    public $NombreEmp;
     public $FechaHoraLog;
 
     public function __construct() {
@@ -13,8 +13,8 @@ class RepLoginModel {
         $this->conn = $database->getConnection();
     }
 
-    public function setIdEmpleado($idEmpleado) {
-        $this->idEmpleado = $idEmpleado;
+    public function setNombreEmp($NombreEmp) {
+        $this->NombreEmp = $NombreEmp;
     }
 
     public function setFechaHoraLog($FechaHoraLog) {
@@ -22,17 +22,17 @@ class RepLoginModel {
     }
 
     public function save() {
-        $query = "INSERT INTO " . $this->table_name . " (idEmpleado, FechaHoraLog) 
-                  VALUES (:idEmpleado, :FechaHoraLog)";
+        $query = "INSERT INTO " . $this->table_name . " (NombreEmp, FechaHoraLog) 
+                  VALUES (:NombreEmp, :FechaHoraLog)";
         
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
-        $this->idEmpleado = htmlspecialchars(strip_tags($this->idEmpleado));
+        $this->NombreEmp = htmlspecialchars(strip_tags($this->NombreEmp));
         $this->FechaHoraLog = htmlspecialchars(strip_tags($this->FechaHoraLog));
 
         // Vinculación de parámetros
-        $stmt->bindParam(':idEmpleado', $this->idEmpleado);
+        $stmt->bindParam(':NombreEmp', $this->NombreEmp);
         $stmt->bindParam(':FechaHoraLog', $this->FechaHoraLog);
 
         if ($stmt->execute()) {
@@ -43,7 +43,7 @@ class RepLoginModel {
     }
 
     public function obtenerLogins() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT NombreEmp, FechaHoraLog FROM " . $this->table_name; // Seleccionamos solo las columnas necesarias
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -56,10 +56,10 @@ class RepLoginModel {
         return $logins;
     }
 
-    public function obtenerLoginPorId($idEmpleado, $FechaHoraLog) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE idEmpleado = ? AND FechaHoraLog = ?";
+    public function obtenerLoginPorId($NombreEmp, $FechaHoraLog) {
+        $query = "SELECT NombreEmp, FechaHoraLog FROM " . $this->table_name . " WHERE NombreEmp = ? AND FechaHoraLog = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$idEmpleado, $FechaHoraLog]);
+        $stmt->execute([$NombreEmp, $FechaHoraLog]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -67,16 +67,16 @@ class RepLoginModel {
     public function update() {
         $query = "UPDATE " . $this->table_name . " 
                   SET FechaHoraLog = :FechaHoraLog 
-                  WHERE idEmpleado = :idEmpleado AND FechaHoraLog = :FechaHoraLog";
+                  WHERE NombreEmp = :NombreEmp";
         
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
-        $this->idEmpleado = htmlspecialchars(strip_tags($this->idEmpleado));
+        $this->NombreEmp = htmlspecialchars(strip_tags($this->NombreEmp));
         $this->FechaHoraLog = htmlspecialchars(strip_tags($this->FechaHoraLog));
 
         // Vinculación de parámetros
-        $stmt->bindParam(':idEmpleado', $this->idEmpleado);
+        $stmt->bindParam(':NombreEmp', $this->NombreEmp);
         $stmt->bindParam(':FechaHoraLog', $this->FechaHoraLog);
 
         if ($stmt->execute()) {
@@ -86,11 +86,11 @@ class RepLoginModel {
         return false;
     }
 
-    public function delete($idEmpleado, $FechaHoraLog) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE idEmpleado = ? AND FechaHoraLog = ?";
+    public function delete($NombreEmp, $FechaHoraLog) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE NombreEmp = ? AND FechaHoraLog = ?";
         $stmt = $this->conn->prepare($query);
 
-        if ($stmt->execute([$idEmpleado, $FechaHoraLog])) {
+        if ($stmt->execute([$NombreEmp, $FechaHoraLog])) {
             return true;
         }
 

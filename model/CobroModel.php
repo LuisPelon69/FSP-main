@@ -2,7 +2,13 @@
 require_once 'bd/conex.php';
 
 class CobroModel {
-    private $conn;
+    public $conn;
+    private $table_name = "cobro";
+    public $idCobro;
+    public $idCliente;
+    public $idEmpleado;
+    public $TotalCobro;
+
 
     public function __construct() {
         $database = new Database();
@@ -16,42 +22,44 @@ class CobroModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTiposPapel() {
-        $query = "SELECT NombreTipoP FROM tipopapel";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function setTotalCobro($TotalCobro) {
+        $this->TotalCobro = $TotalCobro;
     }
 
-    public function getTiposImpresion() {
-        $query = "SELECT NombreTipoI FROM tipoimpresion";
+    public function save() {
+        $query = "INSERT INTO " . $this->table_name . " (idCobro, idCliente, idEmpleado, TotalCobro) 
+                  VALUES (:idCobro, :idCliente, :idEmpleado, :TotalCobro)";
+        
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Limpieza de datos
+        $this->idCobro = htmlspecialchars(strip_tags($this->idCobro));
+        $this->idCliente = htmlspecialchars(strip_tags($this->idCliente));
+        $this->idEmpleado = htmlspecialchars(strip_tags($this->idEmpleado));
+        $this->TotalCobro = htmlspecialchars(strip_tags($this->TotalCobro));
+
+        // Vinculación de parámetros
+        $stmt->bindParam(':idCobro', $this->idCobro);
+        $stmt->bindParam(':idCliente', $this->idCliente);
+        $stmt->bindParam(':idEmpleado', $this->idEmpleado);
+        $stmt->bindParam(':TotalCobro', $this->TotalCobro);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
-    // -------------------------------------------------------
-    // Método para obtener los precios de los productos
-    public function getPrecios() {
-        $precios = [];
 
-        // Obtener precios de tamaños de papel
-        $query = "SELECT NombreTam, PreciopUTaP FROM tamañopapel";
+
+    public function getMaxIdCobro() {
+        $query = "SELECT MAX(idCobro) as maxIdCobro FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $precios['tamañosPapel'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Obtener precios de tipos de papel
-        $query = "SELECT NombreTipoP, PreciopUTiP FROM tipopapel";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $precios['tiposPapel'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Obtener precios de tipos de impresión
-        $query = "SELECT NombreTipoI, PreciopUTiI FROM tipoimpresion";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $precios['tiposImpresion'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $precios;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['maxIdCobro'];
     }
+    
+
+
 }

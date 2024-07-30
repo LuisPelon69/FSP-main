@@ -27,8 +27,6 @@ class PromosController {
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
 
-                    <!-- Topbar -->
-                    <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
                     <?php include 'View\Promos.php'; ?>

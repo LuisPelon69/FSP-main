@@ -45,6 +45,7 @@ class AutenticacionController
                     // Iniciar sesión exitoso
                     session_start();
                     $_SESSION['nombre'] = $nombre;
+                    $_SESSION['idEmple'] = $idEmple; // Almacenar idEmple en la sesión
 
                     // Redirigir según el prefijo del idEmple
                     if (strpos($idEmple, '10') === 0) {
@@ -53,7 +54,7 @@ class AutenticacionController
                         header("Location: ../NuevoCobro_Empleado.php");
                     } else {
                         // Redirigir a una página por defecto o mostrar un error
-                        header("Location: ../Admin.php");
+                        header("Location: ../index.php");
                     }
                     exit();
                 } else {
@@ -77,9 +78,6 @@ class AutenticacionController
             });
         </script>";
     }
-
-
 }
-
 
 ?>
