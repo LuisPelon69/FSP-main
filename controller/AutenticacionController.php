@@ -2,23 +2,33 @@
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'AutenticacionModel.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bd' . DIRECTORY_SEPARATOR . 'conex.php';
 
+// Iniciar sesión solo si no está ya iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $controller = new AutenticacionController();
 $controller->index();
+
 class AutenticacionController 
 {
     private $model;
     private $errorMessage;
+
+    public function __construct() {
+        $this->model = new AutenticacionModel();
+        $this->errorMessage = 'Nombre de usuario o contraseña incorrectos.';
+        $this->handleLogin();
+    }
+
     public function index() {
         $monthlyEarnings = $this->model->getMonthlyEarnings();
         $annualEarnings = $this->model->getAnnualEarnings();
         $goalsCompletion = $this->model->getGoalsCompletion();
         $receivedEmails = $this->model->getReceivedEmails();
+        $nombre = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : '';
+        $idEmple = isset($_SESSION['idEmple']) ? $_SESSION['idEmple'] : '';
         include dirname(__DIR__) . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'AutenticacionVista.php';
-    }
-    public function __construct() {
-        $this->model = new AutenticacionModel();
-        $this->errorMessage = 'Nombre de usuario o contraseña incorrectos.';
-        $this->handleLogin();
     }
 
     private function handleLogin() {
@@ -38,14 +48,14 @@ class AutenticacionController
                 
                 $count = $stmt->rowCount();
                 if ($count > 0) {
-                    // Obtener el idEmple para verificar el prefijo
+                    // Obtener el idEmple y NombreEmp
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                     $idEmple = $row['idEmple'];
+                    $nombreEmp = $row['NombreEmp']; // Corregido para obtener el nombre correcto
 
                     // Iniciar sesión exitoso
-                    session_start();
-                    $_SESSION['nombre'] = $nombre;
-                    $_SESSION['idEmple'] = $idEmple; // Almacenar idEmple en la sesión
+                    $_SESSION['nombre'] = $nombreEmp; // Usar NombreEmp en lugar de nombre
+                    $_SESSION['idEmple'] = $idEmple;
 
                     // Redirigir según el prefijo del idEmple
                     if (strpos($idEmple, '10') === 0) {
@@ -79,5 +89,4 @@ class AutenticacionController
         </script>";
     }
 }
-
 ?>

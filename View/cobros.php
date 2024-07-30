@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<?php
+// Iniciar sesión solo si no está ya iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$nombre = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : '';
+$idEmple = isset($_SESSION['idEmple']) ? $_SESSION['idEmple'] : '';
+?>
 <html lang="es">
 
 <head>
@@ -89,13 +96,13 @@
                                 <img src="img/Logo2.png" alt="Admin">
                             </div>
                             <div class="input-container">
-                                <label>Nombre:</label>
-                                <input type="text" value="Alfredo Olivas Jímenez" disabled>
-                            </div>
-                            <div class="input-container">
-                                <label>ID:</label>
-                                <input type="text" id="idEmpleado" value="1000001" disabled>
-                            </div>
+        <label>Nombre:</label>
+        <input type="text" value="<?php echo htmlspecialchars($nombre); ?>" disabled>
+    </div>
+    <div class="input-container">
+        <label>ID:</label>
+        <input type="text" id="idEmpleado" value="<?php echo htmlspecialchars($idEmple); ?>" disabled>
+    </div>
                         </div>
                         <div class="header">
                             <!-- Fila para Cliente y Saldo en horizontal -->
