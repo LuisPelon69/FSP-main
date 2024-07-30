@@ -54,7 +54,7 @@ class AutenticacionController
                         header("Location: ../NuevoCobro_Empleado.php");
                     } else {
                         // Redirigir a una página por defecto o mostrar un error
-                        header("Location: ../Admin.php");
+                        header("Location: ../index.php");
                     }
                     exit();
                 } else {
