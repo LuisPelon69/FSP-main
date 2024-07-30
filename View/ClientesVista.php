@@ -587,7 +587,7 @@
             const tableBody = document.querySelector('table tbody');
 
             function validarNombres(value) {
-                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1])[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\d\s.,'-]+$/;
                 return regex.test(value);
             }
 
