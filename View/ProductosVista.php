@@ -172,7 +172,7 @@
 
         /* Añadir espacio entre los botones */
         .form-buttons .cancel+.submit {
-            margin-left: 566px;
+            margin-left: 550px;
             /* Ajustar el margen entre los botones */
         }
 
@@ -1195,7 +1195,7 @@
             const PreciopUTiI = document.getElementById('PreciopUTiI');
 
             function validarNombres(value) {
-                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1])[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s+[a-zA-ZÀ-ÿ\u00f1\u00d1]+)*$/;
                 return regex.test(value);
             }
 

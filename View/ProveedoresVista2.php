@@ -60,7 +60,7 @@
             position: fixed; /* Use fixed positioning */
             top: 50%;
             left: 20%; /* Adjusted left position */
-            transform: translateY(-50%);
+            transform: translate(15%, -50%);
             height: auto;
             overflow-y: auto;
         }
@@ -497,7 +497,7 @@
             const tableBody = document.querySelector('table tbody');
 
             function validarNombreProveedor(value) {
-                const regex = /^[a-zA-Z\s]+$/;
+                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\d\s.,'-]+$/;
                 return regex.test(value);
             }
 
@@ -517,7 +517,7 @@
             }
 
             function validarCalle(value) {
-                const regex = /^[a-zA-Z0-9\s]+$/;
+                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\d\s.,'-]+$/;
                 return regex.test(value);
             }
 
@@ -532,7 +532,7 @@
             }
 
             function validarColonia(value) {
-                const regex = /^[a-zA-Z0-9\s]+$/;
+                const regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\d\s.,'-]+$/;
                 return regex.test(value);
             }
 

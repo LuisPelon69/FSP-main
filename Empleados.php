@@ -1,4 +1,13 @@
 <?php
+session_start();
+if (!isset($_SESSION['idEmple'])) {
+    header("Location: index.php"); // Redirige a la página de inicio de sesión si no hay sesión iniciada
+    exit();
+}
+?>
+<?php
+require_once 'config.php'; // Incluir la configuración global antes de cualquier salida
+?><?php
 require_once 'Controller/EmpleadosController.php';
 ?>
 <?php
