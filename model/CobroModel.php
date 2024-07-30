@@ -3,6 +3,12 @@ require_once 'bd/conex.php';
 
 class CobroModel {
     public $conn;
+    private $table_name = "cobro";
+    public $idCobro;
+    public $idCliente;
+    public $idEmpleado;
+    public $TotalCobro;
+
 
     public function __construct() {
         $database = new Database();
