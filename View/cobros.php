@@ -18,7 +18,8 @@
     <style>
         /* Estilo para el botón de eliminar */
         .delete-row {
-            display: none; /* Ocultar el ícono por defecto */
+            display: none;
+            /* Ocultar el ícono por defecto */
             background: none;
             border: none;
             color: red;
@@ -36,8 +37,38 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 1050; /* Asegurarse de que esté por encima de otros elementos */
+            z-index: 1050;
+            /* Asegurarse de que esté por encima de otros elementos */
             display: none;
+        }
+
+        #amount {
+            border: 1px solid #ced4da;
+            /* Color del borde del input */
+            border-radius: .25rem;
+            /* Bordes redondeados */
+            padding: .375rem .75rem;
+            /* Espaciado interno */
+            font-size: 1rem;
+            /* Tamaño de la fuente */
+            line-height: 1.5;
+            /* Altura de línea */
+            color: #495057;
+            /* Color del texto */
+            background-color: #fff;
+            /* Color de fondo */
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, .075);
+            /* Sombra interna */
+        }
+
+        /* Opcional: Estilo para cuando el campo está en foco */
+        #amount:focus {
+            border-color: #80bdff;
+            /* Color del borde en foco */
+            outline: 0;
+            /* Quitar el contorno predeterminado */
+            box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .25);
+            /* Sombra en foco */
         }
     </style>
 </head>
@@ -63,7 +94,7 @@
                             </div>
                             <div class="input-container">
                                 <label>ID:</label>
-                                <input type="text" value="1000001" disabled>
+                                <input type="text" id="idEmpleado" value="1000001" disabled>
                             </div>
                         </div>
                         <div class="header">
@@ -87,24 +118,24 @@
                                         <tr>
                                             <th>Lote</th>
                                             <th>Cantidad de Hojas</th>
-                                            <th>Duplex</th>
+                                            <th>¿Duplex?</th>
                                             <th>Tamaño Papel</th>
                                             <th>Tipo de Papel</th>
                                             <th>Tipo de Impresión</th>
                                             <th>Total</th>
-                                            <th>Acción</th>
+                                            <th>Eliminar</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="productos">
+                                    <tbody>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="right-pane">
                                 <!-- Botón de Propiedades -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propiedadesPapelModal">
-                                    Agregar Productos
+                                <button type="button" class="btn btn-primary" name="botonAgregar" id="botonAgregar" data-bs-toggle="modal" data-bs-target="#propiedadesPapelModal">
+                                    Agregar Lotes
                                 </button>
-                                
+
                             </div>
                         </div>
                         <div class="footer">
@@ -121,7 +152,7 @@
                                 <input type="text" id="amount" readonly>
                             </div>
                             <button id="charge" class="btn btn-primary">Cobrar</button>
-                            
+
                             <div class="cart-icon"></div>
                         </div>
                     </div>
@@ -151,30 +182,30 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                    <label for="clb_TamañoPapel">Tamaño de papel</label>
-                                    <select class="form-control" id="clb_TamañoPapel">
+                                    <label for="tamañoPapelSelect">Tamaño de papel</label>
+                                    <select class="form-control" id="tamañoPapelSelect">
                                         <option value="">Selecciona</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 text-center">
-                                    <label for="clb_TipoPapel">Tipo de papel</label>
-                                    <select class="form-control" id="clb_TipoPapel">
+                                    <label for="tipoPapelSelect">Tipo de papel</label>
+                                    <select class="form-control" id="tipoPapelSelect">
                                         <option value="">Selecciona</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 text-center">
-                                    <label for="clb_TipoImpresion">Tipo de impresión</label>
-                                    <select class="form-control" id="clb_TipoImpresion">
+                                    <label for="tipoImpresionSelect">Tipo de impresión</label>
+                                    <select class="form-control" id="tipoImpresionSelect">
                                         <option value="">Selecciona</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-6 text-center">
-                                    <label for="duplex">Duplex:</label>
+                                    <label for="duplex">¿Duplex?:</label>
                                     <select class="form-control" id="duplex">
-                                        <option value="si">Sí</option>
-                                        <option value="no">No</option>
+                                        <option value="Sí">Sí</option>
+                                        <option value="No">No</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 text-center">
@@ -185,7 +216,7 @@
                             <div class="row mt-4">
                                 <div class="col text-center">
                                     <button id="new-batch" class="btn btn-primary">
-                                        <i class="fas fa-shopping-cart"></i>añadir
+                                        <i class="fas fa-shopping-cart"></i> Añadir
                                     </button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
@@ -237,23 +268,42 @@
 
     <script>
         $(document).ready(function() {
-            $('#paper-plane-button').click(function() {
-                $('#scanQRModal').modal('show');
-                const html5QrCode = new Html5Qrcode("reader");
+            let html5QrCode = null;
+            let scanTimeout = null;
 
-                html5QrCode.start(
-                    { facingMode: "environment" },
-                    {
+            // Función para iniciar el escaneo
+            function iniciarEscaneo() {
+                if (html5QrCode && html5QrCode.isRunning) {
+                    html5QrCode.stop().then(() => {
+                        startQrCodeScanner();
+                    }).catch(err => {
+                        console.log("Error al detener el escaneo: ", err);
+                        startQrCodeScanner();
+                    });
+                } else {
+                    startQrCodeScanner();
+                }
+            }
+
+            // Función para comenzar el escaneo
+            function startQrCodeScanner() {
+                html5QrCode = new Html5Qrcode("reader");
+                html5QrCode.start({
+                        facingMode: "environment"
+                    }, {
                         fps: 10,
                         qrbox: 250
                     },
                     qrCodeMessage => {
                         console.log("QR Code detected: ", qrCodeMessage);
+                        clearTimeout(scanTimeout); // Limpiar temporizador si se detecta un QR
                         html5QrCode.stop().then(() => {
                             $('#scanQRModal').modal('hide');
                             let clienteId = qrCodeMessage;
                             if (clienteId) {
-                                $.post('controller/CobrosQRController.php', { clienteId: clienteId }, function(response) {
+                                $.post('controller/CobrosQRController.php', {
+                                    clienteId: clienteId
+                                }, function(response) {
                                     if (response.status === 'success') {
                                         $('#cliente').val(clienteId);
                                         $('#saldo').val(response.saldo);
@@ -268,90 +318,435 @@
                         }).catch(err => {
                             console.log("Error al detener el escaneo: ", err);
                         });
-
                     },
                     errorMessage => {
                         console.log("QR Code no match: ", errorMessage);
                     }
-                ).catch(err => {
+                ).then(() => {
+                    html5QrCode.isRunning = true; // Indica que el escáner está corriendo
+                }).catch(err => {
                     console.log("Unable to start scanning.", err);
                 });
+
+                scanTimeout = setTimeout(() => {
+                    if (html5QrCode && html5QrCode.isRunning) {
+                        html5QrCode.stop().then(() => {
+                            $('#scanQRModal').modal('hide');
+                        }).catch(err => {
+                            console.log("Error al detener el escaneo: ", err);
+                        });
+                    }
+                }, 20000);
+            }
+
+            $('#paper-plane-button').click(function() {
+                $('#scanQRModal').modal('show');
+                setTimeout(() => iniciarEscaneo(), 500);
+            });
+
+            // Manejo del cierre del modal
+            $('#scanQRModal').on('hidden.bs.modal', function() {
+                if (html5QrCode && html5QrCode.isRunning) {
+                    html5QrCode.stop().then(() => {
+                        html5QrCode = null;
+                    }).catch(err => {
+                        console.log("Error al detener el escaneo: ", err);
+                        html5QrCode = null;
+                    });
+                }
+                clearTimeout(scanTimeout);
             });
 
             // Función para mostrar mensajes
             function mostrarMensaje(mensaje, tipo) {
                 var color = tipo === 'success' ? 'green' : 'red';
                 $('#mensajeModal').remove();
-                $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:'+color+';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
+                $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:' + color + ';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
                 setTimeout(function() {
                     $('#mensajeModal').remove();
                 }, 3000);
             }
 
-            // Función para reiniciar el formulario y recargar la página
             $('#reset-payment').click(function() {
-                location.reload(); // Recargar la página
+                location.reload();
             });
         });
     </script>
+
     <script>
-    $(document).ready(function() {
-        // Cargar las opciones al abrir el modal
-        $('#propiedadesPapelModal').on('show.bs.modal', function () {
-            $.ajax({
-                url: 'Cobros_sub.php?action=getPaperProperties',
-                method: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    var tamañosPapel = response.tamañosPapel;
-                    var tiposPapel = response.tiposPapel;
-                    var tiposImpresion = response.tiposImpresion;
+        const precios = {
+            tamañoPapel: 0,
+            tipoImpresion: 0,
+            tipoPapel: 0
+        };
 
-                    var selectTamaño = $('#clb_TamañoPapel');
-                    var selectTipoPapel = $('#clb_TipoPapel');
-                    var selectTipoImpresion = $('#clb_TipoImpresion');
+        function populateTamañoPapel() {
+            fetch('../FSP-main-2/controller/cobro_controller.php?type=tamañoPapel', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const tamañoPapelSelect = document.getElementById('tamañoPapelSelect');
+                    tamañoPapelSelect.innerHTML = '<option value="">Seleccione un tamaño de papel</option>';
 
-                    selectTamaño.empty().append('<option value="">Selecciona</option>');
-                    selectTipoPapel.empty().append('<option value="">Selecciona</option>');
-                    selectTipoImpresion.empty().append('<option value="">Selecciona</option>');
-
-                    $.each(tamañosPapel, function(index, tamaño) {
-                        selectTamaño.append('<option value="' + tamaño.NombreTam + '">' + tamaño.NombreTam + '</option>');
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.ideTamaño;
+                        option.textContent = item.NombreTam;
+                        option.dataset.precio = item.PreciopUTaP; // Almacenar el precio como un dataset
+                        tamañoPapelSelect.appendChild(option);
                     });
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-                    $.each(tiposPapel, function(index, tipo) {
-                        selectTipoPapel.append('<option value="' + tipo.NombreTipoP + '">' + tipo.NombreTipoP + '</option>');
+        function populateTipoImpresion() {
+            fetch('../FSP-main-2/controller/cobro_controller.php?type=tipoImpresion', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const tipoImpresionSelect = document.getElementById('tipoImpresionSelect');
+                    tipoImpresionSelect.innerHTML = '<option value="">Seleccione un tipo de impresión</option>';
+
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.ideTipoI;
+                        option.textContent = item.NombreTipoI;
+                        option.dataset.precio = item.PreciopUTiI; // Almacenar el precio como un dataset
+                        tipoImpresionSelect.appendChild(option);
                     });
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-                    $.each(tiposImpresion, function(index, tipo) {
-                        selectTipoImpresion.append('<option value="' + tipo.NombreTipoI + '">' + tipo.NombreTipoI + '</option>');
+        function populateTipoPapel() {
+            fetch('../FSP-main-2/controller/cobro_controller.php?type=tipoPapel', {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const tipoPapelSelect = document.getElementById('tipoPapelSelect');
+                    tipoPapelSelect.innerHTML = '<option value="">Seleccione un tipo de papel</option>';
+
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.ideTipoP;
+                        option.textContent = item.NombreTipoP;
+                        option.dataset.precio = item.PreciopUTiP; // Almacenar el precio como un dataset
+                        tipoPapelSelect.appendChild(option);
                     });
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-                    // Cargar opciones guardadas
-                    var savedTamañoPapel = localStorage.getItem('tamañoPapel');
-                    var savedTipoPapel = localStorage.getItem('tipoPapel');
-                    var savedTipoImpresion = localStorage.getItem('tipoImpresion');
 
-                    if (savedTamañoPapel) selectTamaño.val(savedTamañoPapel);
-                    if (savedTipoPapel) selectTipoPapel.val(savedTipoPapel);
-                    if (savedTipoImpresion) selectTipoImpresion.val(savedTipoImpresion);
-                },
-                error: function () {
-                    alert('Error al cargar las propiedades del papel.');
-                }
+
+        // Llamada a las funciones para poblar los selects al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTamañoPapel();
+            populateTipoImpresion();
+            populateTipoPapel();
+
+            document.getElementById('new-batch').addEventListener('click', (event) => {
+                event.preventDefault();
+                agregarLoteATabla();
             });
+
+            document.getElementById('tamañoPapelSelect').addEventListener('change', actualizarPrecios);
+            document.getElementById('tipoImpresionSelect').addEventListener('change', actualizarPrecios);
+            document.getElementById('tipoPapelSelect').addEventListener('change', actualizarPrecios);
+            document.getElementById('hojas').addEventListener('input', actualizarPrecios);
+            document.getElementById('duplex').addEventListener('change', actualizarPrecios);
+            verificarEstadoBotonAgregar();
         });
+
+
+
+
+        function verificarEstadoBotonAgregar() {
+            const saldoInput = document.getElementById('saldo');
+            const botonAgregar = document.getElementById('botonAgregar');
+
+            if (saldoInput.value.trim() === '') {
+                botonAgregar.disabled = true;
+                botonAgregar.classList.add('disabled');
+            } else {
+                botonAgregar.disabled = false;
+                botonAgregar.classList.remove('disabled');
+            }
+        }
+
+        let contadorLotes = 0;
+
+        async function getMaxIdCobro() {
+            const response = await fetch('../FSP-main-2/controller/cobro_controller.php?type=maxIdCobro');
+            const data = await response.json();
+            return data.maxIdCobro;
+        }
+
+        function incrementarIdCobro(idCobroActual) {
+            let nuevoIdCobroNumerico;
+
+            if (idCobroActual === null || idCobroActual === '0') {
+                // Si idCobroActual es null o 0, establecer el nuevo ID en 00000001000
+                nuevoIdCobroNumerico = 1000; // Convertir a número 1000
+            } else {
+                const idCobroNumerico = parseInt(idCobroActual, 10);
+                nuevoIdCobroNumerico = idCobroNumerico + 1000; // Incrementar en 1000
+            }
+
+            // Convertir el número a cadena y rellenar con ceros a la izquierda hasta 11 dígitos
+            return nuevoIdCobroNumerico.toString().padStart(11, '0');
+        }
+
+
+        async function calcularIdCobro() {
+            const maxIdCobro = await getMaxIdCobro();
+            return incrementarIdCobro(maxIdCobro);
+        }
+
+        function calcularIdLoteIm(idCobro) {
+            contadorLotes++;
+            if (contadorLotes > 999) {
+                alert("No se pueden hacer más de 999 lotes de impresión en un solo cobro.");
+                return null;
+            }
+            return idCobro.slice(0, 8) + contadorLotes.toString().padStart(3, '0');
+        }
+
+        let TotalCobro = 0;
+
+        async function agregarLoteATabla() {
+            const tamañoPapelSelect = document.getElementById('tamañoPapelSelect');
+            const tipoPapelSelect = document.getElementById('tipoPapelSelect');
+            const tipoImpresionSelect = document.getElementById('tipoImpresionSelect');
+            const duplexSelect = document.getElementById('duplex');
+            const hojasInput = document.getElementById('hojas');
+
+            const tamañoPapel = tamañoPapelSelect.selectedOptions[0].textContent;
+            const idTamano = tamañoPapelSelect.value;
+            const tipoPapel = tipoPapelSelect.selectedOptions[0].textContent;
+            const idTipoP = tipoPapelSelect.value;
+            const tipoImpresion = tipoImpresionSelect.selectedOptions[0].textContent;
+            const idTipoI = tipoImpresionSelect.value;
+            const duplex = duplexSelect.value;
+            const duplexBool = getDuplexValue(); // Convertir a 1 o 0
+            const hojas = parseInt(hojasInput.value, 10);
+
+            if (!idTamano || !idTipoP || !idTipoI || !hojas) {
+                alert("Por favor, ingrese todos los datos necesarios.");
+                return;
+            }
+
+            const idCobro = await calcularIdCobro();
+            const idLoteIm = calcularIdLoteIm(idCobro);
+            const total = calcularTotal();
+
+            if (!idLoteIm) return;
+
+            TotalCobro += total; // Sumar el total del lote al total general
+            document.getElementById('amount').value = TotalCobro.toFixed(2); // Actualizar el valor en el input
+
+            const tablaCompras = document.querySelector('.table tbody');
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.dataset.idTamano = idTamano;
+            nuevaFila.dataset.idTipoP = idTipoP;
+            nuevaFila.dataset.idTipoI = idTipoI;
+            nuevaFila.dataset.duplexBool = duplexBool;
+
+            nuevaFila.innerHTML = `
+                <td>${idLoteIm}</td>
+                <td>${hojas}</td>
+                <td>${duplex}</td>
+                <td>${tamañoPapel}</td>
+                <td>${tipoPapel}</td>
+                <td>${tipoImpresion}</td>
+                <td>${total.toFixed(2)}</td>
+                <td><button class="btn btn-danger delete">Eliminar</button></td>
+            `;
+
+            tablaCompras.appendChild(nuevaFila);
+
+            nuevaFila.querySelector('.delete').addEventListener('click', () => {
+                TotalCobro -= total; // Restar el total del lote al total general
+                document.getElementById('amount').value = TotalCobro.toFixed(2); // Actualizar el valor en el input
+                nuevaFila.remove();
+                contadorLotes--;
+            });
+
+            // Reiniciar valores
+            tamañoPapelSelect.selectedIndex = 0;
+            tipoPapelSelect.selectedIndex = 0;
+            tipoImpresionSelect.selectedIndex = 0;
+            duplexSelect.selectedIndex = 0;
+            hojasInput.value = '';
+        }
+
+        function calcularTotal() {
+            const g = 2; // Ganancia estática
+            const h = parseInt(document.getElementById('hojas').value, 10); // Cantidad de hojas
+
+            const x = precios.tamañoPapel;
+            const y = precios.tipoPapel;
+            const z = precios.tipoImpresion;
+
+            const duplex = getDuplexValue();
+
+            if (duplex === 1) {
+                return (x + y + z) * g * h;
+            } else {
+                return ((x + y + z) * g * h) + ((x + y + z) * g * h * 0.1);
+            }
+        }
+
+        function getDuplexValue() {
+            // Obtiene el valor del elemento con id 'duplex'
+            const value = document.getElementById('duplex').value;
+            // Devuelve 1 si el valor es 'Sí', 0 en caso contrario
+            return value === "Sí" ? 1 : 0;
+        }
+
+
+        function actualizarPrecios() {
+            const tamañoPapelSelect = document.getElementById('tamañoPapelSelect');
+            const tipoImpresionSelect = document.getElementById('tipoImpresionSelect');
+            const tipoPapelSelect = document.getElementById('tipoPapelSelect');
+
+            precios.tamañoPapel = parseFloat(tamañoPapelSelect.selectedOptions[0].dataset.precio) || 0;
+            precios.tipoImpresion = parseFloat(tipoImpresionSelect.selectedOptions[0].dataset.precio) || 0;
+            precios.tipoPapel = parseFloat(tipoPapelSelect.selectedOptions[0].dataset.precio) || 0;
+        }
+
+        async function obtenerSaldo(idCliente) {
+            try {
+                const response = await fetch(`../FSP-main-2/controller/cobro_controller.php?type=obtenerSaldo&idCliente=${idCliente}`);
+                const data = await response.json();
+                return data.saldo;
+            } catch (error) {
+                console.error('Error al obtener el saldo:', error);
+                return null;
+            }
+        }
+
+        document.getElementById('charge').addEventListener('click', async function() {
+            const idCliente = document.getElementById('cliente').value;
+            const saldoActual = await obtenerSaldo(idCliente);
+            const TotalCobro = parseFloat(document.getElementById('amount').value);
+
+            if (TotalCobro > saldoActual) {
+                alert('El saldo del cliente no es suficiente para realizar este cobro.');
+                return;
+            }
+
+            await registrarCobro(saldoActual);
+        });
+
+        async function registrarCobro(saldoActual) {
+            const TotalCobro = parseFloat(document.getElementById('amount').value);
+            const idCliente = document.getElementById('cliente').value;
+            const idEmpleado = document.getElementById('idEmpleado').value;
+
+            if (!idCliente || !idEmpleado) {
+                alert('ID de cliente o empleado no válido.');
+                return;
+            }
+
+            const filas = document.querySelectorAll('.table tbody tr');
+
+            if (filas.length === 0) {
+                alert('No hay lotes para registrar.');
+                return;
+            }
+
+            const idLoteImPrimeraFila = parseInt(filas[0].children[0].textContent);
+            const idCobro = idLoteImPrimeraFila - 1;
+
+            const datos = {
+                idCobro,
+                idCliente,
+                idEmpleado,
+                TotalCobro: TotalCobro.toFixed(2),
+                nuevoSaldo: (saldoActual - TotalCobro).toFixed(2),
+                lotes: []
+            };
+
+            filas.forEach(fila => {
+                const celdas = fila.children;
+                datos.lotes.push({
+                    idLoteIm: parseInt(celdas[0].textContent),
+                    CantHojas: parseFloat(celdas[1].textContent),
+                    DuplexBool: fila.dataset.duplexBool === '1',
+                    idTamano: parseInt(fila.dataset.idTamano), // Asegúrate de que aquí sea 'idTamano'
+                    idTipoP: parseInt(fila.dataset.idTipoP),
+                    idTipoI: parseInt(fila.dataset.idTipoI),
+                    CostoLote: parseFloat(celdas[6].textContent)
+                });
+            });
+
+
+            try {
+                const responseCobro = await fetch('../FSP-main-2/controller/cobro_controller.php?type=registrarCobro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datos)
+                });
+
+                if (!responseCobro.ok) {
+                    throw new Error('Error al registrar el cobro.');
+                }
+
+                const dataCobro = await responseCobro.json();
+
+                if (dataCobro.success) {
+                    const responseLotes = await fetch('../FSP-main-2/controller/cobro_controller.php?type=registrarLotes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idCobro,
+                            lotes: datos.lotes
+                        })
+                    });
+
+                    if (!responseLotes.ok) {
+                        throw new Error('Error al registrar los lotes de impresión.');
+                    }
+
+                    const dataLotes = await responseLotes.json();
+
+                    if (dataLotes.success) {
+                        alert('Cobro y lotes registrados exitosamente');
+                        document.querySelector('.table tbody').innerHTML = '';
+                        document.getElementById('amount').value = '0.00';
+                        document.getElementById('saldo').value = datos.nuevoSaldo;
+                    } else {
+                        alert('Error al registrar los lotes de impresión: ' + dataLotes.message);
+                    }
+                } else {
+                    alert('Error al registrar el cobro: ' + dataCobro.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         // Guardar propiedades al hacer clic en "Guardar"
         $('#save-properties').click(function() {
-            var tamañoPapel = $('#clb_TamañoPapel').val();
-            var tipoPapel = $('#clb_TipoPapel').val();
-            var tipoImpresion = $('#clb_TipoImpresion').val();
-
-            // Guardar las propiedades seleccionadas en local storage
-            localStorage.setItem('tamañoPapel', tamañoPapel);
-            localStorage.setItem('tipoPapel', tipoPapel);
-            localStorage.setItem('tipoImpresion', tipoImpresion);
 
             // Cerrar el modal
             $('#propiedadesPapelModal').modal('hide');
@@ -380,15 +775,17 @@
         });
 
         // Búsqueda de cliente
-        $('#cliente').on('keypress', function (e) {
+        document.getElementById('cliente').addEventListener('keypress', function(e) {
             if (e.which == 13) { // Enter key
                 var idCliente = $(this).val();
                 $.ajax({
                     url: 'buscar_cliente.php',
                     method: 'GET',
-                    data: { idClien: idCliente },
+                    data: {
+                        idClien: idCliente
+                    },
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.found) {
                             $('#saldo').val('$' + response.saldo);
                             mostrarMensaje('Cliente encontrado exitosamente.', 'success');
@@ -396,10 +793,12 @@
                             $('#saldo').val('');
                             mostrarMensaje('Cliente no encontrado.', 'error');
                         }
+                        verificarEstadoBotonAgregar();
                     },
-                    error: function () {
+                    error: function() {
                         $('#saldo').val('');
                         mostrarMensaje('Error al buscar el cliente.', 'error');
+                        verificarEstadoBotonAgregar();
                     }
                 });
             }
@@ -408,105 +807,13 @@
         function mostrarMensaje(mensaje, tipo) {
             var color = tipo === 'success' ? 'green' : 'red';
             $('#mensajeModal').remove();
-            $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:'+color+';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
+            $('body').append('<div id="mensajeModal" style="position:fixed;top:20px;right:20px;background:' + color + ';color:white;padding:10px;border-radius:5px;">' + mensaje + '</div>');
             setTimeout(function() {
                 $('#mensajeModal').remove();
             }, 3000);
         }
-
-        // Realizar cobro al presionar el botón "Cobrar"
-        $('#charge').click(function() {
-            var cliente = $('#cliente').val();
-            var total = $('#amount').val();
-            var detalles = [];
-
-            $('.table tbody tr').each(function() {
-                var lote = $(this).find('td').eq(0).text();
-                var hojas = $(this).find('td').eq(1).text();
-                var duplex = $(this).find('td').eq(2).text();
-                var tamaño = $(this).find('td').eq(3).text();
-                var tipoPapel = $(this).find('td').eq(4).text();
-                var tipoImpresion = $(this).find('td').eq(5).text();
-                var totalFila = $(this).find('td').eq(6).text();
-
-                detalles.push({
-                    lote: lote,
-                    hojas: hojas,
-                    duplex: duplex,
-                    tamaño: tamaño,
-                    tipoPapel: tipoPapel,
-                    tipoImpresion: tipoImpresion,
-                    total: totalFila
-                });
-            });
-
-            $.ajax({
-                url: 'realizar_cobro.php',
-                method: 'POST',
-                data: {
-                    cliente: cliente,
-                    total: total,
-                    detalles: JSON.stringify(detalles)
-                },
-                success: function(response) {
-                    mostrarMensaje('Cobro realizado exitosamente.', 'success');
-                },
-                error: function() {
-                    mostrarMensaje('Error al realizar el cobro.', 'error');
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-        $(document).ready(function() {
-            function updateTotal() {
-                var cantidad_hojas = $("#hojas").val();
-                var duplex = $("#duplex").val();
-                var tamaño_papel = $("#clb_TamañoPapel").val();
-                var tipo_papel = $("#clb_TipoPapel").val();
-                var tipo_impresion = $("#clb_TipoImpresion").val();
-
-                $.ajax({
-                    url: 'index.php?action=calculateTotal',
-                    type: 'GET',
-                    data: {
-                        cantidad_hojas: cantidad_hojas,
-                        duplex: duplex,
-                        tamaño_papel: tamaño_papel,
-                        tipo_papel: tipo_papel,
-                        tipo_impresion: tipo_impresion
-                    },
-                    success: function(response) {
-                        var data = JSON.parse(response);
-                        var total = data.total;
-                        $("#productos").append(`
-                            <tr>
-                                <td>Lote</td>
-                                <td>${cantidad_hojas}</td>
-                                <td>${duplex}</td>
-                                <td>${tamaño_papel}</td>
-                                <td>${tipo_papel}</td>
-                                <td>${tipo_impresion}</td>
-                                <td>${total}</td>
-                                <td><button class="delete-row">Eliminar</button></td>
-                            </tr>
-                        `);
-                    }
-                });
-            }
-
-            $("#new-batch").click(function(e) {
-                e.preventDefault();
-                updateTotal();
-            });
-
-            $("#productos").on("click", ".delete-row", function() {
-                $(this).closest("tr").remove();
-            });
-        });
     </script>
 
 </body>
+
 </html>

@@ -1,7 +1,8 @@
 <?php
 require_once '../bd/conex.php';
 
-class ClienteModel {
+class ClienteModel
+{
     private $conn;
     private $table_name = "cliente";
     public $idClien;
@@ -14,46 +15,61 @@ class ClienteModel {
     public $passwClien;
     public $Saldo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
 
-    public function setIdClien($idClien) {
+    public function setIdClien($idClien)
+    {
         $this->idClien = $idClien;
     }
 
-    public function setIdStatus($idStatus) {
+    public function setIdStatus($idStatus)
+    {
         $this->idStatus = $idStatus;
     }
 
-    public function setNombreClien($NombreClien) {
+    public function setNombreClien($NombreClien)
+    {
         $this->NombreClien = $NombreClien;
     }
 
-    public function setApellidoP($ApellidoP) {
+    public function setApellidoP($ApellidoP)
+    {
         $this->ApellidoP = $ApellidoP;
     }
 
-    public function setApellidoM($ApellidoM) {
+    public function setApellidoM($ApellidoM)
+    {
         $this->ApellidoM = $ApellidoM;
     }
 
-    public function setTelefono($Telefono) {
+    public function setTelefono($Telefono)
+    {
         $this->Telefono = $Telefono;
     }
 
-    public function setCorreo($Correo) {
+    public function setCorreo($Correo)
+    {
         $this->Correo = $Correo;
     }
 
-    public function setPasswClien($passwClien) {
+    public function setPasswClien($passwClien)
+    {
         $this->passwClien = $passwClien;
     }
 
-    public function save() {
+    public function setSaldo($Saldo)
+    {
+        $this->Saldo = $Saldo;
+    }
+
+    public function save()
+    {
         $query = "INSERT INTO " . $this->table_name . " (NombreClien, ApellidoP, ApellidoM, Telefono, Correo, passwClien, Saldo, idStatus) VALUES (:NombreClien, :ApellidoP, :ApellidoM, :Telefono, :Correo, :passwClien, :Saldo, :idStatus)";
-        
+
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
@@ -83,7 +99,8 @@ class ClienteModel {
         return false;
     }
 
-    public function obtenerClientes() {
+    public function obtenerClientes()
+    {
         $query = "SELECT idClien, NombreClien, ApellidoP, ApellidoM, Saldo, Telefono, Correo, idStatus FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -97,7 +114,8 @@ class ClienteModel {
         return $clientes;
     }
 
-    public function obtenerClientePorId($id) {
+    public function obtenerClientePorId($id)
+    {
         $query = "SELECT idClien, NombreClien, ApellidoP, ApellidoM, Saldo, Telefono, Correo, idStatus FROM " . $this->table_name . " WHERE idClien = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
@@ -105,9 +123,10 @@ class ClienteModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update() {
+    public function update()
+    {
         $query = "UPDATE " . $this->table_name . " SET NombreClien = :NombreClien, ApellidoP = :ApellidoP, ApellidoM = :ApellidoM, Telefono = :Telefono, Correo = :Correo, idStatus = :idStatus WHERE idClien = :idClien";
-        
+
         $stmt = $this->conn->prepare($query);
 
         // Limpieza de datos
@@ -135,7 +154,8 @@ class ClienteModel {
         return false;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $query = "DELETE FROM " . $this->table_name . " WHERE idClien = ?";
         $stmt = $this->conn->prepare($query);
 
@@ -145,5 +165,37 @@ class ClienteModel {
 
         return false;
     }
+
+    // Nuevo método para obtener el saldo del cliente
+    public function obtenerSaldo($idClien)
+    {
+        $query = "SELECT Saldo FROM " . $this->table_name . " WHERE idClien = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$idClien]);
+
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado ? $resultado['Saldo'] : null;
+    }
+
+    // Nuevo método para actualizar el saldo del cliente
+    public function actualizarSaldo($idCliente, $nuevoSaldo)
+    {
+        $query = "UPDATE " . $this->table_name . " SET Saldo = :nuevoSaldo WHERE idClien = :idCliente";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Limpieza de datos
+        $idCliente = htmlspecialchars(strip_tags($idCliente));
+        $nuevoSaldo = htmlspecialchars(strip_tags($nuevoSaldo));
+
+        // Vinculación de parámetros
+        $stmt->bindParam(':idCliente', $idCliente, PDO::PARAM_INT);
+        $stmt->bindParam(':nuevoSaldo', $nuevoSaldo, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
+    }
 }
-?>

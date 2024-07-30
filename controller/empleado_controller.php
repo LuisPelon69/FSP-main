@@ -135,36 +135,6 @@ try {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 
-function obtenerTiposEmpleado() {
-    try {
-        $conn = (new Database())->getConnection();
-        $query = "SELECT Idstatus, NombreStatus FROM statuse";
 
-        $stmt = $conn->prepare($query);
-        $stmt->execute();
 
-        $tiposEmpleado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($tiposEmpleado);
-    } catch (Exception $e) {
-        error_log('Error al obtener tipos de empleado: ' . $e->getMessage());
-        echo json_encode(['success' => false, 'message' => 'Error al obtener tipos de empleado']);
-    }
-}
 
-function obtenerNombreStatus($Idstatus) {
-    try {
-        $conn = (new Database())->getConnection();
-        $query = "SELECT NombreStatus FROM statuse WHERE Idstatus = :Idstatus"; // Asegúrate de que el nombre del campo sea correcto
-
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':Idstatus', $Idstatus, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result['NombreStatus'] : null;
-    } catch (Exception $e) {
-        error_log('Error al obtener nombre de status: ' . $e->getMessage());
-        return null;
-    }
-}
-?>
