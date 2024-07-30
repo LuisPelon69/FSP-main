@@ -1,25 +1,35 @@
 <?php
-require_once 'bd/conex.php';
+require_once '../bd/conex.php';
 
 class CobroModel {
     public $conn;
     private $table_name = "cobro";
+
     public $idCobro;
     public $idCliente;
     public $idEmpleado;
+    public $FechaHoraC;
     public $TotalCobro;
-
 
     public function __construct() {
         $database = new Database();
         $this->conn = $database->getConnection();
     }
 
-    public function getTamañosPapel() {
-        $query = "SELECT NombreTam FROM tamañopapel";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function setIdCobro($idCobro) {
+        $this->idCobro = $idCobro;
+    }
+
+    public function setIdCliente($idCliente) {
+        $this->idCliente = $idCliente;
+    }
+
+    public function setIdEmpleado($idEmpleado) {
+        $this->idEmpleado = $idEmpleado;
+    }
+
+    public function setFechaHoraC($FechaHoraC) {
+        $this->FechaHoraC = $FechaHoraC;
     }
 
     public function setTotalCobro($TotalCobro) {
@@ -63,3 +73,4 @@ class CobroModel {
 
 
 }
+?>
