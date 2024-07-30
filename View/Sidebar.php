@@ -85,17 +85,17 @@ es del archivo Gestionar.php (igual te falto crear ese por eso se iba al index p
 
 <!-- Heading -->
 <div class="sidebar-heading">
-    Reportes y Gráficas
+    Reportes
 </div>
 
 
 
-<!-- Nav Item - Charts -->
+<!-- Nav Item - Charts 
 <li class="nav-item">
     <a class="nav-link" href="Graficas_sub.php">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Gráficas</span></a>
-</li>
+</li>-->
 
 <!-- Nav Item - Tables -->
 <li class="nav-item">
