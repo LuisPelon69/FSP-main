@@ -1,15 +1,19 @@
 <?php
-require_once 'model/CobroModel.php';
+require_once 'model/CobrosModel.php';
 
 class CobroController {
     private $model;
 
     public function __construct() {
-        $this->model = new CobroModel();
+        $this->model = new CobrosModel();
     }
 
     public function index() {
         include 'View/Header.php';
+        $monthlyEarnings = $this->model->getMonthlyEarnings();
+        $annualEarnings = $this->model->getAnnualEarnings();
+        $goalsCompletion = $this->model->getGoalsCompletion();
+        $receivedEmails = $this->model->getReceivedEmails();
 ?>
 
         <!-- Wrapper para contenido y sidebar -->
@@ -26,7 +30,7 @@ class CobroController {
                     <?php include 'View/Topbar.php'; ?>
 
                     <!-- Contenido -->
-                    <?php include 'View/cobros.php'; ?>
+                    <?php include 'View/Cobros.php'; ?>
                     
                 </div>
                 <!-- End of Content -->
@@ -43,25 +47,8 @@ class CobroController {
         include 'View/Scripts.php';
     }
 
-    public function getPaperProperties() {
-        $tamañosPapel = $this->model->getTamañosPapel();
-        $tiposPapel = $this->model->getTiposPapel();
-        $tiposImpresion = $this->model->getTiposImpresion();
 
-        header('Content-Type: application/json');
-        echo json_encode([
-            'tamañosPapel' => $tamañosPapel,
-            'tiposPapel' => $tiposPapel,
-            'tiposImpresion' => $tiposImpresion
-        ]);
-    }
 }
-
-if (isset($_GET['action']) && $_GET['action'] == 'getPaperProperties') {
-    $controller = new CobroController();
-    $controller->getPaperProperties();
-} else {
-    $controller = new CobroController();
-    $controller->index();
-}
+$controller = new CobroController();
+$controller->index();
 ?>

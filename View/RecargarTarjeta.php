@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+require_once 'config.php'; // Incluir la configuración global antes de cualquier salida
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">

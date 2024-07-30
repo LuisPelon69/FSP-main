@@ -10,10 +10,10 @@ $repLoginModel = new RepLoginModel();
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['idEmpleado']) && isset($_GET['FechaHoraLog'])) {
-            $idEmpleado = intval($_GET['idEmpleado']);
+        if (isset($_GET['NombreEmp']) && isset($_GET['FechaHoraLog'])) {
+            $NombreEmp = $_GET['NombreEmp']; // Aseguramos de que se maneje correctamente el NombreEmp
             $FechaHoraLog = $_GET['FechaHoraLog'];
-            $login = $repLoginModel->obtenerLoginPorId($idEmpleado, $FechaHoraLog);
+            $login = $repLoginModel->obtenerLoginPorId($NombreEmp, $FechaHoraLog);
             if ($login) {
                 echo json_encode($login);
             } else {
@@ -27,7 +27,7 @@ switch ($method) {
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $repLoginModel->setIdEmpleado($data['idEmpleado']);
+        $repLoginModel->setNombreEmp($data['NombreEmp']);
         $repLoginModel->setFechaHoraLog($data['FechaHoraLog']);
 
         if ($repLoginModel->save()) {
@@ -39,7 +39,7 @@ switch ($method) {
     case 'PUT':
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $repLoginModel->setIdEmpleado($data['idEmpleado']);
+        $repLoginModel->setNombreEmp($data['NombreEmp']);
         $repLoginModel->setFechaHoraLog($data['FechaHoraLog']);
 
         if ($repLoginModel->update()) {
@@ -50,10 +50,10 @@ switch ($method) {
         break;
     case 'DELETE':
         $data = json_decode(file_get_contents('php://input'), true);
-        $idEmpleado = $data['idEmpleado'];
+        $NombreEmp = $data['NombreEmp'];
         $FechaHoraLog = $data['FechaHoraLog'];
 
-        if ($repLoginModel->delete($idEmpleado, $FechaHoraLog)) {
+        if ($repLoginModel->delete($NombreEmp, $FechaHoraLog)) {
             echo json_encode(['message' => 'Login eliminado exitosamente']);
         } else {
             echo json_encode(['error' => 'Error al eliminar el login']);

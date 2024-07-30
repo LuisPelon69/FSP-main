@@ -1,4 +1,6 @@
 <?php
+require_once 'config.php'; // Incluir la configuración global antes de cualquier salida
+?><?php
 require_once 'controller/AgregarProductoController.php';
 ?>
 <?php
