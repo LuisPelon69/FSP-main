@@ -35,8 +35,18 @@
         <h1 class="h3 mb-2 text-gray-800">Reportes</h1>
         <p class="mb-4">Reportes de Cobros, Lote de Impresión, Recargas y Logins</p>
 
+        <!-- Selector de tipo de reporte -->
+        <div class="d-flex justify-content-end mb-3">
+            <select id="reporteTypeSelect" class="form-control" style="width: 200px;">
+                <option value="cobros">Cobros</option>
+                <option value="loteImpresion">Lote de Impresión</option>
+                <option value="recargas">Recargas</option>
+                <option value="logins">Registros de Log-In</option>
+            </select>
+        </div>
+
         <!-- DataTales Example for Cobros -->
-        <div class="card shadow mb-4">
+        <div id="cobrosContainer" class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Reportes de Cobros</h6>
             </div>
@@ -46,8 +56,8 @@
                         <thead>
                             <tr>
                                 <th>ID Cobro</th>
-                                <th>ID Cliente</th>
-                                <th>ID Empleado</th>
+                                <th>Cliente</th>
+                                <th>Empleado</th>
                                 <th>Fecha y Hora</th>
                                 <th>Total Cobro</th>
                             </tr>
@@ -61,7 +71,7 @@
         </div>
 
         <!-- DataTales Example for Lote de Impresión -->
-        <div class="card shadow mb-4">
+        <div id="loteImpresionContainer" class="card shadow mb-4" style="display:none;">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Reportes de Lote de Impresión</h6>
             </div>
@@ -72,9 +82,9 @@
                             <tr>
                                 <th>ID Lote</th>
                                 <th>ID Cobro</th>
-                                <th>ID Tamaño</th>
-                                <th>ID Tipo Papel</th>
-                                <th>ID Tipo Impresión</th>
+                                <th>Tamaño</th>
+                                <th>Tipo Papel</th>
+                                <th>Tipo Impresión</th>
                                 <th>Cantidad Hojas</th>
                                 <th>Dúplex</th>
                                 <th>Costo Lote</th>
@@ -89,7 +99,7 @@
         </div>
 
         <!-- DataTales Example for Recargas -->
-        <div class="card shadow mb-4">
+        <div id="recargasContainer" class="card shadow mb-4" style="display:none;">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Reportes de Recargas</h6>
             </div>
@@ -99,8 +109,8 @@
                         <thead>
                             <tr>
                                 <th>ID Recarga</th>
-                                <th>ID Cliente</th>
-                                <th>ID Empleado</th>
+                                <th>Cliente</th>
+                                <th>Empleado</th>
                                 <th>Fecha y Hora</th>
                                 <th>Valor Recarga</th>
                             </tr>
@@ -114,7 +124,7 @@
         </div>
 
         <!-- DataTales Example for Logins -->
-        <div class="card shadow mb-4">
+        <div id="loginsContainer" class="card shadow mb-4" style="display:none;">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Reportes de Logins</h6>
             </div>
@@ -123,7 +133,7 @@
                     <table class="table table-bordered" id="dataTableLogins" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>ID Empleado</th>
+                                <th>Empleado</th>
                                 <th>Fecha y Hora de Login</th>
                             </tr>
                         </thead>
@@ -145,147 +155,109 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            function fetchCobros() {
-                fetch('../FSP-main-2/controller/Cobro_controller.php', {
-                        method: 'GET'
-                    })
+        document.addEventListener('DOMContentLoaded', function() {
+            const cobrosContainer = document.getElementById('cobrosContainer');
+            const loteImpresionContainer = document.getElementById('loteImpresionContainer');
+            const recargasContainer = document.getElementById('recargasContainer');
+            const loginsContainer = document.getElementById('loginsContainer');
+            const reporteTypeSelect = document.getElementById('reporteTypeSelect');
+
+            function showContainer(container) {
+                cobrosContainer.style.display = 'none';
+                loteImpresionContainer.style.display = 'none';
+                recargasContainer.style.display = 'none';
+                loginsContainer.style.display = 'none';
+                container.style.display = 'block';
+            }
+
+            reporteTypeSelect.addEventListener('change', function() {
+                switch (reporteTypeSelect.value) {
+                    case 'cobros':
+                        showContainer(cobrosContainer);
+                        fetchData('cobros', populateTableCobros);
+                        break;
+                    case 'loteImpresion':
+                        showContainer(loteImpresionContainer);
+                        fetchData('loteImpresion', populateTableLoteImpresion);
+                        break;
+                    case 'recargas':
+                        showContainer(recargasContainer);
+                        fetchData('recargas', populateTableRecargas);
+                        break;
+                    case 'logins':
+                        showContainer(loginsContainer);
+                        fetchData('logins', populateTableLogins);
+                        break;
+                }
+            });
+
+            showContainer(cobrosContainer);
+            fetchData('cobros', populateTableCobros);
+
+            function fetchData(tipo, callback) {
+                fetch(`../FSP-main-2/controller/reporte_controller.php?tipo=${tipo}`)
                     .then(response => response.json())
                     .then(data => {
                         if (!data || data.error) {
-                            console.error('Error al obtener cobros:', data.error);
+                            console.error(`Error al obtener datos de ${tipo}:`, data.error);
                             return;
                         }
-                        let table = document.querySelector("#dataTableCobros tbody");
-                        table.innerHTML = '';
-                        data.forEach(cobro => {
-                            let row = table.insertRow();
-
-                            let cellIdCobro = row.insertCell(0);
-                            cellIdCobro.textContent = cobro.idCobro;
-
-                            let cellIdCliente = row.insertCell(1);
-                            cellIdCliente.textContent = cobro.idCliente;
-
-                            let cellIdEmpleado = row.insertCell(2);
-                            cellIdEmpleado.textContent = cobro.idEmpleado;
-
-                            let cellFechaHoraC = row.insertCell(3);
-                            cellFechaHoraC.textContent = cobro.FechaHoraC;
-
-                            let cellTotalCobro = row.insertCell(4);
-                            cellTotalCobro.textContent = `$ ${cobro.TotalCobro}`;
-                        });
+                        callback(data);
                     })
                     .catch(error => console.error('Error:', error));
             }
 
-            function fetchLoteImpresiones() {
-                fetch('../FSP-main-2/controller/Loteimpresion_controller.php', {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data || data.error) {
-                            console.error('Error al obtener lotes de impresión:', data.error);
-                            return;
-                        }
-                        let table = document.querySelector("#dataTableLoteImpresion tbody");
-                        table.innerHTML = '';
-                        data.forEach(lote => {
-                            let row = table.insertRow();
-
-                            let cellIdLote = row.insertCell(0);
-                            cellIdLote.textContent = lote.idLoteIm;
-
-                            let cellIdCobro = row.insertCell(1);
-                            cellIdCobro.textContent = lote.idCobro;
-
-                            let cellIdTamaño = row.insertCell(2);
-                            cellIdTamaño.textContent = lote.idTamaño;
-
-                            let cellIdTipoP = row.insertCell(3);
-                            cellIdTipoP.textContent = lote.idTipoP;
-
-                            let cellIdTipoI = row.insertCell(4);
-                            cellIdTipoI.textContent = lote.idTipoI;
-
-                            let cellCantHojas = row.insertCell(5);
-                            cellCantHojas.textContent = lote.CantHojas;
-
-                            let cellDuplexBool = row.insertCell(6);
-                            cellDuplexBool.textContent = lote.DuplexBool ? 'Sí' : 'No';
-
-                            let cellCostoLote = row.insertCell(7);
-                            cellCostoLote.textContent = `$ ${lote.CostoLote}`;
-                        });
-                    })
-                    .catch(error => console.error('Error:', error));
+            function populateTableCobros(data) {
+                let table = document.querySelector("#dataTableCobros tbody");
+                table.innerHTML = '';
+                data.forEach(cobro => {
+                    let row = table.insertRow();
+                    row.insertCell(0).textContent = cobro.idCobro;
+                    row.insertCell(1).textContent = cobro.NombreCliente;
+                    row.insertCell(2).textContent = cobro.NombreEmpleado;
+                    row.insertCell(3).textContent = cobro.FechaHoraC;
+                    row.insertCell(4).textContent = `$ ${cobro.TotalCobro}`;
+                });
             }
 
-            function fetchRecargas() {
-                fetch('../FSP-main-2/controller/Recargas_controller.php', {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data || data.error) {
-                            console.error('Error al obtener recargas:', data.error);
-                            return;
-                        }
-                        let table = document.querySelector("#dataTableRecargas tbody");
-                        table.innerHTML = '';
-                        data.forEach(recarga => {
-                            let row = table.insertRow();
-
-                            let cellIdRecarga = row.insertCell(0);
-                            cellIdRecarga.textContent = recarga.FoRecarga;
-
-                            let cellIdCliente = row.insertCell(1);
-                            cellIdCliente.textContent = recarga.idCliente;
-
-                            let cellIdEmpleado = row.insertCell(2);
-                            cellIdEmpleado.textContent = recarga.idEmpleado;
-
-                            let cellFechaHoraR = row.insertCell(3);
-                            cellFechaHoraR.textContent = recarga.FechaHoraR;
-
-                            let cellValorR = row.insertCell(4);
-                            cellValorR.textContent = `$ ${recarga.ValorR}`;
-                        });
-                    })
-                    .catch(error => console.error('Error:', error));
+            function populateTableLoteImpresion(data) {
+                let table = document.querySelector("#dataTableLoteImpresion tbody");
+                table.innerHTML = '';
+                data.forEach(lote => {
+                    let row = table.insertRow();
+                    row.insertCell(0).textContent = lote.idLoteIm;
+                    row.insertCell(1).textContent = lote.idCobro;
+                    row.insertCell(2).textContent = lote.NombreTamano;
+                    row.insertCell(3).textContent = lote.NombreTipoPapel;
+                    row.insertCell(4).textContent = lote.NombreTipoImpresion;
+                    row.insertCell(5).textContent = lote.CantHojas;
+                    row.insertCell(6).textContent = lote.DuplexBool ? 'Sí' : 'No';
+                    row.insertCell(7).textContent = `$ ${lote.CostoLote}`;
+                });
             }
 
-            function fetchLogins() {
-                fetch('../FSP-main-2/controller/RepLogin_controller.php', {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data || data.error) {
-                            console.error('Error al obtener logins:', data.error);
-                            return;
-                        }
-                        let table = document.querySelector("#dataTableLogins tbody");
-                        table.innerHTML = '';
-                        data.forEach(login => {
-                            let row = table.insertRow();
-
-                            let cellIdEmpleado = row.insertCell(0);
-                            cellIdEmpleado.textContent = login.idEmpleado;
-
-                            let cellFechaHoraLog = row.insertCell(1);
-                            cellFechaHoraLog.textContent = login.FechaHoraLog;
-                        });
-                    })
-                    .catch(error => console.error('Error:', error));
+            function populateTableRecargas(data) {
+                let table = document.querySelector("#dataTableRecargas tbody");
+                table.innerHTML = '';
+                data.forEach(recarga => {
+                    let row = table.insertRow();
+                    row.insertCell(0).textContent = recarga.FoRecarga;
+                    row.insertCell(1).textContent = recarga.NombreCliente;
+                    row.insertCell(2).textContent = recarga.NombreEmpleado;
+                    row.insertCell(3).textContent = recarga.FechaHoraR;
+                    row.insertCell(4).textContent = `$ ${recarga.ValorR}`;
+                });
             }
 
-            fetchCobros();
-            fetchLoteImpresiones();
-            fetchRecargas();
-            fetchLogins();
+            function populateTableLogins(data) {
+                let table = document.querySelector("#dataTableLogins tbody");
+                table.innerHTML = '';
+                data.forEach(login => {
+                    let row = table.insertRow();
+                    row.insertCell(0).textContent = login.NombreEmpleado;
+                    row.insertCell(1).textContent = login.FechaHoraLog;
+                });
+            }
         });
     </script>
 </body>
